@@ -1,41 +1,26 @@
 package com.orange.groupbuy.constant;
 
 public class DBConstants {
-	public static final String SERVER = "localhost:9160";
-	//public static final String SERVER = "192.168.1.101:9160";
-	public static final String CLUSTERNAME = "Test Cluster";
 
-	public static final String KEYSPACE = "PlaceKS";
 
-	// normal column family
-	public static final String USER = "place_user";
-	public static final String PLACE = "place_place";
-	public static final String POST = "place_post";
-	public static final String MESSAGE = "place_message";
-	public static final String UPDATE = "place_update";
-	public static final String APP = "place_app";
-	public static final String LOCALIZEDICT = "place_localize_dict";
-	// column family for index
-	public static final String INDEX_USER = "idx_user";
-	public static final String INDEX_USER_OWN_PLACE = "idx_user_own_places";
-	public static final String INDEX_USER_FOLLOW_PLACE = "idx_user_follow_places";
-	public static final String INDEX_USER_POST = "idx_user_posts";
-	public static final String INDEX_PLACE_FOLLOWED_USERS = "idx_place_followed_users";
-	public static final String INDEX_USER_VIEW_POSTS = "idx_user_timeline";
-	public static final String INDEX_POST_RELATED_POST = "idx_post_related_posts";
-	public static final String INDEX_ME_POST = "idx_user_me_posts";
-	public static final String INDEX_MY_MESSAGE = "idx_my_messages";
-	public static final String INDEX_GEOHASH6_PLACEID = "idx_geohash6_to_place";
-	public static final String INDEX_POST_LOCATION = "idx_post_location";
-	public static final String INDEX_APPID_POST = "idx_app_post";
+	public static final String D_GROUPBUY = "groupbuy";
+
+	// tables
+	public static final String T_USER = "user";
+	public static final String T_FETCH_TASK = "task"; 
 	
-	// column family for counter
-	public static final String COUNTER_POST = "counter_post";
-	public static final String KEY_LOGINID = "loginId";
-	public static final String KEY_DEVICEID = "deviceId";
-
-	// index place post
-	public static final String INDEX_PLACE_POST = "idx_place_posts";
+	// fields
+	public static final String F_TASK_STATUS = "status";
+	public static final String F_TASK_URL = "url";
+	public static final String F_TASK_FILE_PATH = "path";
+	public static final String F_TASK_PARSER_TYPE = "parser";
+	
+	// constants
+	public static final int C_TASK_STATUS_NOT_RUNNING = 0;
+	public static final int C_TASK_STATUS_RUNNING = 1;
+	public static final int C_TASK_STATUS_DOWNLOAD_OK = 2;
+	public static final int C_TASK_STATUS_CLOSE = 3;
+	
 
 	// DB User Fields
 	public static final String F_USERID = "userId";
@@ -47,11 +32,9 @@ public class DBConstants {
 	public static final String F_DEVICETOKEN = "deviceToken";
 	public static final String F_LANGUAGE = "language";
 	public static final String F_COUNTRYCODE = "countryCode";
+	public static final String F_CREATE_SOURCE_ID = "sourceId";
 
 	public static final String F_CREATE_DATE = "createDate";
-	public static final String F_CREATE_SOURCE_ID = "createSourceId";
-	public static final String F_MODIFY_DATE = "modifyDate";
-	public static final String F_MODIFY_SOURCE_ID = "modifySourceId";
 
 	public static final String F_EMAIL = "user_email";
 	public static final String F_MOBILE = "mobile";
@@ -166,5 +149,9 @@ public class DBConstants {
 
 	// appID type
 	public static final String R_APPID_ALL = "ALL";
+
+
+
+
 
 }

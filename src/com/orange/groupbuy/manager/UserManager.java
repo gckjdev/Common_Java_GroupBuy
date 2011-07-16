@@ -28,7 +28,7 @@ public class UserManager {
 		
 		BasicDBObject query = new BasicDBObject();
 		query.put(DBConstants.F_DEVICEID, deviceId);
-		DBCollection collection = mongoClient.getDb().getCollection(DBConstants.USER);
+		DBCollection collection = mongoClient.getDb().getCollection(DBConstants.T_USER);
 		DBCursor cursor = collection.find(query);
 		if (cursor == null || cursor.hasNext() == false)
 			return null;
@@ -52,7 +52,7 @@ public class UserManager {
 		user.put(DBConstants.F_CREATE_SOURCE_ID, appId);
 		user.put(DBConstants.F_STATUS, DBConstants.STATUS_NORMAL);
 		
-		boolean result = mongoClient.insert(DBConstants.USER, user);
+		boolean result = mongoClient.insert(DBConstants.T_USER, user);
 		if (result)
 			return user;
 		else
