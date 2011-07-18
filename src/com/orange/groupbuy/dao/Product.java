@@ -215,12 +215,11 @@ public class Product extends BasicDBObject {
 		return (List<String>)this.get(DBConstants.F_ADDRESS);
 	}
 
-	public void setAddress(String... addrList) {
-		List<String> list = ListUtil.stringsToList(addrList);
-		if (list == null)
+	public void setAddress(List<String> addrList) {
+		if (addrList == null)
 			return;
 		
-		this.put(DBConstants.F_ADDRESS, list);
+		this.put(DBConstants.F_ADDRESS, addrList);
 	}
 
 	public List<String> getGPS() {

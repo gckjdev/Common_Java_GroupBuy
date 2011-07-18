@@ -24,6 +24,9 @@ public class DBConstants {
 	public static final int C_TASK_STATUS_DOWNLOAD_OK = 2;
 	public static final int C_TASK_STATUS_CLOSE = 3;
 	
+	// site ID
+	public static final String C_SITE_MEITUAN = "meituan";
+	public static final String C_SITE_DIANPIAN = "dianping";
 
 	// DB User Fields
 	public static final String F_USERID = "userId";
@@ -185,6 +188,7 @@ public class DBConstants {
 	public static final String F_TEL = "tel";
 
 	public static final String F_COMMENTS = "comments";
+
 
 
 
