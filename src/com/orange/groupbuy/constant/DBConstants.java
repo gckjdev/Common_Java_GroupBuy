@@ -8,12 +8,15 @@ public class DBConstants {
 	// tables
 	public static final String T_USER = "user";
 	public static final String T_FETCH_TASK = "task"; 
+	public static final String T_PRODUCT = "product";
 	
 	// fields
 	public static final String F_TASK_STATUS = "status";
 	public static final String F_TASK_URL = "url";
 	public static final String F_TASK_FILE_PATH = "path";
 	public static final String F_TASK_PARSER_TYPE = "parser";
+	public static final String F_TASK_SITE_ID = "site_id";
+
 	
 	// constants
 	public static final int C_TASK_STATUS_NOT_RUNNING = 0;
@@ -34,7 +37,7 @@ public class DBConstants {
 	public static final String F_COUNTRYCODE = "countryCode";
 	public static final String F_CREATE_SOURCE_ID = "sourceId";
 
-	public static final String F_CREATE_DATE = "createDate";
+	public static final String F_CREATE_DATE = "create_date";
 
 	public static final String F_EMAIL = "user_email";
 	public static final String F_MOBILE = "mobile";
@@ -55,7 +58,6 @@ public class DBConstants {
 	public static final String F_QQ_ACCESS_TOKEN_SECRET = "qqATS";
 
 	public static final String F_PROVINCE = "province";
-	public static final String F_CITY = "city";
 	public static final String F_LOCATION = "location";
 	public static final String F_GENDER = "gender";
 	public static final String F_BIRTHDAY = "birthday";
@@ -149,6 +151,40 @@ public class DBConstants {
 
 	// appID type
 	public static final String R_APPID_ALL = "ALL";
+	
+	public static final String F_LOC = "loc";
+	public static final String F_WAP_LOC = "wap_loc";
+	
+	public static final String F_SITE_NAME = "site_name";
+	public static final String F_SITE_URL = "site_url";
+	public static final String F_SITE_ID = "site_id";	
+	
+	public static final String F_TITLE = "title";
+	public static final String F_DESCRIPTION = "desc";
+	public static final String F_DETAIL = "detail";	
+	
+	public static final String F_IMAGE = "image";
+	public static final String F_START_DATE = "start_date";
+	public static final String F_END_DATE = "end_date";
+	public static final String F_VALUE = "value";
+	public static final String F_PRICE = "price";
+	public static final String F_REBATE = "rebate";
+	public static final String F_BOUGHT = "bought";
+
+	public static final String F_CATEGORY = "category";
+	public static final String F_MAJOR = "major";
+	
+	public static final String F_CITY = "city";
+
+	public static final String F_VENDOR = "vendor";
+	public static final String F_SHOP = "shop";
+	public static final String F_ADDRESS = "address";
+	public static final String F_GPS = "gps";
+	public static final String F_RANGE = "range";
+	public static final String F_DP_SHOPID = "dpid";
+	public static final String F_TEL = "tel";
+
+	public static final String F_COMMENTS = "comments";
 
 
 
