@@ -10,8 +10,9 @@ import org.junit.Test;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import com.orange.place.constant.DBConstants;
-import com.orange.place.manager.UserManager;
+import com.orange.groupbuy.constant.DBConstants;
+import com.orange.groupbuy.manager.UserManager;
+
 
 public class MongoDBClientTest {
 
