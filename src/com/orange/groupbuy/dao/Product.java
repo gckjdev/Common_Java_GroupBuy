@@ -23,7 +23,7 @@ public class Product extends BasicDBObject {
 			endDate == null ||
 			StringUtil.isEmpty(siteId) ||
 			StringUtil.isEmpty(siteName) ||
-			StringUtil.isEmpty(siteURL))
+			siteURL == null)
 			return false;
 		
 		put(DBConstants.F_CITY, city);
