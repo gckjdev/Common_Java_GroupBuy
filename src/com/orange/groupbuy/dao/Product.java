@@ -272,12 +272,11 @@ public class Product extends CommonData {
 		return (List<String>)this.getStringList(DBConstants.F_TEL);
 	}
 
-	public void setTel(String... telList) {
-		List<String> list = ListUtil.stringsToList(telList);
-		if (list == null)
+	public void setTel(List<String> phoneList) {
+		if (phoneList == null)
 			return;
 		
-		this.put(DBConstants.F_TEL, list);
+		this.put(DBConstants.F_TEL, phoneList);
 	}
 	public String getId() {
 		return this.getObjectId();
