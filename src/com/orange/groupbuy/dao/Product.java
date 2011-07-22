@@ -1,18 +1,29 @@
 package com.orange.groupbuy.dao;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.orange.common.utils.ListUtil;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
 
-public class Product extends BasicDBObject {
+public class Product extends CommonData {
 	
 	
 
+	public Product(DBObject obj) {
+		super(obj);
+	}
+	
+	public Product() {
+		super();
+	}
+	
 	public boolean setMandantoryFields(String city, String loc, String image, String title, Date startDate, Date endDate, double price, double value, int bought, String siteId, String siteName, String siteURL){
 
 		if (StringUtil.isEmpty(city) ||
@@ -111,14 +122,14 @@ public class Product extends BasicDBObject {
 	}
 
 	public Date getStartDate() {
-		return (Date)this.get(DBConstants.F_START_DATE);
+		return (Date)this.getDate(DBConstants.F_START_DATE);
 	}
 	public void setStartDate(Date startDate) {
 		this.put(DBConstants.F_START_DATE, startDate);
 	}
 	
 	public Date getEndDate() {
-		return (Date)this.get(DBConstants.F_END_DATE);
+		return (Date)this.getDate(DBConstants.F_END_DATE);
 	}
 	
 	public void setEndDate(Date endDate) {
@@ -171,7 +182,7 @@ public class Product extends BasicDBObject {
 
 
 	public List<String> getCategory() {
-		return (List<String>)this.get(DBConstants.F_CATEGORY);
+		return (List<String>)this.getStringList(DBConstants.F_CATEGORY);
 	}
 
 	public void setCategory(String... categoryList) {
@@ -200,7 +211,7 @@ public class Product extends BasicDBObject {
 	
 	public static final String F_SHOP = "shop";
 	public List<String> getShop() {
-		return (List<String>)this.get(DBConstants.F_SHOP);
+		return (List<String>)this.getStringList(DBConstants.F_SHOP);
 	}
 
 	public void setShop(String... shopList) {
@@ -212,7 +223,7 @@ public class Product extends BasicDBObject {
 	}
 	
 	public List<String> getAddress() {
-		return (List<String>)this.get(DBConstants.F_ADDRESS);
+		return (List<String>)this.getStringList(DBConstants.F_ADDRESS);
 	}
 
 	public void setAddress(List<String> addrList) {
@@ -223,7 +234,7 @@ public class Product extends BasicDBObject {
 	}
 
 	public List<String> getGPS() {
-		return (List<String>)this.get(DBConstants.F_GPS);
+		return (List<String>)this.getStringList(DBConstants.F_GPS);
 	}
 
 	public void setGPS(String... gpsList) {
@@ -235,19 +246,18 @@ public class Product extends BasicDBObject {
 	}
 
 	public List<String> getRange() {
-		return (List<String>)this.get(DBConstants.F_RANGE);
+		return (List<String>)this.getStringList(DBConstants.F_RANGE);
 	}
 
-	public void setRange(String... rangeList) {
-		List<String> list = ListUtil.stringsToList(rangeList);
-		if (list == null)
+	public void setRange(List<String> rangeList) {
+		if (rangeList == null)
 			return;
 		
-		this.put(DBConstants.F_RANGE, list);
+		this.put(DBConstants.F_RANGE, rangeList);
 	}
 
 	public List<String> getDpShopId() {
-		return (List<String>)this.get(DBConstants.F_DP_SHOPID);
+		return (List<String>)this.getStringList(DBConstants.F_DP_SHOPID);
 	}
 
 	public void setDpShopId(String... dpShopIdList) {
@@ -259,7 +269,7 @@ public class Product extends BasicDBObject {
 	}
 
 	public List<String> getTel() {
-		return (List<String>)this.get(DBConstants.F_TEL);
+		return (List<String>)this.getStringList(DBConstants.F_TEL);
 	}
 
 	public void setTel(String... telList) {
@@ -270,7 +280,28 @@ public class Product extends BasicDBObject {
 		this.put(DBConstants.F_TEL, list);
 	}
 	public String getId() {
-		return this.getString("_id");
+		return this.getObjectId();
+	}
+
+	public void calculateRebate() {
+		
+		
+		double price = getDouble(DBConstants.F_PRICE);
+		double value = getDouble(DBConstants.F_VALUE);
+		
+		double rebate = 0;
+		if (value == 0.0f){
+			rebate = 10.0f;			// not applicable
+		}
+		else if (value == -1.0f){
+			rebate = 10.0f;			// not applicable
+		}
+		else{
+			rebate = (price/value)*10.0;
+		}
+
+		String str = String.format("%.1f", rebate);		
+		this.put(DBConstants.F_REBATE, Double.valueOf(str).doubleValue());
 	}
 
 	

@@ -24,6 +24,18 @@ public class DBConstants {
 	public static final int C_TASK_STATUS_DOWNLOAD_OK = 2;
 	public static final int C_TASK_STATUS_CLOSE = 3;
 	
+	// major product or not
+	public static final int C_NOT_MAJOR = 0;
+	public static final int C_IS_MAJOR = 1;
+	
+	//1=餐饮美食，2=休闲娱乐，3=美容化妆，4=网上购物，5=运动健身
+	public static final int C_CATEGORY_UNKNOWN = 0;
+	public static final int C_CATEGORY_EAT = 1;
+	public static final int C_CATEGORY_FUN = 2;
+	public static final int C_CATEGORY_FACE = 3;
+	public static final int C_CATEGORY_SHOPPING = 4;
+	public static final int C_CATEGORY_KEEPFIT = 5;
+	
 	// site ID
 	public static final String C_SITE_MEITUAN = "meituan";
 	public static final String C_SITE_DIANPIAN = "dianping";
@@ -188,6 +200,7 @@ public class DBConstants {
 	public static final String F_TEL = "tel";
 
 	public static final String F_COMMENTS = "comments";
+
 
 
 

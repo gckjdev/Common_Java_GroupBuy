@@ -1,79 +1,82 @@
 package com.orange.groupbuy.dao;
-
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import me.prettyprint.hector.api.beans.ColumnSlice;
-import me.prettyprint.hector.api.beans.HColumn;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 
 public class CommonData {
 
-	Map<String, String> keyValueList;
-	Map<String, String> actionCounterMap;
+	DBObject dbObject;	
+	
+	public CommonData(){
+		dbObject = new BasicDBObject();
+	}
+	
+	public CommonData(DBObject dbObject){
+		this.dbObject = dbObject;
+	}	
 
-	public Map<String, String> getActionCounterMap() {
-		return actionCounterMap;
+	
+	
+	public DBObject getDbObject() {
+		return dbObject;
 	}
 
-	public void setActionCounterMap(Map<String, String> actionCounterMap) {
-		this.actionCounterMap = actionCounterMap;
+	public void setDbObject(DBObject dbObject) {
+		this.dbObject = dbObject;
 	}
 
-	public void setActionCounterMap(List<HColumn<String, String>> columns) {
-		for (HColumn<String, String> column : columns) {
-			actionCounterMap.put(column.getName(), column.getValue());
-		}
+	public String toString() {
+		return dbObject.toMap().toString();
+	}
+	
+	public void put(String key, String value){
+		dbObject.put(key, value);
+	}
+	
+	public void put(String key, int value){
+		dbObject.put(key, Integer.valueOf(value));
+	}
+	
+	public void put(String key, double value){
+		dbObject.put(key, Double.valueOf(value));
+	}
+	
+	public void put(String key, Date value){
+		dbObject.put(key, value);
+	}
+	
+	public void put(String key, List<?> list){
+		dbObject.put(key, list);
 	}
 
-	private CommonData() {
-
+	public String getString(String key){
+		return (String)dbObject.get(key);
 	}
-
-	public CommonData(List<HColumn<String, String>> columnValues) {
-		keyValueList = new HashMap<String, String>();
-		actionCounterMap = new HashMap<String, String>();
-		for (HColumn<String, String> data : columnValues) {
-			keyValueList.put(data.getName(), data.getValue());
-		}
+	
+	public int getInt(String key){
+		Integer value = (Integer)dbObject.get(key);
+		return value.intValue();
 	}
-
-	public CommonData(Map<String, String> mapColumnValues) {
-		this.keyValueList = mapColumnValues;
+	
+	public double getDouble(String key){
+		Double value = (Double)dbObject.get(key);
+		return value.doubleValue();		
 	}
-
-	public String getKey(String key) {
-		String value = keyValueList.get(key);
-		return (value == null) ? "" : value;
+	
+	public Date getDate(String key){
+		Date value = (Date)dbObject.get(key);
+		return value;		
 	}
-
-	public void addValues(List<HColumn<String, String>> columnValues) {
-		for (HColumn<String, String> data : columnValues) {
-			keyValueList.put(data.getName(), data.getValue());
-		}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getStringList(String key){
+		return (List<String>)dbObject.get(key);		
 	}
-
-	public void addValues(String key, int value) {
-		keyValueList.put(key, String.valueOf(value));
+	
+	public String getObjectId(){
+		return dbObject.get("_id").toString();
 	}
-
-	public void addValues(String key, String values) {
-		keyValueList.put(key, values);
-	}
-
-	public void removeData(String key) {
-		keyValueList.remove(key);
-	}
-
-	public boolean editData(String key, String value) {
-		if (!keyValueList.containsKey(key))
-			return false;
-		removeData(key);
-		addValues(key, value);
-		return true;
-	}
-
-	public void printData() {
-		System.out.println(keyValueList.toString());
-	}
+	
 }
