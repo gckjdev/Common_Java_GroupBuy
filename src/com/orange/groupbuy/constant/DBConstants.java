@@ -28,13 +28,14 @@ public class DBConstants {
 	public static final int C_NOT_MAJOR = 0;
 	public static final int C_IS_MAJOR = 1;
 	
-	//1=餐饮美食，2=休闲娱乐，3=美容化妆，4=网上购物，5=运动健身
+	//1=餐饮美食，2=休闲娱乐，3=美容化妆，4=网上购物，5=运动健身, 6=生活服务
 	public static final int C_CATEGORY_UNKNOWN = 0;
 	public static final int C_CATEGORY_EAT = 1;
 	public static final int C_CATEGORY_FUN = 2;
 	public static final int C_CATEGORY_FACE = 3;
 	public static final int C_CATEGORY_SHOPPING = 4;
 	public static final int C_CATEGORY_KEEPFIT = 5;
+	public static final int C_CATEGORY_LIFE = 6;
 	
 	// site ID
 	public static final String C_SITE_MEITUAN = "meituan";
