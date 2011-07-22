@@ -39,6 +39,24 @@ public class DBConstants {
 	// site ID
 	public static final String C_SITE_MEITUAN = "meituan";
 	public static final String C_SITE_DIANPIAN = "dianping";
+	public static final String C_SITE_WOWO = "wowo";
+	public static final String C_SITE_58 = "58";
+	public static final String C_SITE_24QUAN = "24quan";
+	public static final String C_SITE_FTUAN = "ftuan";
+	public static final String C_SITE_MANZUO = "manzuo";
+	public static final String C_SITE_GAOPENG = "gaopeng";
+	public static final String C_SITE_DIDA = "dida";
+	public static final String C_SITE_NUOMI = "nuomi";
+	public static final String C_SITE_GANJI = "ganji";
+	public static final String C_SITE_KAIXIN = "kaixin";
+	public static final String C_SITE_XING800 = "xing800";
+	public static final String C_SITE_FANTONG = "fantong";
+	public static final String C_SITE_LASHOU = "lashou";
+	public static final String C_SITE_QUNAER = "qunaer";
+	public static final String C_SITE_JUQI = "juqi";
+	public static final String C_SITE_TUANBAO = "tuanbao";
+	public static final String C_SITE_JUMEIYOUPIN = "jumeiyoupin";
+	public static final String C_SITE_TUANHAO = "tuanhao";
 
 	// DB User Fields
 	public static final String F_USERID = "userId";
@@ -200,6 +218,7 @@ public class DBConstants {
 	public static final String F_TEL = "tel";
 
 	public static final String F_COMMENTS = "comments";
+
 
 
 

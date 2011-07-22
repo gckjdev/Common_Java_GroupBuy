@@ -304,6 +304,10 @@ public class Product extends CommonData {
 		this.put(DBConstants.F_REBATE, Double.valueOf(str).doubleValue());
 	}
 
+	public void setCategory(int category) {
+		this.put(DBConstants.F_CATEGORY, category);
+	}
+
 	
 
 }
