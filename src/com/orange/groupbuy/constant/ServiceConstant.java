@@ -46,6 +46,7 @@ public class ServiceConstant  {
 	// for groupbuy
 	public static final String METHOD_REGISTERDEVICE = "rd";
 	public static final String METHOD_GROUPBUY_DEVICELOGIN = "gdl";
+	public static final String METHOD_UPDATE_SUBSCRIPTION = "us";
 	
 	// request parameters
 
@@ -165,4 +166,14 @@ public class ServiceConstant  {
 	public static final String PARA_MESSAGE_TYPE = "mt";
 
 	public static final int DEFAULT_MAX_COUNT = 30;
+	
+	public static final String PARA_GPS = "gps";
+	public static final String PARA_KEYWORDS = "kw";
+	public static final String PARA_CATEGORIES = "ctg";
+	
+	public static final String PRAR_START_OFFSET = "so";
+	
+	public static final String METHOD_FINDPRODUCTWITHPRICE = "fpp";
+	public static final String METHOD_FINDPRODUCTWITHREBATE = "fpd";
+	public static final String METHOD_FINDPRODUCTWITHBOUGHT = "fpb";
 }
