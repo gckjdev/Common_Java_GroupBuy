@@ -24,9 +24,40 @@ public class DBConstants {
 	public static final int C_TASK_STATUS_DOWNLOAD_OK = 2;
 	public static final int C_TASK_STATUS_CLOSE = 3;
 	
+	// major product or not
+	public static final int C_NOT_MAJOR = 0;
+	public static final int C_IS_MAJOR = 1;
+	
+	//1=餐饮美食，2=休闲娱乐，3=美容化妆，4=网上购物，5=运动健身, 6=生活服务
+	public static final int C_CATEGORY_UNKNOWN = 0;
+	public static final int C_CATEGORY_EAT = 1;
+	public static final int C_CATEGORY_FUN = 2;
+	public static final int C_CATEGORY_FACE = 3;
+	public static final int C_CATEGORY_SHOPPING = 4;
+	public static final int C_CATEGORY_KEEPFIT = 5;
+	public static final int C_CATEGORY_LIFE = 6;
+	
 	// site ID
 	public static final String C_SITE_MEITUAN = "meituan";
 	public static final String C_SITE_DIANPIAN = "dianping";
+	public static final String C_SITE_WOWO = "wowo";
+	public static final String C_SITE_58 = "58";
+	public static final String C_SITE_24QUAN = "24quan";
+	public static final String C_SITE_FTUAN = "ftuan";
+	public static final String C_SITE_MANZUO = "manzuo";
+	public static final String C_SITE_GAOPENG = "gaopeng";
+	public static final String C_SITE_DIDA = "dida";
+	public static final String C_SITE_NUOMI = "nuomi";
+	public static final String C_SITE_GANJI = "ganji";
+	public static final String C_SITE_KAIXIN = "kaixin";
+	public static final String C_SITE_XING800 = "xing800";
+	public static final String C_SITE_FANTONG = "fantong";
+	public static final String C_SITE_LASHOU = "lashou";
+	public static final String C_SITE_QUNAER = "qunaer";
+	public static final String C_SITE_JUQI = "juqi";
+	public static final String C_SITE_TUANBAO = "tuanbao";
+	public static final String C_SITE_JUMEIYOUPIN = "jumeiyoupin";
+	public static final String C_SITE_TUANHAO = "tuanhao";
 
 //	user("device_id","device_model","device_os","device_token","language",
 //	"country_code","create_date","source_id","subscribe")
@@ -204,6 +235,8 @@ public class DBConstants {
 	
 	
 	
+
+
 
 
 
