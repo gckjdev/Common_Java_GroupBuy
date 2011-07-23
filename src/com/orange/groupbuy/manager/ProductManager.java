@@ -1,6 +1,7 @@
 package com.orange.groupbuy.manager;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.mongodb.DBObject;
@@ -44,5 +45,9 @@ public class ProductManager {
 	public static void save(MongoDBClient mongoClient, Product product) {
 		product.calculateRebate();
 		mongoClient.save(DBConstants.T_PRODUCT, product.getDbObject());
+	}
+	
+	public static List<?> findProductByCategory(MongoDBClient mongoClient, String city, int category){
+		return null;
 	}
 }
