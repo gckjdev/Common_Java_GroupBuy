@@ -20,7 +20,7 @@ import com.orange.common.mongodb.MongoDBClient;
 import com.orange.common.utils.DateUtil;
 import com.orange.groupbuy.constant.DBConstants;
 
-public class UserManager {
+public class UserManager extends CommonManager{
 	
 	public static DBObject findUserByDeviceId(MongoDBClient mongoClient, String deviceId){
 		if (mongoClient == null || deviceId == null || deviceId.length() <= 0)

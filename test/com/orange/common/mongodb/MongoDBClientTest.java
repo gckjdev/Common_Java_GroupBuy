@@ -14,11 +14,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.dao.Gps;
+import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.Subscription;
+import com.orange.groupbuy.manager.ProductManager;
 import com.orange.groupbuy.manager.UserManager;
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
 
 public class MongoDBClientTest {
@@ -67,42 +71,42 @@ public class MongoDBClientTest {
 		System.out.println("testFindUserByDevice, user="+user.toString());
 		Assert.assertNull(UserManager.findUserByDeviceId(mongoClient, "not_found_device_id"));
 	}
-	
-	@Test
-	public void testInsertSubscription(){
-		Gps gps = new Gps(12.5, 45.2);
-		Gps gps2 = new Gps(23.6, 34.3);
-		BasicDBObject object = new BasicDBObject();
-		List<String> gList = new ArrayList<String>();
-		List<String> pList = new ArrayList<String>();
-		List<Gps> gpsList = new ArrayList<Gps>();
-		gList.add("g1");
-		gList.add("g2");
-		
-		pList.add("p1");
-		pList.add("p2");
-		
-		gpsList.add(gps);
-		gpsList.add(gps2);
-		
-		Subscription subscription = new Subscription(gList, pList, gpsList);
-		object.put("id", "test");
-		//object.put("subscription", subscription);
-		mongoClient.insert("test", object);
-		
-
-		System.out.println("object = "+object.toString());
-		
-		Map<String, Object> map =  new HashMap<String, Object>();
-		map.put("_id", "4e2559d58b644df2d1523560");
-		Map<String,Object>map2 = new HashMap<String, Object>();
-		map2.put("test", "test");
-		map2.put("subscription", subscription);
-		mongoClient.findAndModify("test", map, map2);
-		//"4e2550db9508bea4323d7f04"
-
-
-	}
+//	
+//	@Test
+//	public void testInsertSubscription(){
+//		Gps gps = new Gps(12.5, 45.2);
+//		Gps gps2 = new Gps(23.6, 34.3);
+//		BasicDBObject object = new BasicDBObject();
+//		List<String> gList = new ArrayList<String>();
+//		List<String> pList = new ArrayList<String>();
+//		List<Gps> gpsList = new ArrayList<Gps>();
+//		gList.add("g1");
+//		gList.add("g2");
+//		
+//		pList.add("p1");
+//		pList.add("p2");
+//		
+//		gpsList.add(gps);
+//		gpsList.add(gps2);
+//		
+//		Subscription subscription = new Subscription(gList, pList, gpsList);
+//		object.put("id", "test");
+//		//object.put("subscription", subscription);
+//		mongoClient.insert("test", object);
+//		
+//
+//		System.out.println("object = "+object.toString());
+//		
+//		Map<String, Object> map =  new HashMap<String, Object>();
+//		map.put("_id", "4e2559d58b644df2d1523560");
+//		Map<String,Object>map2 = new HashMap<String, Object>();
+//		map2.put("test", "test");
+//		map2.put("subscription", subscription);
+//		mongoClient.findAndModify("test", map, map2);
+//		//"4e2550db9508bea4323d7f04"
+//
+//
+//	}
 	
 //	public static void main(String[] arg) {
 //		MongoDBClientTest test = new MongoDBClientTest();
@@ -111,4 +115,13 @@ public class MongoDBClientTest {
 //		
 //		
 //	}
+	
+	@Test 
+	public void testFindAndSort(){
+		System.out.println("testFindAndSort,product list:");
+		List<Product> Result = ProductManager.getAllProductWithPrice(mongoClient, "广州", false, "0", "10");
+		for (int i = 0; i < Result.size(); i++) {
+			System.out.println(Result.toString());
+		}
+	}
 }

@@ -1,5 +1,7 @@
 package com.orange.groupbuy.constant;
 
+import org.antlr.grammar.v3.ANTLRv3Parser.finallyClause_return;
+
 public class DBConstants {
 
 
@@ -9,7 +11,7 @@ public class DBConstants {
 	public static final String T_USER = "user";
 	public static final String T_FETCH_TASK = "task"; 
 	public static final String T_PRODUCT = "product";
-	
+	public static final String T_IDX_PRODUCT_GPS = "idx_product_gps";
 	// fields
 	public static final String F_TASK_STATUS = "status";
 	public static final String F_TASK_URL = "url";
@@ -28,7 +30,7 @@ public class DBConstants {
 	public static final int C_NOT_MAJOR = 0;
 	public static final int C_IS_MAJOR = 1;
 	
-	//1=²ÍÒûÃÀÊ³£¬2=ÐÝÏÐÓéÀÖ£¬3=ÃÀÈÝ»¯×±£¬4=ÍøÉÏ¹ºÎï£¬5=ÔË¶¯½¡Éí, 6=Éú»î·þÎñ
+	//1=ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê³ï¿½ï¿½2=ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½3=ï¿½ï¿½ï¿½Ý»ï¿½×±ï¿½ï¿½4=ï¿½ï¿½ï¿½Ï¹ï¿½ï¿½ï£¬5=ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½, 6=ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public static final int C_CATEGORY_UNKNOWN = 0;
 	public static final int C_CATEGORY_EAT = 1;
 	public static final int C_CATEGORY_FUN = 2;
@@ -224,6 +226,10 @@ public class DBConstants {
 	public static final String F_COMMENTS = "comments";
 
 	public static final String F_KEYWORD = "keyword";
+
+	public static final String F_PRODUCTID = "product_id";
+	
+	public static final String V_NATIONWIDE = "å…¨å›½";
 
 
 	//user table fields

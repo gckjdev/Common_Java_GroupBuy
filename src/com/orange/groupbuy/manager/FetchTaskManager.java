@@ -5,7 +5,7 @@ import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.groupbuy.constant.DBConstants;
 
-public class FetchTaskManager {
+public class FetchTaskManager extends CommonManager{
 
 	
 	// task
