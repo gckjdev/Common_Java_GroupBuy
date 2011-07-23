@@ -28,46 +28,49 @@ public class DBConstants {
 	public static final String C_SITE_MEITUAN = "meituan";
 	public static final String C_SITE_DIANPIAN = "dianping";
 
+//	user("device_id","device_model","device_os","device_token","language",
+//	"country_code","create_date","source_id","subscribe")
+	
 	// DB User Fields
-	public static final String F_USERID = "userId";
-	public static final String F_LOGINID = "loginId";
-	public static final String F_APPID = "appId";
-	public static final String F_DEVICEID = "deviceId";
-	public static final String F_DEVICEMODEL = "deviceModel";
-	public static final String F_DEVICEOS = "deviceOS";
-	public static final String F_DEVICETOKEN = "deviceToken";
+	public static final String F_USERID = "_id";
+	public static final String F_LOGINID = "login_id";
+	public static final String F_APPID = "app_id";
+	public static final String F_DEVICEID = "device_id";
+	public static final String F_DEVICEMODEL = "device_model";
+	public static final String F_DEVICEOS = "device_os";
+	public static final String F_DEVICETOKEN = "device_token";
 	public static final String F_LANGUAGE = "language";
-	public static final String F_COUNTRYCODE = "countryCode";
-	public static final String F_CREATE_SOURCE_ID = "sourceId";
+	public static final String F_COUNTRYCODE = "country_code";
+	public static final String F_CREATE_SOURCE_ID = "source_id";
 
 	public static final String F_CREATE_DATE = "create_date";
 
-	public static final String F_EMAIL = "user_email";
+	public static final String F_EMAIL = "email";
 	public static final String F_MOBILE = "mobile";
 	public static final String F_PASSWORD = "password";
 	public static final String F_STATUS = "status";
 
 	public static final String F_NICKNAME = "nickName";
 	public static final String F_AVATAR = "avatar";
-	public static final String F_SINAID = "sinaID";
-	public static final String F_QQID = "qqID";
-	public static final String F_RENRENID = "renrenID";
-	public static final String F_FACEBOOKID = "facebookID";
-	public static final String F_TWITTERID = "twitterID";
+	public static final String F_SINAID = "sina_id";
+	public static final String F_QQID = "qq_id";
+	public static final String F_RENRENID = "renren_id";
+	public static final String F_FACEBOOKID = "facebook_id";
+	public static final String F_TWITTERID = "twitter_id";
 
-	public static final String F_SINA_ACCESS_TOKEN = "sinaAT";
-	public static final String F_SINA_ACCESS_TOKEN_SECRET = "sinaATS";
-	public static final String F_QQ_ACCESS_TOKEN = "qqAT";
-	public static final String F_QQ_ACCESS_TOKEN_SECRET = "qqATS";
+	public static final String F_SINA_ACCESS_TOKEN = "sina_at";
+	public static final String F_SINA_ACCESS_TOKEN_SECRET = "sina_ats";
+	public static final String F_QQ_ACCESS_TOKEN = "qq_at";
+	public static final String F_QQ_ACCESS_TOKEN_SECRET = "qq_ats";
 
 	public static final String F_PROVINCE = "province";
 	public static final String F_LOCATION = "location";
 	public static final String F_GENDER = "gender";
 	public static final String F_BIRTHDAY = "birthday";
-	public static final String F_SINA_NICKNAME = "sinaNickName";
-	public static final String F_SINA_DOMAIN = "sinaDomain";
-	public static final String F_QQ_NICKNAME = "qqNickName";
-	public static final String F_QQ_DOMAIN = "qqDomain";
+	public static final String F_SINA_NICKNAME = "sina_nick";
+	public static final String F_SINA_DOMAIN = "sina_domain";
+	public static final String F_QQ_NICKNAME = "qq_nick";
+	public static final String F_QQ_DOMAIN = "qq_domain";
 
 	// DB Place Fields
 	public static final String F_PLACEID = "placeId";
@@ -189,8 +192,18 @@ public class DBConstants {
 
 	public static final String F_COMMENTS = "comments";
 
+	public static final String F_KEYWORD = "keyword";
 
 
+	//user table fields
+	
+//	user("device_id","device_model","device_os","device_token","language",
+//			"country_code","create_date","create_source_id","subscribe")
+	
+//	public static final String F_DEVICEID = "device_id";
+	
+	
+	
 
 
 
