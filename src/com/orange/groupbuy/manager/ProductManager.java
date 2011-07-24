@@ -213,10 +213,8 @@ public class ProductManager extends CommonManager {
 			map.put(DBConstants.F_CATEGORY, categories);
 		}	
 		
-		//System.out.println(map);
 		DBCursor cursor = mongoClient.findByFieldsInValues(DBConstants.T_PRODUCT, map,  offset, count);
 		List<Product> list = getProduct(cursor);
-		System.out.println("product list:"+list);
 		return list;
 	}
 
