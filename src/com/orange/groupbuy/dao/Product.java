@@ -1,15 +1,11 @@
 package com.orange.groupbuy.dao;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.bson.types.ObjectId;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.orange.common.utils.DateUtil;
 import com.orange.common.utils.ListUtil;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
@@ -309,5 +305,12 @@ public class Product extends CommonData {
 	public void setCategory(int category) {
 		this.put(DBConstants.F_CATEGORY, category);
 	}
-
+	public String getStartDateString() {
+		Date date = getStartDate();
+		return DateUtil.dateToString(date);
+	}
+	public String getEndDateString() {
+		Date date = getEndDate();
+		return DateUtil.dateToString(date);
+	}
 }

@@ -1,5 +1,7 @@
 package com.orange.groupbuy.constant;
 
+import java.util.Date;
+
 
 public class ServiceConstant  {
 
@@ -177,4 +179,22 @@ public class ServiceConstant  {
 	public static final String METHOD_FINDPRODUCTWITHREBATE = "fpd";
 	public static final String METHOD_FINDPRODUCTWITHBOUGHT = "fpb";
 	public static final String METHOD_FINDPRODUCTWITHLOCATION = "fpl";
+	
+	
+	
+	//response parameters
+	public static final String PARA_LOC = "loc";
+	public static final String PARA_IMAGE= "img";
+	public static final String PARA_TITLE = "tt";
+	public static final String PARA_START_DATA = "sd";
+	public static final String PARA_END_DATA = "ed";
+	public static final String PARA_PRICE = "pr";
+	public static final String PARA_VALUE = "val";
+	public static final String PARA_BOUGHT = "bo";
+	public static final String PARA_SITE_ID = "si";
+	public static final String PARA_SITE_NAME = "sn";
+	public static final String PARA_SITE_URL = "su";
+	public static final String PARA_ID = "_id";
+	public static final String PARA_ADDRESS = "add";
+	public static final String PARA_DETAIL = "dt";
 }
