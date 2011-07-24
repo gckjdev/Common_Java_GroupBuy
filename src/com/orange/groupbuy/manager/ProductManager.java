@@ -64,16 +64,18 @@ public class ProductManager extends CommonManager {
 		int count = getMaxcount(maxCount);
 		int offset = getOffset(startOffset);
 		List<String> cityList = new ArrayList<String>();
-		if (city == null || city.trim().length() < 1) {
+		if (city != null && city.trim().length() > 0) {
 			cityList.add(city);
 			if (!city.equals(DBConstants.V_NATIONWIDE)) {
 				cityList.add(DBConstants.V_NATIONWIDE);
 			}			
 		}
-		DBCursor result = mongoClient.findAll(DBConstants.T_PRODUCT,
-				DBConstants.F_PRICE, DBConstants.F_CITY, cityList, range,
-				offset, count);
-		return getProduct(result);
+		DBCursor cursor = mongoClient.findByFieldInValues(DBConstants.T_PRODUCT,
+				DBConstants.F_CITY, cityList, DBConstants.F_PRICE, range,
+				offset, count);		
+		List<Product> list = getProduct(cursor);		
+		cursor.close();
+		return list;
 	}
 
 	public static List<Product> getAllProductWithBought(
@@ -88,8 +90,8 @@ public class ProductManager extends CommonManager {
 				cityList.add(DBConstants.V_NATIONWIDE);
 			}			
 		}
-		DBCursor result = mongoClient.findAll(DBConstants.T_PRODUCT,
-				DBConstants.F_BOUGHT, DBConstants.F_CITY, cityList, range,
+		DBCursor result = mongoClient.findByFieldInValues(DBConstants.T_PRODUCT,
+				DBConstants.F_CITY, cityList, DBConstants.F_BOUGHT, range,
 				offset, count);
 		return getProduct(result);
 	}
@@ -106,8 +108,8 @@ public class ProductManager extends CommonManager {
 				cityList.add(DBConstants.V_NATIONWIDE);
 			}			
 		}
-		DBCursor result = mongoClient.findAll(DBConstants.T_PRODUCT,
-				DBConstants.F_REBATE, DBConstants.F_CITY, cityList, range,
+		DBCursor result = mongoClient.findByFieldInValues(DBConstants.T_PRODUCT,
+				 DBConstants.F_CITY, cityList, DBConstants.F_REBATE, range,
 				offset, count);
 		return getProduct(result);
 	}
