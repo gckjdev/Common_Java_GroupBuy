@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
@@ -80,7 +79,7 @@ public class ProductManager extends CommonManager {
 
 	}
 
-	public static List<Product> getAllProductWithPrice(
+	public static List<Product> getAllProductsWithPrice(
 			MongoDBClient mongoClient, String city, boolean sortAscending,
 			String startOffset, String maxCount) {
 		List<Product> list = getAllProductsWithField(mongoClient,
@@ -88,7 +87,7 @@ public class ProductManager extends CommonManager {
 		return list;
 	}
 
-	public static List<Product> getAllProductWithBought(
+	public static List<Product> getAllProductsWithBought(
 			MongoDBClient mongoClient, String city, boolean sortAscending,
 			String startOffset, String maxCount) {
 		List<Product> list = getAllProductsWithField(mongoClient,
@@ -97,7 +96,7 @@ public class ProductManager extends CommonManager {
 		return list;
 	}
 
-	public static List<Product> getAllProductWithRebate(
+	public static List<Product> getAllProductsWithRebate(
 			MongoDBClient mongoClient, String city, boolean sortAscending,
 			String startOffset, String maxCount) {
 		List<Product> list = getAllProductsWithField(mongoClient,
@@ -106,13 +105,13 @@ public class ProductManager extends CommonManager {
 		return list;
 	}
 
-	private static List<Product> getProduct(DBCursor result) {
-		if (result == null || result.size() < 1) {
+	private static List<Product> getProduct(DBCursor cursor) {
+		if (cursor == null || cursor.size() < 1) {
 			return null;
 		}
 		List<Product> productList = new ArrayList<Product>();
-		while (result.hasNext()) {
-			DBObject obj = result.next();
+		while (cursor.hasNext()) {
+			DBObject obj = cursor.next();
 			if (obj != null) {
 				Product product = new Product(obj);
 				productList.add(product);
@@ -121,7 +120,7 @@ public class ProductManager extends CommonManager {
 		return productList;
 	}
 
-	public static List<Product> getAllProductWithLocation(
+	public static List<Product> getAllProductsWithLocation(
 			MongoDBClient mongoClient, String latitude, String longitude,
 			String startOffset, String maxCount) {
 
@@ -180,6 +179,45 @@ public class ProductManager extends CommonManager {
 			}
 		}
 		return products;
+	}
+
+	public static List<Product> getAllProductsWithCategory(
+			MongoDBClient mongoClient, String city, List<String> categoryList,
+			String startOffset, String maxCount) {
+		
+		List<Object> cityList = null;
+		int count = getMaxcount(maxCount);
+		int offset = getOffset(startOffset);
+		
+		if (city != null && city.trim().length() > 0) {
+			cityList = new ArrayList<Object>();
+			cityList.add(city);
+			if (!city.equals(DBConstants.V_NATIONWIDE)) {
+				cityList.add(DBConstants.V_NATIONWIDE);
+			}
+		}
+		
+		List<Object> categories = null;
+		if (categoryList != null && categoryList.size() > 0) {
+			categories = new ArrayList<Object>();
+			for(String category : categoryList){
+				Integer categoryInteger = Integer.valueOf(category);				
+				categories.add(categoryInteger);
+			}
+		}
+		Map<String, List<Object>> map = new HashMap<String, List<Object>>();
+		if (cityList != null && cityList.size() > 0) {
+			map.put(DBConstants.F_CITY, cityList);
+		}
+		if (categories !=null && categories.size() > 0) {
+			map.put(DBConstants.F_CATEGORY, categories);
+		}	
+		
+		//System.out.println(map);
+		DBCursor cursor = mongoClient.findByFieldsInValues(DBConstants.T_PRODUCT, map,  offset, count);
+		List<Product> list = getProduct(cursor);
+		System.out.println("product list:"+list);
+		return list;
 	}
 
 }

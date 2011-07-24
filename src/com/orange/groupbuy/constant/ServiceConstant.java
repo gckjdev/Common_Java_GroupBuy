@@ -1,8 +1,5 @@
 package com.orange.groupbuy.constant;
 
-import java.util.Date;
-
-
 public class ServiceConstant  {
 
 	// server name
@@ -175,10 +172,11 @@ public class ServiceConstant  {
 	
 	public static final String PRAR_START_OFFSET = "so";
 	
-	public static final String METHOD_FINDPRODUCTWITHPRICE = "fpp";
-	public static final String METHOD_FINDPRODUCTWITHREBATE = "fpd";
-	public static final String METHOD_FINDPRODUCTWITHBOUGHT = "fpb";
-	public static final String METHOD_FINDPRODUCTWITHLOCATION = "fpl";
+	public static final String METHOD_FINDPRODUCTSWITHPRICE = "fpp";
+	public static final String METHOD_FINDPRODUCTSWITHREBATE = "fpd";
+	public static final String METHOD_FINDPRODUCTSWITHBOUGHT = "fpb";
+	public static final String METHOD_FINDPRODUCTSWITHLOCATION = "fpl";
+	public static final String METHOD_FINDPRODUCTSWITHCATEGORY = "fpc";
 	
 	
 	

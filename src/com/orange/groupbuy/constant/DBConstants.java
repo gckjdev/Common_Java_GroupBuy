@@ -9,7 +9,7 @@ public class DBConstants {
 	// tables
 	public static final String T_USER = "user";
 	public static final String T_FETCH_TASK = "task"; 
-	public static final String T_PRODUCT = "product";
+	public static final String T_PRODUCT = "product1";
 	public static final String T_IDX_PRODUCT_GPS = "idx_product_gps";
 	// fields
 	public static final String F_TASK_STATUS = "status";
