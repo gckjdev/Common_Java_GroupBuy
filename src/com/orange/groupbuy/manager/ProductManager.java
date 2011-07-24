@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.cassandra.cli.CliParser.newColumnFamily_return;
 
+import com.mongodb.DB;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
@@ -64,7 +65,7 @@ public class ProductManager extends CommonManager {
 			cityList.add(city);
 			if (!city.equals(DBConstants.V_NATIONWIDE)) {
 				cityList.add(DBConstants.V_NATIONWIDE);
-			}			
+			}
 		}
 		DBCursor result = mongoClient.findAll(DBConstants.T_PRODUCT,
 				DBConstants.F_PRICE, DBConstants.F_CITY, cityList, range,
@@ -82,7 +83,7 @@ public class ProductManager extends CommonManager {
 			cityList.add(city);
 			if (!city.equals(DBConstants.V_NATIONWIDE)) {
 				cityList.add(DBConstants.V_NATIONWIDE);
-			}			
+			}
 		}
 		DBCursor result = mongoClient.findAll(DBConstants.T_PRODUCT,
 				DBConstants.F_BOUGHT, DBConstants.F_CITY, cityList, range,
@@ -100,7 +101,7 @@ public class ProductManager extends CommonManager {
 			cityList.add(city);
 			if (!city.equals(DBConstants.V_NATIONWIDE)) {
 				cityList.add(DBConstants.V_NATIONWIDE);
-			}			
+			}
 		}
 		DBCursor result = mongoClient.findAll(DBConstants.T_PRODUCT,
 				DBConstants.F_REBATE, DBConstants.F_CITY, cityList, range,
@@ -121,6 +122,65 @@ public class ProductManager extends CommonManager {
 			}
 		}
 		return productList;
+	}
+
+	public static  List<Product> getAllProductWithLocation(MongoDBClient mongoClient,
+			String latitude, String longitude, String startOffset,
+			String maxCount) {
+
+		int count = getMaxcount(maxCount);
+		int offset = getOffset(startOffset);
+
+		double latitudeD = getLatitude(latitude);
+		double longitudeD = getLongitude(longitude);
+		DBCursor productIdResult = mongoClient.findNearby(
+				DBConstants.T_IDX_PRODUCT_GPS, DBConstants.F_GPS, latitudeD,
+				longitudeD, offset, count);
+		if (productIdResult == null || productIdResult.size() < 1) {
+			return null;
+		}
+		List<Object> productIdList = new ArrayList<Object>();
+		while (productIdResult.hasNext()) {
+			DBObject productObject = productIdResult.next();
+			Object productId = productObject.get(DBConstants.F_PRODUCTID);
+			if (productId != null) {
+				productIdList.add(productId);
+			}
+		}
+
+		DBCursor productResult = mongoClient.findAll(DBConstants.T_PRODUCT,
+				DBConstants.F_ID, productIdList, offset, count);
+		if (productIdList == null || productIdList.size() < 1) {
+			return null;
+		}
+		
+		List<Product> productList = getProduct(productResult);
+		if (productList == null || productList.size() < 1) {
+			return null;
+		}
+		return sortByProductId(productIdList,productList);
+	}
+
+	private static List<Product> sortByProductId(List<Object> productIdList,
+			List<Product> productList) {
+		
+		//System.out.println("id List: "+productIdList);
+		//System.out.println("product List: "+productList);
+		Map<Object,Product> map = new HashMap<Object, Product>();
+		for(Product product : productList){
+			//System.out.println("id="+product.getStringObjectId()+", product="+product);
+			map.put(product.getObjectId(), product);
+		}
+		//System.out.println("map ="+ map);
+		List<Product>products = new ArrayList<Product>();
+		for(Object id : productIdList){
+			if (map.containsKey(id)) {
+				products.add(map.get(id));
+				map.remove(id);
+				//products.remove(id);
+			}
+		}
+		return products;
 	}
 
 }

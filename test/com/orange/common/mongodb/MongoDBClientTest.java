@@ -119,9 +119,10 @@ public class MongoDBClientTest {
 	@Test 
 	public void testFindAndSort(){
 		System.out.println("testFindAndSort,product list:");
-		List<Product> Result = ProductManager.getAllProductWithPrice(mongoClient, "广州", false, "0", "10");
+		List<Product> Result = ProductManager.getAllProductWithLocation(mongoClient, "10", "10", "0", "4");
+//		List<Product> Result = ProductManager.getAllProductWithPrice(mongoClient, "广州", false, "0", "10");
 		for (int i = 0; i < Result.size(); i++) {
-			System.out.println(Result.toString());
+			System.out.println(Result.get(i).toString());
 		}
 	}
 }

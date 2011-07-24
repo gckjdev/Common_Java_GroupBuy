@@ -176,4 +176,5 @@ public class ServiceConstant  {
 	public static final String METHOD_FINDPRODUCTWITHPRICE = "fpp";
 	public static final String METHOD_FINDPRODUCTWITHREBATE = "fpd";
 	public static final String METHOD_FINDPRODUCTWITHBOUGHT = "fpb";
+	public static final String METHOD_FINDPRODUCTWITHLOCATION = "fpl";
 }

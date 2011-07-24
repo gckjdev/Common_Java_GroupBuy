@@ -2,6 +2,8 @@ package com.orange.groupbuy.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 import net.sf.json.JSONObject;
 
 import com.mongodb.BasicDBObject;
@@ -77,8 +79,12 @@ public class CommonData {
 		return (List<String>)dbObject.get(key);		
 	}
 	
-	public String getObjectId(){
+	public String getStringObjectId(){
 		return dbObject.get("_id").toString();
+	}
+	
+	public ObjectId getObjectId(){
+		return (ObjectId)dbObject.get("_id");
 	}
 	
 	public JSONObject toJsonObject() {

@@ -1,6 +1,5 @@
 package com.orange.groupbuy.constant;
 
-import org.antlr.grammar.v3.ANTLRv3Parser.finallyClause_return;
 
 public class DBConstants {
 
@@ -230,6 +229,8 @@ public class DBConstants {
 	public static final String F_PRODUCTID = "product_id";
 	
 	public static final String V_NATIONWIDE = "全国";
+
+	public static final String F_ID = "_id";
 
 
 	//user table fields
