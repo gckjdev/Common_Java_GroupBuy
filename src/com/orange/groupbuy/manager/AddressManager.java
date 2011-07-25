@@ -19,7 +19,7 @@ public class AddressManager {
 		return null;
 	}
 	
-	public static boolean createAddress(MongoDBClient mongoClient, String productId, String address, String city, List<List<Double>> gps){
+	public static boolean createAddress(MongoDBClient mongoClient, String productId, String address, String city, List<Double> gps){
 		if (productId == null ||
 			address == null ||
 			city == null){
