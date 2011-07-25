@@ -65,6 +65,8 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_PARAMETER_MESSAGEID_NULL 		= 10055;
 	public static final int ERROR_PARAMETER_POSTACTIONTYPE_EMPTY = 10056;
 	public static final int ERROR_PARAMETER_POSTACTIONTYPE_NULL = 10057;
+	public static final int ERROR_PARAMETER_CATEGORY_NULL 		= 10058;
+	public static final int ERROR_PARAMETER_CATEGORY_EMPTY 		= 10059;
 	
 	// User Errors
 	static public final int ERROR_LOGINID_EXIST             = 20001;
@@ -115,6 +117,8 @@ public class ErrorCode extends CommonErrorCode {
 	static public final int ERROR_UPLOAD_FILE 				= 90006;
 	public static final int ERROR_CREATE_THUNMB_FILEPATH 	= 90007;
 	public static final int ERROR_CREATE_THUNMB_FILE 		= 90008;
+
+
 
 
 
