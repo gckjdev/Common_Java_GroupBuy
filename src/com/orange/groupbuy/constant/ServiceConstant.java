@@ -197,4 +197,5 @@ public class ServiceConstant  {
 	public static final String PARA_ID = "_id";
 	public static final String PARA_ADDRESS = "add";
 	public static final String PARA_DETAIL = "dt";
+	public static final String PARA_REBATE = "rb";
 }
