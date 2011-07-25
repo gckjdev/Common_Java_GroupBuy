@@ -1,11 +1,10 @@
 package com.orange.groupbuy.dao;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.mongodb.BasicDBObject;
 import com.orange.groupbuy.constant.DBConstants;
-import com.sun.tools.javac.util.List;
 
 public class Gps extends BasicDBObject{
 
@@ -32,7 +31,7 @@ public class Gps extends BasicDBObject{
 	}
 	
 	public List<Double> toDoubleList(){
-		List<Double> list = new LinkedList<Double>();
+		List<Double> list = new LinkedList<Double>(); //new LinkedList<Double>();
 		list.add(Double.valueOf(latitude));
 		list.add(Double.valueOf(longitude));
 		return list;

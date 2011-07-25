@@ -10,7 +10,7 @@ public class DBConstants {
 	public static final String T_USER = "user";
 	public static final String T_FETCH_TASK = "task"; 
 	public static final String T_PRODUCT = "product";
-	public static final String T_IDX_PRODUCT_GPS = "idx_product_gps";
+	public static final String T_IDX_PRODUCT_GPS = "address";
 	// fields
 	public static final String F_TASK_STATUS = "status";
 	public static final String F_TASK_URL = "url";
@@ -29,7 +29,6 @@ public class DBConstants {
 	public static final int C_NOT_MAJOR = 0;
 	public static final int C_IS_MAJOR = 1;
 	
-	//1=������ʳ��2=�������֣�3=���ݻ�ױ��4=���Ϲ��5=�˶�����, 6=������
 	public static final int C_CATEGORY_UNKNOWN = 0;
 	public static final int C_CATEGORY_EAT = 1;
 	public static final int C_CATEGORY_FUN = 2;
@@ -228,7 +227,7 @@ public class DBConstants {
 
 	public static final String F_PRODUCTID = "product_id";
 	
-	public static final String V_NATIONWIDE = "全国";
+	public static final String V_NATIONWIDE = "ȫ��";
 
 	public static final String F_ID = "_id";
 

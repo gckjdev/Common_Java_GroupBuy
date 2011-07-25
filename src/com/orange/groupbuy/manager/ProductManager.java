@@ -35,14 +35,17 @@ public class ProductManager extends CommonManager {
 		
 		// insert address into product address index table
 		List<String> addressList = product.getAddress();
-//		List<List<Double>> gpsList = product.getGPS();
+		List<List<Double>> gpsList = product.getGPS();
 		if (addressList == null)
 			return true;
 
 		String productId = product.getId();
 		String city = product.getCity();
+		int i=0;
 		for (String addr : addressList){
-			AddressManager.createAddress(mongoClient, productId, addr, city, null);
+			List<Double> list = gpsList.get(i);
+			AddressManager.createAddress(mongoClient, productId, addr, city, );
+			i++;
 		}
 		
 		return true;
