@@ -215,8 +215,7 @@ public class Product extends CommonData {
 		return (List<String>) this.getStringList(DBConstants.F_SHOP);
 	}
 
-	public void setShop(String... shopList) {
-		List<String> list = ListUtil.stringsToList(shopList);
+	public void setShopList(List<String> list) {
 		if (list == null)
 			return;
 
@@ -234,16 +233,16 @@ public class Product extends CommonData {
 		this.put(DBConstants.F_ADDRESS, addrList);
 	}
 
-	public List<String> getGPS() {
-		return (List<String>) this.getStringList(DBConstants.F_GPS);
+	@SuppressWarnings("unchecked")
+	public List<List<Double>> getGPS() {
+		return (List<List<Double>>) this.getObject(DBConstants.F_GPS);
 	}
 
-	public void setGPS(String... gpsList) {
-		List<String> list = ListUtil.stringsToList(gpsList);
-		if (list == null)
+	public void setGPS(List<List<Double>> gpsList) {		
+		if (gpsList == null)
 			return;
 
-		this.put(DBConstants.F_GPS, list);
+		this.put(DBConstants.F_GPS, gpsList);
 	}
 
 	public List<String> getRange() {

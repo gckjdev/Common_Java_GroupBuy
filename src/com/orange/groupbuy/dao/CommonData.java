@@ -79,6 +79,10 @@ public class CommonData {
 		return (List<String>)dbObject.get(key);		
 	}
 	
+	public Object getObject(String key){
+		return dbObject.get(key);
+	}
+	
 	public String getStringObjectId(){
 		return dbObject.get("_id").toString();
 	}

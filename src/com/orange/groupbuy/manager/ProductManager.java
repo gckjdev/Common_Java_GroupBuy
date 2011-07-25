@@ -29,7 +29,23 @@ public class ProductManager extends CommonManager {
 		// if (isProductExist(mongoClient, loc, city))
 		// return false;
 		product.calculateRebate();
-		return mongoClient.insert(DBConstants.T_PRODUCT, product.getDbObject());
+		boolean result = mongoClient.insert(DBConstants.T_PRODUCT, product.getDbObject());
+		if (!result)
+			return false;
+		
+		// insert address into product address index table
+		List<String> addressList = product.getAddress();
+//		List<List<Double>> gpsList = product.getGPS();
+		if (addressList == null)
+			return true;
+
+		String productId = product.getId();
+		String city = product.getCity();
+		for (String addr : addressList){
+			AddressManager.createAddress(mongoClient, productId, addr, city, null);
+		}
+		
+		return true;
 	}
 
 	public static Product findProduct(MongoDBClient mongoClient,
