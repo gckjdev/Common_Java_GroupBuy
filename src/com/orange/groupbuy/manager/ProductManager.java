@@ -42,9 +42,12 @@ public class ProductManager extends CommonManager {
 		String productId = product.getId();
 		String city = product.getCity();
 		int i=0;
+		int gpsLen = (gpsList == null) ? 0 : gpsList.size();
 		for (String addr : addressList){
-			List<Double> list = gpsList.get(i);
-			AddressManager.createAddress(mongoClient, productId, addr, city, );
+			List<Double> gps = null;
+			if (gpsList != null && i < gpsLen)
+				gps = gpsList.get(i);
+			AddressManager.createAddress(mongoClient, productId, addr, city, gps);
 			i++;
 		}
 		
