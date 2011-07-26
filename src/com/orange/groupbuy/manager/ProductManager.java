@@ -1,10 +1,13 @@
 package com.orange.groupbuy.manager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
@@ -101,12 +104,57 @@ public class ProductManager extends CommonManager {
 
 	}
 
+	private static boolean addCityIntoQuery(DBObject query, String city){
+		if (city != null && city.length() > 0) {
+			List<String> cityList = new ArrayList<String>();
+			cityList.add(city);
+			if (!city.equals(DBConstants.V_NATIONWIDE)) {
+				cityList.add(DBConstants.V_NATIONWIDE);
+			}
+			
+			DBObject in = new BasicDBObject();
+			in.put("$in", cityList);
+			query.put(DBConstants.F_CITY, in);
+		}
+		
+		return true;
+	}
+	
+	private static boolean addEndDateIntoQuery(DBObject query){
+		Date date = new Date();
+		DBObject endDateCondition = new BasicDBObject();
+		endDateCondition.put("$gte", date);		
+		query.put(DBConstants.F_END_DATE, endDateCondition);
+		
+		return true;
+	}
+	
+	public static void addPriceIntoOrder(DBObject orderBy, boolean sortAscending){
+		if (sortAscending) {
+			orderBy.put(DBConstants.F_PRICE, 1);
+		} else {
+			orderBy.put(DBConstants.F_PRICE, -1);
+		}
+	}
+	
 	public static List<Product> getAllProductsWithPrice(
 			MongoDBClient mongoClient, String city, boolean sortAscending,
-			String startOffset, String maxCount) {
-		List<Product> list = getAllProductsWithField(mongoClient,
-				DBConstants.F_PRICE, city, sortAscending, startOffset, maxCount);
-		return list;
+			int startOffset, int maxCount) {
+//		List<Product> list = getAllProductsWithField(mongoClient,
+//				DBConstants.F_PRICE, city, sortAscending, startOffset, maxCount);
+				
+		DBObject query = new BasicDBObject();
+		DBObject orderBy = new BasicDBObject();
+		
+		// set query
+		addCityIntoQuery(query, city);
+		addEndDateIntoQuery(query);
+		
+		// set order by
+		addPriceIntoOrder(orderBy, true);
+		
+		DBCursor cursor = mongoClient.find(DBConstants.T_PRODUCT, query, orderBy, startOffset, maxCount);
+		return getProduct(cursor);
 	}
 
 	public static List<Product> getAllProductsWithBought(
@@ -128,9 +176,15 @@ public class ProductManager extends CommonManager {
 	}
 
 	private static List<Product> getProduct(DBCursor cursor) {
-		if (cursor == null || cursor.size() < 1) {
+		if (cursor == null) {
 			return null;
 		}
+		
+		if (cursor.size() == 0){
+			cursor.close();
+			return null;
+		}
+		
 		List<Product> productList = new ArrayList<Product>();
 		while (cursor.hasNext()) {
 			DBObject obj = cursor.next();
@@ -139,6 +193,8 @@ public class ProductManager extends CommonManager {
 				productList.add(product);
 			}
 		}
+		
+		cursor.close();
 		return productList;
 	}
 
@@ -203,6 +259,18 @@ public class ProductManager extends CommonManager {
 		return products;
 	}
 
+	public static List<Product> getAllProductsByCategory(
+			MongoDBClient mongoClient, String city, String category,
+			String startOffset, String maxCount){
+		
+		if (category == null)
+			return null;
+		
+		List<String> list = new LinkedList<String>();
+		list.add(category);
+		return getAllProductsWithCategory(mongoClient, city, list, startOffset, maxCount);
+	}
+	
 	public static List<Product> getAllProductsWithCategory(
 			MongoDBClient mongoClient, String city, List<String> categoryList,
 			String startOffset, String maxCount) {
@@ -240,4 +308,37 @@ public class ProductManager extends CommonManager {
 		return list;
 	}
 
+	public static List<String> getAllCategories(){
+		List<String> categoryList = new ArrayList<String>();
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_EAT));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_FACE));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_FUN));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_SHOPPING));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_KEEPFIT));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_LIFE));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_UNKNOWN));		
+		return categoryList;
+	}
+	
+	public static List<Product> getAllProductsGroupByCategory(
+			MongoDBClient mongoClient, String city, String topCount) {
+
+		
+		return null;
+	}
+
+	public static List<String> getAllCategoryNames() {
+		List<String> categoryList = new ArrayList<String>();
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_EAT));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_FACE));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_FUN));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_SHOPPING));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_KEEPFIT));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_LIFE));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_UNKNOWN));		
+		return categoryList;
+	}
+
+	
+	
 }

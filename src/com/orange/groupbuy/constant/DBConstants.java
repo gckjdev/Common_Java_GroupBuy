@@ -37,6 +37,14 @@ public class DBConstants {
 	public static final int C_CATEGORY_KEEPFIT = 5;
 	public static final int C_CATEGORY_LIFE = 6;
 	
+	public static final String C_CATEGORY_NAME_UNKNOWN = "综合";
+	public static final String C_CATEGORY_NAME_EAT = "餐饮美食";
+	public static final String C_CATEGORY_NAME_FUN = "休闲娱乐";
+	public static final String C_CATEGORY_NAME_FACE = "美容化妆";
+	public static final String C_CATEGORY_NAME_SHOPPING = "网上购物";
+	public static final String C_CATEGORY_NAME_KEEPFIT = "运动健身";
+	public static final String C_CATEGORY_NAME_LIFE = "生活服务";
+	
 	// site ID
 	public static final String C_SITE_MEITUAN = "meituan";
 	public static final String C_SITE_DIANPIAN = "dianping";
@@ -58,6 +66,8 @@ public class DBConstants {
 	public static final String C_SITE_TUANBAO = "tuanbao";
 	public static final String C_SITE_JUMEIYOUPIN = "jumeiyoupin";
 	public static final String C_SITE_TUANHAO = "tuanhao";
+	public static final String C_SITE_HAOTEHUI = "haotehui";
+
 
 //	user("device_id","device_model","device_os","device_token","language",
 //	"country_code","create_date","source_id","subscribe")
@@ -227,7 +237,7 @@ public class DBConstants {
 
 	public static final String F_PRODUCTID = "product_id";
 	
-	public static final String V_NATIONWIDE = "ȫ��";
+	public static final String V_NATIONWIDE = "全国";
 
 	public static final String F_ID = "_id";
 

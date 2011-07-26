@@ -177,7 +177,7 @@ public class ServiceConstant  {
 	public static final String METHOD_FINDPRODUCTSWITHBOUGHT = "fpb";
 	public static final String METHOD_FINDPRODUCTSWITHLOCATION = "fpl";
 	public static final String METHOD_FINDPRODUCTSWITHCATEGORY = "fpc";
-	
+	public static final String METHOD_FINDPRODUCTSGROUPBYCATEGORY = "fgc";	
 	
 	
 	//response parameters
@@ -196,4 +196,7 @@ public class ServiceConstant  {
 	public static final String PARA_ADDRESS = "add";
 	public static final String PARA_DETAIL = "dt";
 	public static final String PARA_REBATE = "rb";
+	
+	public static final String PARA_CATEGORY_NAME = "na";
+	public static final String PARA_PRODUCT = "p";
 }
