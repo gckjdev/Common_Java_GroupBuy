@@ -45,6 +45,11 @@ public class DBConstants {
 	public static final String C_CATEGORY_NAME_KEEPFIT = "运动健身";
 	public static final String C_CATEGORY_NAME_LIFE = "生活服务";
 	
+	public static final int SORT_BY_START_DATE = 0;
+	public static final int SORT_BY_PRICE = 1;
+	public static final int SORT_BY_REBATE = 2;
+	public static final int SORT_BY_BOUGHT = 3;
+	
 	// site ID
 	public static final String C_SITE_MEITUAN = "meituan";
 	public static final String C_SITE_DIANPIAN = "dianping";
@@ -240,6 +245,8 @@ public class DBConstants {
 	public static final String V_NATIONWIDE = "全国";
 
 	public static final String F_ID = "_id";
+
+
 
 
 	//user table fields

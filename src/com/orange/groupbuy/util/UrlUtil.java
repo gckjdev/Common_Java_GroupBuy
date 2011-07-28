@@ -42,4 +42,10 @@ public class UrlUtil {
 		return ListUtil.stringsToList(string.split(URL_ARRAY_SPLIT));
 	}
 
+	static public List<Integer> parserUrlIntArray(String string) {
+		if (string == null || string.length() < 1)
+			return null;
+		return ListUtil.stringsToIntList(string.split(URL_ARRAY_SPLIT));
+	}
+
 }

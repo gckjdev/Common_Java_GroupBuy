@@ -1,16 +1,21 @@
 package com.orange.groupbuy.manager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
+import com.orange.common.utils.DateUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.dao.Product;
 
@@ -120,7 +125,18 @@ public class ProductManager extends CommonManager {
 		return true;
 	}
 	
-	private static boolean addEndDateIntoQuery(DBObject query){
+	private static boolean addCategoryIntoQuery(DBObject query, List<Integer> categoryList){
+		if (categoryList != null && categoryList.size() > 0) {			
+			DBObject in = new BasicDBObject();
+			in.put("$in", categoryList);
+			query.put(DBConstants.F_CATEGORY, in);
+		}
+		
+		return true;
+	}
+		
+	// only query those product which are not expired
+	private static boolean addExpirationIntoQuery(DBObject query){
 		Date date = new Date();
 		DBObject endDateCondition = new BasicDBObject();
 		endDateCondition.put("$gte", date);		
@@ -129,26 +145,103 @@ public class ProductManager extends CommonManager {
 		return true;
 	}
 	
-	public static void addPriceIntoOrder(DBObject orderBy, boolean sortAscending){
-		if (sortAscending) {
-			orderBy.put(DBConstants.F_PRICE, 1);
-		} else {
-			orderBy.put(DBConstants.F_PRICE, -1);
-		}
+	private static boolean addGpsIntoQuery(DBObject query, double longitude, double latitude, double maxDistance){
+
+		List<Double> gpsList = new ArrayList<Double>();
+		gpsList.add(latitude);
+		gpsList.add(longitude);
+
+		DBObject near = new BasicDBObject();
+		near.put("$near", gpsList);
+		near.put("$maxDistance", maxDistance);
+		query.put(DBConstants.F_GPS, near);
+
+		return true;		
 	}
+
+	// only query those product which starts from today
+	private static boolean addTodayIntoQuery(DBObject query){
+		Date date = DateUtil.getDateOfToday();
+		DBObject startDateCondition = new BasicDBObject();
+		startDateCondition.put("$gte", date);		
+		query.put(DBConstants.F_START_DATE, startDateCondition);		
+		return true;
+	}		
+	
+	private static void addFieldIntoOrder(DBObject orderBy, String fieldName, boolean sortAscending){
+		if (sortAscending) {
+			orderBy.put(fieldName, 1);
+		} else {
+			orderBy.put(fieldName, -1);
+		}		
+	}
+	
+	public static void addPriceIntoOrder(DBObject orderBy, boolean sortAscending){
+		addFieldIntoOrder(orderBy, DBConstants.F_PRICE, sortAscending);
+	}
+	
+	public static void addRebateIntoOrder(DBObject orderBy, boolean sortAscending){
+		addFieldIntoOrder(orderBy, DBConstants.F_REBATE, sortAscending);
+	}
+
+	public static void addBoughtIntoOrder(DBObject orderBy, boolean sortAscending){
+		addFieldIntoOrder(orderBy, DBConstants.F_BOUGHT, sortAscending);
+	}
+	
+	
+	public static List<Product> getProducts(MongoDBClient mongoClient, String city, 
+			List<Integer> categoryList, boolean todayOnly, 
+			boolean gpsQuery, double latitude, double longitude, double maxDistance, 
+			int sortBy, int startOffset, int maxCount){
+		
+		DBObject query = new BasicDBObject();
+		DBObject orderBy = new BasicDBObject();
+		
+		// set query
+		addCityIntoQuery(query, city);
+		addCategoryIntoQuery(query, categoryList);
+		addExpirationIntoQuery(query);
+		if (gpsQuery){
+			addGpsIntoQuery(query, longitude, latitude, maxDistance);
+		}
+		
+		if (todayOnly){
+			addTodayIntoQuery(query);
+		}
+		
+		// set order by
+//		if (!gpsQuery){
+			switch (sortBy){
+				case DBConstants.SORT_BY_PRICE:
+					addFieldIntoOrder(orderBy, DBConstants.F_PRICE, true);
+					break;
+	
+				case DBConstants.SORT_BY_REBATE:
+					addFieldIntoOrder(orderBy, DBConstants.F_REBATE, true);
+					break;
+					
+				case DBConstants.SORT_BY_BOUGHT:
+					addFieldIntoOrder(orderBy, DBConstants.F_BOUGHT, false);
+					break;
+			}
+			addFieldIntoOrder(orderBy, DBConstants.F_START_DATE, false);
+//		}
+		
+		DBCursor cursor = mongoClient.find(DBConstants.T_PRODUCT, query, orderBy, startOffset, maxCount);
+		return getProduct(cursor);		
+	}
+	
 	
 	public static List<Product> getAllProductsWithPrice(
 			MongoDBClient mongoClient, String city, boolean sortAscending,
 			int startOffset, int maxCount) {
-//		List<Product> list = getAllProductsWithField(mongoClient,
-//				DBConstants.F_PRICE, city, sortAscending, startOffset, maxCount);
 				
 		DBObject query = new BasicDBObject();
 		DBObject orderBy = new BasicDBObject();
 		
 		// set query
 		addCityIntoQuery(query, city);
-		addEndDateIntoQuery(query);
+		addExpirationIntoQuery(query);
 		
 		// set order by
 		addPriceIntoOrder(orderBy, true);
