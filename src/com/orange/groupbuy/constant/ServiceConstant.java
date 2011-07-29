@@ -200,6 +200,8 @@ public class ServiceConstant  {
 	public static final String PARA_ADDRESS = "add";
 	public static final String PARA_DETAIL = "dt";
 	public static final String PARA_REBATE = "rb";
+	public static final String PARA_WAP_URL = "wu";
+
 	
 	public static final String PARA_CATEGORY_NAME = "na";
 	public static final String PARA_PRODUCT = "p";
