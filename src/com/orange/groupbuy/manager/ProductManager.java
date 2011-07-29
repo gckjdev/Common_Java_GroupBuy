@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.eclipse.jetty.util.log.Log;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -18,6 +20,7 @@ import com.orange.common.mongodb.MongoDBClient;
 import com.orange.common.utils.DateUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.dao.Product;
+import com.orange.groupbuy.dao.ProductAddress;
 
 public class ProductManager extends CommonManager {
 
@@ -51,12 +54,41 @@ public class ProductManager extends CommonManager {
 		String city = product.getCity();
 		int i=0;
 		int gpsLen = (gpsList == null) ? 0 : gpsList.size();
+		boolean needUpdate = false;
 		for (String addr : addressList){
+			if (addr == null)
+				continue;
+			
 			List<Double> gps = null;
 			if (gpsList != null && i < gpsLen)
 				gps = gpsList.get(i);
-			AddressManager.createAddress(mongoClient, productId, addr, city, gps);
+			
+			ProductAddress address = AddressManager.findAddress(mongoClient, addr);
+			if (address == null){			
+				log.info("<debug> create new address for productId "+productId+", address "+addr);
+				AddressManager.createAddress(mongoClient, productId, addr, city, gps);
+			}
+			else{				
+				// address found, check GPS data
+				List<Double> gpsInAddress = address.getGPS();
+				if (gpsInAddress != null && gpsInAddress.size() > 0){
+					log.info("<debug> address "+addr+" found, gps=("+gpsInAddress.get(0)+","+gpsInAddress.get(1)+"), update product "+product.getId());
+					product.addGPS(gpsInAddress);
+					needUpdate = true;
+				}
+				else{
+					// append productId in existing list
+					log.info("<debug> append productId "+productId+" into address "+addr);
+					address.addProductId(productId);
+					mongoClient.save(DBConstants.T_IDX_PRODUCT_GPS, address.getDbObject());
+				}
+			}
+			
 			i++;
+		}
+		
+		if (needUpdate){
+			mongoClient.save(DBConstants.T_PRODUCT, product.getDbObject());
 		}
 		
 		return true;
