@@ -42,6 +42,7 @@ public class ServiceConstant  {
 	public static final String METHOD_GETPUBLICTIMELINE = "gpt";
 	public static final String METHOD_ACTIONONPOST = "aop";	
 	
+	
 	// for groupbuy
 	public static final String METHOD_REGISTERDEVICE = "rd";
 	public static final String METHOD_GROUPBUY_DEVICELOGIN = "gdl";
@@ -171,6 +172,9 @@ public class ServiceConstant  {
 	public static final String PARA_CATEGORIES = "ctg";
 	
 	public static final String PRAR_START_OFFSET = "so";
+	public static final String PARA_MAX_DISTANCE = "md";
+	public static final String PARA_TODAY_ONLY = "to";
+	public static final String PARA_SORT_BY = "sb";
 	
 	public static final String METHOD_FINDPRODUCTSWITHPRICE = "fpp";
 	public static final String METHOD_FINDPRODUCTSWITHREBATE = "fpd";
@@ -178,7 +182,7 @@ public class ServiceConstant  {
 	public static final String METHOD_FINDPRODUCTSWITHLOCATION = "fpl";
 	public static final String METHOD_FINDPRODUCTSWITHCATEGORY = "fpc";
 	public static final String METHOD_FINDPRODUCTSGROUPBYCATEGORY = "fgc";	
-	
+	public static final String METHOD_FINDPRODUCTS = "fp";
 	
 	//response parameters
 	public static final String PARA_LOC = "loc";

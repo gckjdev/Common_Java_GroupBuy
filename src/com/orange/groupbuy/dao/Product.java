@@ -1,6 +1,7 @@
 package com.orange.groupbuy.dao;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -312,5 +313,24 @@ public class Product extends CommonData {
 	public String getEndDateString() {
 		Date date = getEndDate();
 		return DateUtil.dateToString(date);
+	}
+
+	public void addGPS(List<Double> gps) {
+		if (gps == null || gps.size() == 0)
+			return;
+		
+		if (!dbObject.containsField(DBConstants.F_GPS)){
+			List<List<Double>> list = new LinkedList<List<Double>>();			
+			list.add(gps);
+			this.setGPS(list);
+			return;
+		}
+		
+		List<List<Double>> list = this.getGPS();
+		if (list == null){
+			list = new LinkedList<List<Double>>();
+		}		
+		list.add(gps);
+		
 	}
 }

@@ -1,6 +1,7 @@
 package com.orange.groupbuy.manager;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -32,8 +33,10 @@ public class AddressManager {
 		docObject.put(DBConstants.F_GPS, gps);
 		docObject.put(DBConstants.F_CITY, city);
 		
+		List<ObjectId> productList = new LinkedList<ObjectId>();
 		ObjectId productObjectId = new ObjectId(productId);		
-		docObject.put(DBConstants.F_PRODUCTID, productObjectId);
+		productList.add(productObjectId);
+		docObject.put(DBConstants.F_PRODUCTID, productList);
 		
 		return mongoClient.insert(DBConstants.T_IDX_PRODUCT_GPS, docObject);
 	}
@@ -68,6 +71,20 @@ public class AddressManager {
 		}
 		
 		return true;
+	}
+
+	public static ProductAddress findAddress(
+			MongoDBClient mongoClient, String addr) {
+		
+		DBCursor cursor = mongoClient.find(DBConstants.T_IDX_PRODUCT_GPS, DBConstants.F_ADDRESS, addr, 1);
+		if (cursor != null && cursor.hasNext()){
+			DBObject obj = cursor.next();
+			ProductAddress address = new ProductAddress(obj);
+			cursor.close();
+			return address;
+		}
+		
+		return null;
 	}
 	
 }
