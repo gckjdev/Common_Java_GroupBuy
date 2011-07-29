@@ -222,7 +222,6 @@ public class DBConstants {
 	public static final String F_MAJOR = "major";
 	
 	public static final String F_CITY = "city";
-
 	public static final String F_VENDOR = "vendor";
 	public static final String F_SHOP = "shop";
 	public static final String F_ADDRESS = "address";

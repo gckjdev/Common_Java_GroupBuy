@@ -245,6 +245,7 @@ public class Product extends CommonData {
 		this.put(DBConstants.F_GPS, gpsList);
 	}
 
+	
 	public List<String> getRange() {
 		return (List<String>) this.getStringList(DBConstants.F_RANGE);
 	}
