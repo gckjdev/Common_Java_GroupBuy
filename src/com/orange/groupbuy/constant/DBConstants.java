@@ -38,12 +38,12 @@ public class DBConstants {
 	public static final int C_CATEGORY_LIFE = 6;
 	
 	public static final String C_CATEGORY_NAME_UNKNOWN = "综合";
-	public static final String C_CATEGORY_NAME_EAT = "餐饮美食";
-	public static final String C_CATEGORY_NAME_FUN = "休闲娱乐";
-	public static final String C_CATEGORY_NAME_FACE = "美容化妆";
-	public static final String C_CATEGORY_NAME_SHOPPING = "网上购物";
-	public static final String C_CATEGORY_NAME_KEEPFIT = "运动健身";
-	public static final String C_CATEGORY_NAME_LIFE = "生活服务";
+	public static final String C_CATEGORY_NAME_EAT = "美食";
+	public static final String C_CATEGORY_NAME_FUN = "娱乐";
+	public static final String C_CATEGORY_NAME_FACE = "美容";
+	public static final String C_CATEGORY_NAME_SHOPPING = "网购";
+	public static final String C_CATEGORY_NAME_KEEPFIT = "运动";
+	public static final String C_CATEGORY_NAME_LIFE = "生活";
 	
 	public static final int SORT_BY_START_DATE = 0;
 	public static final int SORT_BY_PRICE = 1;
