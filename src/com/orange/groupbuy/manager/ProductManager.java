@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.bson.types.BasicBSONList;
 import org.eclipse.jetty.util.log.Log;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -183,11 +185,21 @@ public class ProductManager extends CommonManager {
 		gpsList.add(latitude);
 		gpsList.add(longitude);
 
-		DBObject near = new BasicDBObject();
-		near.put("$near", gpsList);
-		near.put("$maxDistance", maxDistance);
-		query.put(DBConstants.F_GPS, near);
+//		DBObject near = new BasicDBObject();
+//		near.put("$near", gpsList);
+//		near.put("$maxDistance", maxDistance);
+//		query.put(DBConstants.F_GPS, near);
 
+		DBObject within = new BasicDBObject();
+		DBObject center = new BasicDBObject();
+		BasicBSONList centerObj = new BasicBSONList();
+		centerObj.add(gpsList);
+		centerObj.add(maxDistance);
+		
+		center.put("$center", centerObj);
+		within.put("$within", center);
+		query.put(DBConstants.F_GPS, within);
+		
 		return true;		
 	}
 
@@ -234,7 +246,8 @@ public class ProductManager extends CommonManager {
 		addCategoryIntoQuery(query, categoryList);
 		addExpirationIntoQuery(query);
 		if (gpsQuery){
-			addGpsIntoQuery(query, longitude, latitude, maxDistance);
+			double degreeDistance = maxDistance * 1000 / 6371;
+			addGpsIntoQuery(query, longitude, latitude, degreeDistance);
 		}
 		
 		if (todayOnly){
