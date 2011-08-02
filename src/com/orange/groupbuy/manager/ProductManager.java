@@ -265,6 +265,9 @@ public class ProductManager extends CommonManager {
 			addFieldIntoOrder(orderBy, DBConstants.F_START_DATE, false);
 //		}
 		
+		log.info("<getProducts> query = "+query.toString()+" , orderBy = "+
+				orderBy+" startOffset = "+startOffset+", maxCount = "+maxCount);
+			
 		DBCursor cursor = mongoClient.find(DBConstants.T_PRODUCT, query, orderBy, startOffset, maxCount);
 		return getProduct(cursor);		
 	}

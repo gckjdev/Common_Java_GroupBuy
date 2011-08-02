@@ -32,6 +32,7 @@ public class FetchTaskManager extends CommonManager{
 
 	public static void taskClose(MongoDBClient mongoClient, DBObject task) {
 		task.put(DBConstants.F_TASK_STATUS, Integer.valueOf(DBConstants.C_TASK_STATUS_CLOSE));
+		task.put(DBConstants.F_TASK_FILE_PATH, null);		// clear file path to avoid future usage
 		mongoClient.save(DBConstants.T_FETCH_TASK, task);		
 	}
 	
