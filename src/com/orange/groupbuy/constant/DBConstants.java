@@ -72,7 +72,7 @@ public class DBConstants {
 	public static final String C_SITE_JUMEIYOUPIN = "jumeiyoupin";
 	public static final String C_SITE_TUANHAO = "tuanhao";
 	public static final String C_SITE_HAOTEHUI = "haotehui";
-	public static final String C_SITE_SOUHU = "souhu";
+	public static final String C_SITE_SOUHU = "sohu";
 	public static final String C_SITE_AIBANG = "aibang";
 	public static final String C_SITE_SINA = "sina";
 
