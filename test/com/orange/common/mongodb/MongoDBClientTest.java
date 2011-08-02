@@ -1,30 +1,24 @@
 package com.orange.common.mongodb;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
-import org.apache.cassandra.cli.CliParser.newColumnFamily_return;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.orange.groupbuy.constant.DBConstants;
-import com.orange.groupbuy.dao.Gps;
 import com.orange.groupbuy.dao.Product;
-import com.orange.groupbuy.dao.Subscription;
 import com.orange.groupbuy.manager.ProductManager;
 import com.orange.groupbuy.manager.UserManager;
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
-
+@Ignore
 public class MongoDBClientTest {
 
 	MongoDBClient mongoClient;
@@ -125,7 +119,9 @@ public class MongoDBClientTest {
 		categoryList.add("2");
 		List<Product> Result = ProductManager.getAllProductsWithCategory(mongoClient, null, null , "0", "100");
 		//List<Product> Result = ProductManager.getAllProductWithLocation(mongoClient, "10", "10", "0", "4");
-//		List<Product> Result = ProductManager.getAllProductWithPrice(mongoClient, "广州", false, "0", "10");
+		// List<Product> Result =
+		// ProductManager.getAllProductWithPrice(mongoClient, "广州", false, "0",
+		// "10");
 		for (int i = 0; i < Result.size(); i++) {
 			System.out.println(Result.get(i).toString());
 		}

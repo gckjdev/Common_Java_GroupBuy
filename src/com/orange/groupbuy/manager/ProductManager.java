@@ -1,21 +1,14 @@
 package com.orange.groupbuy.manager;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import org.bson.types.BasicBSONList;
-import org.eclipse.jetty.util.log.Log;
-
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
@@ -272,6 +265,9 @@ public class ProductManager extends CommonManager {
 			addFieldIntoOrder(orderBy, DBConstants.F_START_DATE, false);
 //		}
 		
+		log.info("<getProducts> query = "+query.toString()+" , orderBy = "+
+				orderBy+" startOffset = "+startOffset+", maxCount = "+maxCount);
+			
 		DBCursor cursor = mongoClient.find(DBConstants.T_PRODUCT, query, orderBy, startOffset, maxCount);
 		return getProduct(cursor);		
 	}

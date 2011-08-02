@@ -11,6 +11,8 @@ public class DBConstants {
 	public static final String T_FETCH_TASK = "task"; 
 	public static final String T_PRODUCT = "product";
 	public static final String T_IDX_PRODUCT_GPS = "address";
+	public static final String T_APP = "app";
+	
 	// fields
 	public static final String F_TASK_STATUS = "status";
 	public static final String F_TASK_URL = "url";
@@ -151,7 +153,7 @@ public class DBConstants {
 //	public static final String F_NAME = "name";
 //	public static final String F_DESC = "desc";
 
-	public static final String F_APPURL = "appUrl";
+	public static final String F_APPURL = "app_url";
 	public static final String F_VERSION = "version";
 	public static final String F_ICON = "icon";
 
@@ -247,6 +249,8 @@ public class DBConstants {
 	public static final String V_NATIONWIDE = "全国";
 
 	public static final String F_ID = "_id";
+
+	
 
 
 
