@@ -77,6 +77,7 @@ public class DBConstants {
 	public static final String C_SITE_SOUHU = "sohu";
 	public static final String C_SITE_AIBANG = "aibang";
 	public static final String C_SITE_SINA = "sina";
+	public static final String C_SITE_QQ = "qq";
 
 
 //	user("device_id","device_model","device_os","device_token","language",
