@@ -41,6 +41,22 @@ public class FetchTaskManager extends CommonManager{
 		task.put(DBConstants.F_TASK_FILE_PATH, null);		// clear file path to avoid future usage
 		mongoClient.save(DBConstants.T_FETCH_TASK, task);		
 	}
+
+	public static void resetAllTask(MongoDBClient mongoClient) {
+		
+		BasicDBObject query = new BasicDBObject();
+		BasicDBObject update = new BasicDBObject();
+		
+		BasicDBObject value = new BasicDBObject();
+		value.put("$ne", DBConstants.C_TASK_STATUS_NOT_RUNNING);
+		query.put(DBConstants.F_TASK_STATUS, value);
+
+		BasicDBObject updateValue = new BasicDBObject();
+		updateValue.put(DBConstants.F_TASK_STATUS, DBConstants.C_TASK_STATUS_NOT_RUNNING);
+		update.put("$set", updateValue);
+		
+		mongoClient.updateAll(DBConstants.T_FETCH_TASK, query, update);
+	}
 	
 	
 }
