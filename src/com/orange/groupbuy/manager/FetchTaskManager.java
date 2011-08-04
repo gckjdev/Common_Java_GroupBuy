@@ -35,6 +35,12 @@ public class FetchTaskManager extends CommonManager{
 		task.put(DBConstants.F_TASK_FILE_PATH, null);		// clear file path to avoid future usage
 		mongoClient.save(DBConstants.T_FETCH_TASK, task);		
 	}
+
+	public static void taskFailure(MongoDBClient mongoClient, DBObject task) {
+		task.put(DBConstants.F_TASK_STATUS, Integer.valueOf(DBConstants.C_TASK_STATUS_FAILURE));
+		task.put(DBConstants.F_TASK_FILE_PATH, null);		// clear file path to avoid future usage
+		mongoClient.save(DBConstants.T_FETCH_TASK, task);		
+	}
 	
 	
 }

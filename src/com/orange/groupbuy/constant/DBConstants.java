@@ -26,6 +26,7 @@ public class DBConstants {
 	public static final int C_TASK_STATUS_RUNNING = 1;
 	public static final int C_TASK_STATUS_DOWNLOAD_OK = 2;
 	public static final int C_TASK_STATUS_CLOSE = 3;
+	public static final int C_TASK_STATUS_FAILURE = 4;
 	
 	// major product or not
 	public static final int C_NOT_MAJOR = 0;
@@ -250,6 +251,20 @@ public class DBConstants {
 	public static final String V_NATIONWIDE = "全国";
 
 	public static final String F_ID = "_id";
+
+	public static final String F_STAT = "stat";	
+	
+	public static final String F_COUNTER_ADDRESS_API = "address_api";
+	public static final String F_COUNTER_ADDRESS_HTML = "address_html";
+	public static final String F_COUNTER_ADDRESS_FAIL = "address_fail";
+	public static final String F_COUNTER_ADDRESS_TOTAL = "address_toal";
+
+	public static final String F_COUNTER_INSERT = "insert";
+	public static final String F_COUNTER_UPDATE = "update";
+	public static final String F_COUNTER_EXIST = "exist";
+	public static final String F_COUNTER_TOTAL = "total";
+	public static final String F_COUNTER_FAIL = "fail";
+
 
 	
 
