@@ -40,6 +40,8 @@
 				</excludes>
 			</testResource>
 		</testResources>
+		
+		
 	</build>
 	<!-- Shared version number properties -->
 	<properties>
@@ -47,6 +49,7 @@
 		</org.springframework.version>
 		<org.apache.mahout.version>0.4</org.apache.mahout.version>
 		<jettyVersion>7.3.0.v20110203</jettyVersion>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>		
 	</properties>
 	<dependencies>
 		<!-- internal project -->
