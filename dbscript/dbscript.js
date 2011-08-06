@@ -440,8 +440,8 @@ db.product.ensureIndex({"city":1,"loc":1})
 
 
 //table address index;
-db.address.ensureIndex({"gps":"2d"});
-db.address.ensureIndex({"city":"1"});
-db.address.ensureIndex({"address":1},{"unique":true});
-db.address.ensureIndex({"product_id":"1"});
+db.address.ensureIndex({"gps":"2d"})
+db.address.ensureIndex({"city":"1"})
+db.address.ensureIndex({"address":1},{"unique":true})
+db.address.ensureIndex({"product_id":"1"})
 
