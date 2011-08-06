@@ -428,3 +428,21 @@ db.task.insert({"status":0, "site_id":"ftuan", "url":"http://newapi.ftuan.com/ap
 db.task.insert({"status":0, "site_id":"ftuan", "url":"http://newapi.ftuan.com/api/v2.aspx?city=yx"})
 db.task.insert({"status":0, "site_id":"ftuan", "url":"http://newapi.ftuan.com/api/v2.aspx?city=yining"})
 db.task.insert({"status":0, "site_id":"ftuan", "url":"http://newapi.ftuan.com/api/v2.aspx?city=quanguo"})
+
+//table product index;
+
+db.product.ensureIndex({"city":1});
+db.product.ensureIndex({"category":1});
+db.product.ensureIndex({"gps":"2d"});
+db.product.ensureIndex({"rebate":-1});
+db.product.ensureIndex({"price":1});
+db.product.ensureIndex({"bought":－1});
+db.product.ensureIndex({"loc":1});
+
+
+//table address index;
+db.address.ensureIndex({"gps":"2d"});
+db.address.ensureIndex({"city":"1"});
+db.address.ensureIndex({"gps":"2d"});
+db.address.ensureIndex({"product_id":"1"});
+
