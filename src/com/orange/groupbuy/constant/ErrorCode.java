@@ -55,16 +55,16 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_PARAMETER_CONTENTTYPE_NULL 	= 10045;
 	public static final int ERROR_PARAMETER_PLACEID_NULL 		= 10046;
 	public static final int ERROR_PARAMETER_PLACEID_EMPTY 		= 10047;
-	public static final int ERROR_PARAMETER_POSTID_EMPTY 		= 10048;
-	public static final int ERROR_PARAMETER_POSTID_NULL 		= 10049;
+	public static final int ERROR_PARAMETER_PRODUCTID_EMPTY 	= 10048;
+	public static final int ERROR_PARAMETER_PRODUCTID_NULL 		= 10049;
 	public static final int ERROR_PARAMETER_TOUSERID_NULL 		= 10050;
 	public static final int ERROR_PARAMETER_TOUSERID_EMPTY 		= 10051;
 	public static final int ERROR_PARAMETER_MESSAGECONTENT_EMPTY = 10052;
 	public static final int ERROR_PARAMETER_MESSAGECONTENT_NULL = 10053;
 	public static final int ERROR_PARAMETER_MESSAGEID_EMPTY 	= 10054;
 	public static final int ERROR_PARAMETER_MESSAGEID_NULL 		= 10055;
-	public static final int ERROR_PARAMETER_POSTACTIONTYPE_EMPTY = 10056;
-	public static final int ERROR_PARAMETER_POSTACTIONTYPE_NULL = 10057;
+	public static final int ERROR_PARAMETER_ACTIONNAME_EMPTY = 10056;
+	public static final int ERROR_PARAMETER_ACTIONNAME_NULL = 10057;
 	public static final int ERROR_PARAMETER_CATEGORY_NULL 		= 10058;
 	public static final int ERROR_PARAMETER_CATEGORY_EMPTY 		= 10059;
 	
