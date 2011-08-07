@@ -348,8 +348,8 @@ public class Product extends CommonData {
 
 
 	public void setQuota(int maxQuota, int minQuota) {
-		this.put(DBConstants.F_MIN_QUOTA, maxQuota);
-		this.put(DBConstants.F_MAX_QUOTA, minQuota);		
+		this.put(DBConstants.F_MIN_QUOTA, minQuota);
+		this.put(DBConstants.F_MAX_QUOTA, maxQuota);		
 	}
 
 	public void setTag(List<String> list) {
