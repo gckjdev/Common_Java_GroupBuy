@@ -79,6 +79,10 @@ public class DBConstants {
 	public static final String C_SITE_AIBANG = "aibang";
 	public static final String C_SITE_SINA = "sina";
 	public static final String C_SITE_QQ = "qq";
+	public static final String C_SITE_JINGDONG = "jingdong";
+	public static final String C_SITE_LETAO = "letao";
+	public static final String C_SITE_ZTUAN = "ztuan";
+	public static final String C_SITE_FENTUAN = "fentuan";
 
 
 //	user("device_id","device_model","device_os","device_token","language",
@@ -198,6 +202,7 @@ public class DBConstants {
 	// TODO: CommonManager.java
 	public static int UNLIMITED_COUNT = 9999999;
 
+
 	// normal statistic Constants
 	public static final String USER_SIMILARITY = "place_user_similarity";
 	public static final String USER_POST_STATISTIC = "place_user_post_stat";
@@ -212,41 +217,46 @@ public class DBConstants {
 	public static final String R_APPID_ALL = "ALL";
 	
 	public static final String F_LOC = "loc";
-	public static final String F_WAP_LOC = "wap_loc";
+	public static final String F_WAP_LOC = "w_loc";
 	
-	public static final String F_SITE_NAME = "site_name";
-	public static final String F_SITE_URL = "site_url";
-	public static final String F_SITE_ID = "site_id";	
+	public static final String F_SITE_NAME = "s_name";
+	public static final String F_SITE_URL = "s_url";
+	public static final String F_SITE_ID = "s_id";	
 	
 	public static final String F_TITLE = "title";
 	public static final String F_DESCRIPTION = "desc";
-	public static final String F_DETAIL = "detail";	
+	public static final String F_DETAIL = "tip";	
 	
 	public static final String F_IMAGE = "image";
-	public static final String F_START_DATE = "start_date";
-	public static final String F_END_DATE = "end_date";
+	public static final String F_START_DATE = "s_date";
+	public static final String F_END_DATE = "e_date";
 	public static final String F_VALUE = "value";
 	public static final String F_PRICE = "price";
 	public static final String F_REBATE = "rebate";
 	public static final String F_BOUGHT = "bought";
 
-	public static final String F_CATEGORY = "category";
+	public static final String F_CATEGORY = "cate";
 	public static final String F_MAJOR = "major";
 	
 	public static final String F_CITY = "city";
 	public static final String F_VENDOR = "vendor";
 	public static final String F_SHOP = "shop";
-	public static final String F_ADDRESS = "address";
+	public static final String F_ADDRESS = "addr";
 	public static final String F_GPS = "gps";
 	public static final String F_RANGE = "range";
 	public static final String F_DP_SHOPID = "dpid";
 	public static final String F_TEL = "tel";
+	public static final String F_POST = "post";
+	public static final String F_SOLD_OUT = "sold";
+	public static final String F_MIN_QUOTA = "min";
+	public static final String F_MAX_QUOTA = "max";
+	public static final String F_TAG = "tag";
+	public static final String F_PRIORITY = "pri";
+	public static final String F_MERCHANT_END_DATE = "me_date";
 
 	public static final String F_COMMENTS = "comments";
-
 	public static final String F_KEYWORD = "keyword";
-
-	public static final String F_PRODUCTID = "product_id";
+	public static final String F_PRODUCTID = "p_id";
 	
 	public static final String V_NATIONWIDE = "全国";
 
@@ -258,12 +268,15 @@ public class DBConstants {
 	public static final String F_COUNTER_ADDRESS_HTML = "address_html";
 	public static final String F_COUNTER_ADDRESS_FAIL = "address_fail";
 	public static final String F_COUNTER_ADDRESS_TOTAL = "address_toal";
+	public static final String F_COUNTER_ADDRESS_SKIP = "address_skip";
 
 	public static final String F_COUNTER_INSERT = "insert";
 	public static final String F_COUNTER_UPDATE = "update";
 	public static final String F_COUNTER_EXIST = "exist";
 	public static final String F_COUNTER_TOTAL = "total";
 	public static final String F_COUNTER_FAIL = "fail";
+
+	
 
 
 	

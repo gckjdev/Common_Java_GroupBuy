@@ -432,16 +432,15 @@ db.task.insert({"status":0, "site_id":"ftuan", "url":"http://newapi.ftuan.com/ap
 //table product index;
 
 db.product.ensureIndex({"gps":"2d"})
-db.product.ensureIndex({"city":1,"category":1})
-db.product.ensureIndex({"city":1,"rebate":-1})
-db.product.ensureIndex({"city":1,"price":1})
-db.product.ensureIndex({"city":1,"bought":-1})
+db.product.ensureIndex({"city":1,"category":1,"end_date":1,"start_date":-1})
+db.product.ensureIndex({"category":1,"end_date":1,"start_date":-1})
+//db.product.ensureIndex({"city":1,"rebate":-1})
+//db.product.ensureIndex({"city":1,"price":1})
+//db.product.ensureIndex({"city":1,"bought":-1})
 db.product.ensureIndex({"city":1,"loc":1})
 
 
 //table address index;
-db.address.ensureIndex({"gps":"2d"})
-db.address.ensureIndex({"city":"1"})
+db.product.ensureIndex({"gps":1})
 db.address.ensureIndex({"address":1},{"unique":true})
-db.address.ensureIndex({"product_id":"1"})
 

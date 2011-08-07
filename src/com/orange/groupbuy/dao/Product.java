@@ -333,4 +333,34 @@ public class Product extends CommonData {
 		list.add(gps);
 		
 	}
+
+	public void setMerchantEndDate(Date merchantEndDate) {
+		this.put(DBConstants.F_MERCHANT_END_DATE, merchantEndDate);
+	}
+
+	public void setPost(boolean value) {
+		this.put(DBConstants.F_POST, value);
+	}
+
+	public void setSoldOut(boolean value) {
+		this.put(DBConstants.F_SOLD_OUT, value);
+	}
+
+
+	public void setQuota(int maxQuota, int minQuota) {
+		this.put(DBConstants.F_MIN_QUOTA, maxQuota);
+		this.put(DBConstants.F_MAX_QUOTA, minQuota);		
+	}
+
+	public void setTag(List<String> list) {
+		if (list == null)
+			return;
+
+		this.put(DBConstants.F_TAG, list);
+		
+	}
+
+	public void setPriority(int priority) {
+		this.put(DBConstants.F_PRIORITY, priority);
+	}
 }

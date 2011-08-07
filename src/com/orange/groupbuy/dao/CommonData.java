@@ -54,6 +54,10 @@ public class CommonData {
 	public void put(String key, List<?> list){
 		dbObject.put(key, list);
 	}
+	
+	public void put(String key, boolean value) {
+		dbObject.put(key, value);
+	}
 
 	public String getString(String key){
 		return (String)dbObject.get(key);
