@@ -429,6 +429,16 @@ db.task.insert({"status":0, "site_id":"ftuan", "url":"http://newapi.ftuan.com/ap
 db.task.insert({"status":0, "site_id":"ftuan", "url":"http://newapi.ftuan.com/api/v2.aspx?city=yining"})
 db.task.insert({"status":0, "site_id":"ftuan", "url":"http://newapi.ftuan.com/api/v2.aspx?city=quanguo"})
 
+db.task.insert({"status":0, "site_id":"kaixin", "url":"http://tuan.kaixin001.com/api.php"})
+db.task.insert({"status":0, "site_id":"juqi", "url":"http://biz.juqi.com:8088/api/17api.aspx"})
+db.task.insert({"status":0, "site_id":"fantong", "url":"http://tuan.fantong.com/api/recruits/hao123"})
+db.task.insert({"status":0, "site_id":"ganji", "url":"http://tuan.ganji.com/api/deals/hao123"})
+db.task.insert({"status":0, "site_id":"qunaer", "url":"http://tuan.qunar.com/api/hao123.php"})
+db.task.insert({"status":0, "site_id":"letao", "url":"http://www.letao.com/letaozu/3rd_pages/Tuan/TuanGouAPI.aspx"})
+db.task.insert({"status":0, "site_id":"ztuan", "url":"http://tuan.zol.com/api/zolTuan.php"})
+db.task.insert({"status":0, "site_id":"fentuan", "url":"http://www.fentuan.com/api/baidu.php"})
+
+
 //table product index;
 
 db.product.ensureIndex({"gps":"2d"})
