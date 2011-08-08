@@ -11,6 +11,7 @@ import me.prettyprint.hector.api.beans.HColumn;
 import me.prettyprint.hector.api.beans.Row;
 import me.prettyprint.hector.api.beans.Rows;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -19,6 +20,7 @@ import com.orange.common.cassandra.CassandraClient;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.common.utils.DateUtil;
 import com.orange.groupbuy.constant.DBConstants;
+import com.orange.groupbuy.dao.Gps;
 
 public class UserManager extends CommonManager{
 	
@@ -35,7 +37,7 @@ public class UserManager extends CommonManager{
 		
 		return cursor.next();		
 	}
-
+	
 	public static BasicDBObject createDeviceUser(MongoDBClient mongoClient, String appId,
 			String deviceModel, String deviceId, String deviceOS,
 			String deviceToken, String language, String countryCode) {
@@ -57,5 +59,51 @@ public class UserManager extends CommonManager{
 			return user;
 		else
 			return null;
+	}
+
+	public static void addSearchKeyword(MongoDBClient mongoClient, String deviceId, String[] keywords) {
+		addSearchKeyword(mongoClient, deviceId, keywords, false, 0.0f, 0.0f);
+	}
+
+	public static void addSearchKeyword(MongoDBClient mongoClient,
+			String deviceId, String[] keywords, double longitude, double latitude) {
+		addSearchKeyword(mongoClient, deviceId, keywords, true, longitude, latitude);
+	}
+	
+	public static void addSearchKeyword(MongoDBClient mongoClient,
+			String deviceId, String[] keywords, boolean hasLocation, double longitude, double latitude) {
+		
+		if (deviceId == null || keywords == null || keywords.length == 0)
+			return;
+		
+		// user found, add keywords into user history
+		BasicDBObject searchRecord = new BasicDBObject();
+		
+		// set date
+		searchRecord.put(DBConstants.F_DATE, new Date());
+
+		// set keywords
+		BasicDBList keywordList = new BasicDBList();
+		for (int i=0; i<keywords.length; i++){
+			keywordList.add(keywords[i]);
+		}
+		searchRecord.put(DBConstants.F_KEYWORD, keywordList);
+
+		if (hasLocation){
+			Gps gps = new Gps(latitude, longitude);
+			searchRecord.put(DBConstants.F_GPS, gps.toDoubleList());
+		}
+		
+		DBObject value = new BasicDBObject();
+		value.put(DBConstants.F_SEARCH_HISTORY, searchRecord);
+		
+		DBObject pushValue = new BasicDBObject();
+		pushValue.put("$push", value);
+
+		DBObject query = new BasicDBObject();
+		query.put(DBConstants.F_DEVICEID, deviceId);
+		
+		System.out.println("<addSearchKeyword> query="+query.toString()+",value="+pushValue);
+		mongoClient.updateAll(DBConstants.T_USER, query, pushValue);
 	}
 }

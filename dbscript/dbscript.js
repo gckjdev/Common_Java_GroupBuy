@@ -86,6 +86,9 @@ db.task.insert({"status":0, "site_id":"ztuan", "url":"http://tuan.zol.com/api/zo
 db.task.insert({"status":0, "site_id":"fentuan", "url":"http://www.fentuan.com/api/baidu.php"})
 
 
+// user的索引表 table product index;
+db.user.ensureIndex({"deviceId":1})
+
 // product的索引表 table product index;
 db.product.ensureIndex({"gps":"2d"})
 db.product.ensureIndex({"city":1,"cate":1,"e_date":1,"s_date":-1})

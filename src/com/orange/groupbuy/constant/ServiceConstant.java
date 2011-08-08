@@ -41,7 +41,8 @@ public class ServiceConstant  {
 	public static final String METHOD_GETPLACE = "gtp";
 	public static final String METHOD_GETPUBLICTIMELINE = "gpt";
 	public static final String METHOD_ACTIONONPOST = "aop";	
-	
+	public static final String METHOD_SEARCHPRODUCT = "fpk";
+
 	
 	// for groupbuy
 	public static final String METHOD_REGISTERDEVICE = "rd";

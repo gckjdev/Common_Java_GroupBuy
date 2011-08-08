@@ -255,7 +255,7 @@ public class DBConstants {
 	public static final String F_MERCHANT_END_DATE = "me_date";
 
 	public static final String F_COMMENTS = "comments";
-	public static final String F_KEYWORD = "keyword";
+	public static final String F_KEYWORD = "keys";
 	public static final String F_PRODUCTID = "p_id";
 	
 	public static final String V_NATIONWIDE = "全国";
@@ -275,6 +275,10 @@ public class DBConstants {
 	public static final String F_COUNTER_EXIST = "exist";
 	public static final String F_COUNTER_TOTAL = "total";
 	public static final String F_COUNTER_FAIL = "fail";
+
+	public static final String F_DATE = "date";
+	public static final String F_SEARCH_HISTORY = "s_his";
+
 
 	
 

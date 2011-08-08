@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.bson.types.BasicBSONList;
+
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -170,6 +172,42 @@ public class ProductManager extends CommonManager {
 		query.put(DBConstants.F_END_DATE, endDateCondition);
 		
 		return true;
+	}
+	
+	private static DBObject createDBObjectForRegexQuery(String fieldName, String expression){
+		
+		DBObject regexCondition = new BasicDBObject();
+		regexCondition.put("$regex", expression);
+
+		DBObject obj = new BasicDBObject();
+		obj.put(fieldName, regexCondition);			
+		return obj;
+	}
+	
+	private static boolean addKeywordIntoQuery(DBObject query, String[] keywordList){
+		
+		if (keywordList == null || keywordList.length == 0)
+			return false;
+		
+		StringBuilder builder = new StringBuilder();
+		int len = keywordList.length;
+		for (int i=0;i<len;i++){
+			if (keywordList[i] != null && keywordList[i].trim().length() > 0){
+				builder.append("(?=.*?");
+				builder.append(keywordList[i].trim());		
+				builder.append(")");
+			}
+		}
+		String expression = builder.toString();
+		
+		// add fields for query
+		BasicDBList array = new BasicDBList(); 
+		array.add(createDBObjectForRegexQuery(DBConstants.F_TITLE, expression));
+		array.add(createDBObjectForRegexQuery(DBConstants.F_DESC, expression));
+		array.add(createDBObjectForRegexQuery(DBConstants.F_DETAIL, expression));
+		
+		query.put("$or", array);		
+		return true;		
 	}
 	
 	private static boolean addGpsIntoQuery(DBObject query, double longitude, double latitude, double maxDistance){
@@ -471,6 +509,29 @@ public class ProductManager extends CommonManager {
 		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_LIFE));
 		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_UNKNOWN));		
 		return categoryList;
+	}
+
+	public static List<Product> searchProduct(MongoDBClient mongoClient,
+			String city, List<Integer> categoryList, boolean todayOnly,
+			String[] keywordList, int startOffset, int maxCount) {
+
+		DBObject query = new BasicDBObject();
+		DBObject orderBy = new BasicDBObject();
+		
+		// set query
+		addCityIntoQuery(query, city);
+		addCategoryIntoQuery(query, categoryList);
+		addExpirationIntoQuery(query);
+		if (todayOnly){
+			addTodayIntoQuery(query);
+		}
+
+		addKeywordIntoQuery(query, keywordList);
+		
+		log.info("search product, query="+query.toString());	
+		
+		DBCursor cursor = mongoClient.find(DBConstants.T_PRODUCT, query, orderBy, startOffset, maxCount);
+		return getProduct(cursor);
 	}
 
 	
