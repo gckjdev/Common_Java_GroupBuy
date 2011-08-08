@@ -60,20 +60,20 @@ public class ProductManager extends CommonManager {
 			
 			ProductAddress address = AddressManager.findAddress(mongoClient, addr);
 			if (address == null){			
-				log.info("<debug> create new address for productId "+productId+", address "+addr);
+//				log.info("<debug> create new address for productId "+productId+", address "+addr);
 				AddressManager.createAddress(mongoClient, productId, addr, city, gps);
 			}
 			else{				
 				// address found, check GPS data
 				List<Double> gpsInAddress = address.getGPS();
 				if (gpsInAddress != null && gpsInAddress.size() > 0){
-					log.info("<debug> address "+addr+" found, gps=("+gpsInAddress.get(0)+","+gpsInAddress.get(1)+"), update product "+product.getId());
+//					log.info("<debug> address "+addr+" found, gps=("+gpsInAddress.get(0)+","+gpsInAddress.get(1)+"), update product "+product.getId());
 					product.addGPS(gpsInAddress);
 					needUpdate = true;
 				}
 				else{
 					// append productId in existing list
-					log.info("<debug> append productId "+productId+" into address "+addr);
+//					log.info("<debug> append productId "+productId+" into address "+addr);
 					address.addProductId(productId);
 					mongoClient.save(DBConstants.T_IDX_PRODUCT_GPS, address.getDbObject());
 				}
