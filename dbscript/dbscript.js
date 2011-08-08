@@ -88,8 +88,8 @@ db.task.insert({"status":0, "site_id":"fentuan", "url":"http://www.fentuan.com/a
 
 // product的索引表 table product index;
 db.product.ensureIndex({"gps":"2d"})
-db.product.ensureIndex({"city":1,"category":1,"end_date":1,"start_date":-1})
-db.product.ensureIndex({"category":1,"end_date":1,"start_date":-1})
+db.product.ensureIndex({"city":1,"cate":1,"e_date":1,"s_date":-1})
+db.product.ensureIndex({"cate":1,"e_date":1,"s_date":-1})
 db.product.ensureIndex({"city":1,"loc":1})
 
 // keep the follwing three index for future usage
@@ -99,5 +99,5 @@ db.product.ensureIndex({"city":1,"loc":1})
 
 // address的索引表 table address index;
 db.product.ensureIndex({"gps":1})
-db.address.ensureIndex({"address":1})
+db.address.ensureIndex({"addr":1})
 
