@@ -292,9 +292,9 @@ public class Product extends CommonData {
 
 		double rebate = 0;
 		if (value == 0.0f) {
-			rebate = 10.0f; // not applicable
+			rebate = 0.0f; // not applicable
 		} else if (value == -1.0f) {
-			rebate = 10.0f; // not applicable
+			rebate = 0.0f; // not applicable
 		} else {
 			rebate = (price / value) * 10.0;
 		}

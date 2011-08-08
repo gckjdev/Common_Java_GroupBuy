@@ -175,6 +175,7 @@ public class ServiceConstant  {
 	public static final String PARA_MAX_DISTANCE = "md";
 	public static final String PARA_TODAY_ONLY = "to";
 	public static final String PARA_SORT_BY = "sb";
+	public static final String PARA_KEYWORD = "kw";
 	
 	public static final String METHOD_FINDPRODUCTSWITHPRICE = "fpp";
 	public static final String METHOD_FINDPRODUCTSWITHREBATE = "fpd";
