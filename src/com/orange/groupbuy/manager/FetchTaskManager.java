@@ -53,6 +53,7 @@ public class FetchTaskManager extends CommonManager{
 
 		BasicDBObject updateValue = new BasicDBObject();
 		updateValue.put(DBConstants.F_TASK_STATUS, DBConstants.C_TASK_STATUS_NOT_RUNNING);
+		updateValue.put(DBConstants.F_TASK_FILE_PATH, null);
 		update.put("$set", updateValue);
 		
 		mongoClient.updateAll(DBConstants.T_FETCH_TASK, query, update);

@@ -205,6 +205,7 @@ public class ProductManager extends CommonManager {
 		array.add(createDBObjectForRegexQuery(DBConstants.F_TITLE, expression));
 		array.add(createDBObjectForRegexQuery(DBConstants.F_DESC, expression));
 		array.add(createDBObjectForRegexQuery(DBConstants.F_DETAIL, expression));
+		array.add(createDBObjectForRegexQuery(DBConstants.F_TAG, expression));
 		
 		query.put("$or", array);		
 		return true;		
