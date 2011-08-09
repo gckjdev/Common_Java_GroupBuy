@@ -91,8 +91,8 @@ db.user.ensureIndex({"deviceId":1})
 
 // product的索引表 table product index;
 db.product.ensureIndex({"gps":"2d"})
-db.product.ensureIndex({"city":1,"cate":1,"e_date":1,"s_date":-1})
-db.product.ensureIndex({"cate":1,"e_date":1,"s_date":-1})
+db.product.ensureIndex({"city":1,"cate":1,"e_date":1,"s_date":-1,"price":1})
+db.product.ensureIndex({"cate":1,"e_date":1,"s_date":-1,"price":1})
 db.product.ensureIndex({"city":1,"loc":1})
 
 // keep the follwing three index for future usage

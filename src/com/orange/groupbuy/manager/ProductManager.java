@@ -244,6 +244,14 @@ public class ProductManager extends CommonManager {
 		return true;
 	}		
 	
+	private static boolean addNonZeroPriceIntoQuery(DBObject query){
+		DBObject priceCondition = new BasicDBObject();
+		priceCondition.put("$gt", 0.0f);		
+		query.put(DBConstants.F_PRICE, priceCondition);		
+		return true;
+	}		
+	
+	
 	private static void addFieldIntoOrder(DBObject orderBy, String fieldName, boolean sortAscending){
 		if (sortAscending) {
 			orderBy.put(fieldName, 1);
@@ -294,11 +302,17 @@ public class ProductManager extends CommonManager {
 					break;
 	
 				case DBConstants.SORT_BY_REBATE:
+				{
+					addNonZeroPriceIntoQuery(query);
 					addFieldIntoOrder(orderBy, DBConstants.F_REBATE, true);
+				}
 					break;
 					
 				case DBConstants.SORT_BY_BOUGHT:
+				{
+					addNonZeroPriceIntoQuery(query);
 					addFieldIntoOrder(orderBy, DBConstants.F_BOUGHT, false);
+				}
 					break;
 			}
 			addFieldIntoOrder(orderBy, DBConstants.F_START_DATE, false);
