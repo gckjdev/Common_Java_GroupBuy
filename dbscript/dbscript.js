@@ -32,7 +32,7 @@ db.task.insert({"status":0, "site_id":"qq", "url":"http://tuan.qq.com/api/deal/l
 db.task.insert({"status":0, "site_id":"jumeiyoupin", "url":"http://www.jumei.com/api/dealsv3.php"})
 
 // 24券 tuan800
-db.task.insert({"status":0, "site_id":"24quan", "url":"http://www.24quan.com/api/tuan800.php"})
+db.task.insert({"status":0, "site_id":"24quan", "url":"http://api.24quan.com/api/tuan800.php"})
 
 // 京东 tuan800
 db.task.insert({"status":0, "site_id":"jingdong", "url":"http://tuan.360buy.com/api/tuan800.php"})
@@ -53,7 +53,7 @@ db.task.insert({"status":0, "site_id":"ftuan", "url":"http://newapi.ftuan.com/ap
 db.task.insert({"status":0, "site_id":"manzuo", "url":"http://api.manzuo.com/tuan800.xml"})
 
 // 团好 tuan800
-db.task.insert({"status":0, "site_id":"tuanhao", "url":"http://tuanok.com/api/tuan800.php"})
+db.task.insert({"status":0, "site_id":"tuanhao", "url":"http://www.tuanok.com/api/tuan800.php"})
 
 // 团宝 hao123
 db.task.insert({"status":0, "site_id":"tuanbao", "url":"http://p5.groupon.cn/xml/city/cityproduct/hao123/"})

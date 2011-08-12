@@ -8,9 +8,8 @@ import com.orange.groupbuy.constant.DBConstants;
 public class FetchTaskManager extends CommonManager{
 
 	
-	// task
-	// 
-	
+	private static final int MAX_TASK_RETRY = 100;	// retry 100 times
+
 	public static DBObject obtainOneTask(MongoDBClient mongoClient){
 		
 		
@@ -54,9 +53,27 @@ public class FetchTaskManager extends CommonManager{
 		BasicDBObject updateValue = new BasicDBObject();
 		updateValue.put(DBConstants.F_TASK_STATUS, DBConstants.C_TASK_STATUS_NOT_RUNNING);
 		updateValue.put(DBConstants.F_TASK_FILE_PATH, null);
+		updateValue.put(DBConstants.F_TASK_RETRY_TIMES, 0);
 		update.put("$set", updateValue);
 		
 		mongoClient.updateAll(DBConstants.T_FETCH_TASK, query, update);
+	}
+
+	public static void taskRetry(MongoDBClient mongoClient, DBObject task) {
+		Integer retryTimes = (Integer)task.get(DBConstants.F_TASK_RETRY_TIMES);
+		int newRetryTimes = 0;
+		if (retryTimes != null)
+			newRetryTimes = retryTimes.intValue() + 1;
+		
+		if (newRetryTimes <= MAX_TASK_RETRY ){
+			task.put(DBConstants.F_TASK_STATUS, Integer.valueOf(DBConstants.C_TASK_STATUS_NOT_RUNNING));
+			task.put(DBConstants.F_TASK_RETRY_TIMES, newRetryTimes);
+		}
+		else{
+			task.put(DBConstants.F_TASK_STATUS, Integer.valueOf(DBConstants.C_TASK_STATUS_FAIL_MAX_RETRY));			
+		}
+		
+		mongoClient.save(DBConstants.T_FETCH_TASK, task);		
 	}
 	
 	

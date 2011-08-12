@@ -19,7 +19,7 @@ public class DBConstants {
 	public static final String F_TASK_FILE_PATH = "path";
 	public static final String F_TASK_PARSER_TYPE = "parser";
 	public static final String F_TASK_SITE_ID = "site_id";
-
+	public static final String F_TASK_RETRY_TIMES = "retry";
 	
 	// constants
 	public static final int C_TASK_STATUS_NOT_RUNNING = 0;
@@ -27,6 +27,8 @@ public class DBConstants {
 	public static final int C_TASK_STATUS_DOWNLOAD_OK = 2;
 	public static final int C_TASK_STATUS_CLOSE = 3;
 	public static final int C_TASK_STATUS_FAILURE = 4;
+	public static final int C_TASK_STATUS_FAIL_MAX_RETRY = 5;
+
 	
 	// major product or not
 	public static final int C_NOT_MAJOR = 0;
@@ -278,6 +280,8 @@ public class DBConstants {
 
 	public static final String F_DATE = "date";
 	public static final String F_SEARCH_HISTORY = "s_his";
+
+
 
 
 	
