@@ -263,6 +263,7 @@ public class DBConstants {
 	public static final String V_NATIONWIDE = "全国";
 
 	public static final String F_ID = "_id";
+	public static final String F_INDEX_ID = "id";
 
 	public static final String F_STAT = "stat";	
 	
