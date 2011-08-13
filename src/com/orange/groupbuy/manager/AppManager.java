@@ -11,9 +11,7 @@ public class AppManager extends CommonManager {
 		if (object == null ) {
 			return null;
 		}
-		String version = (String) object.get(DBConstants.F_VERSION);
-		String appUrl = (String) object.get(DBConstants.F_APPURL);
-		App app =  new App(version, appUrl, appId);
+		App app =  new App(object);
 		return app;
 	}
 }

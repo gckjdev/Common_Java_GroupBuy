@@ -1,27 +1,33 @@
 package com.orange.groupbuy.dao;
 
-public class App {
-	String version;
-	String appUrl;
-	String appId;
+import java.util.List;
 
-	public App(String version, String appUrl, String appId) {
-		super();
-		this.version = version;
-		this.appUrl = appUrl;
-		this.appId = appId;
+import com.mongodb.DBObject;
+import com.orange.groupbuy.constant.DBConstants;
+
+public class App extends CommonData {
+
+	public App(DBObject dbObject) {
+		super(dbObject);
 	}
 
 	public String getAppId() {
+		String appId = (String) dbObject.get(DBConstants.F_APPID);
 		return appId;
 	}
 
 	public String getVersion() {
+		String version = (String) dbObject.get(DBConstants.F_VERSION);
 		return version;
 	}
 
 	public String getAppUrl() {
+		String appUrl = (String) dbObject.get(DBConstants.F_APPURL);
 		return appUrl;
+	}
+
+	public List<String> getAppKeywordList() {		
+		return getStringList(DBConstants.F_KEYWORD);
 	}
 
 }
