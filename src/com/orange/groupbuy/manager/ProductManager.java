@@ -1,13 +1,26 @@
 package com.orange.groupbuy.manager;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.cassandra.cli.CliParser.replica_placement_strategy_return;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.SolrInputDocument;
 import org.bson.types.BasicBSONList;
+import org.springframework.context.support.StaticApplicationContext;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -18,6 +31,7 @@ import com.orange.common.utils.DateUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.ProductAddress;
+import com.orange.common.solr.SolrClient;
 
 public class ProductManager extends CommonManager {
 
@@ -40,6 +54,9 @@ public class ProductManager extends CommonManager {
 		boolean result = mongoClient.insert(DBConstants.T_PRODUCT, product.getDbObject());
 		if (!result)
 			return false;
+		
+		// create solr index
+		createSolrIndex(product, true);
 		
 		// insert address into product address index table
 		List<String> addressList = product.getAddress();
@@ -89,6 +106,36 @@ public class ProductManager extends CommonManager {
 		}
 		
 		return true;
+	}
+
+	private static void createSolrIndex(Product product, boolean commitNow){
+
+		try {
+			
+			CommonsHttpSolrServer server = SolrClient.getSolrServer();
+			
+			SolrInputDocument doc = new SolrInputDocument();
+			doc.addField( DBConstants.F_INDEX_ID, product.getId(), 1.0f );
+			doc.addField( DBConstants.F_TITLE, product.getTitle(), 1.0f );
+			doc.addField( DBConstants.F_CITY, product.getCity() );
+		    
+		    Collection<SolrInputDocument> docs = new ArrayList<SolrInputDocument>();
+		    docs.add(doc);
+		    
+		    server.add(docs);	
+		    
+		    if (commitNow)
+		    	server.commit();
+		    
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (SolrServerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	public static Product findProduct(MongoDBClient mongoClient,
@@ -526,7 +573,11 @@ public class ProductManager extends CommonManager {
 		return categoryList;
 	}
 
-	public static List<Product> searchProduct(MongoDBClient mongoClient,
+	public static List<Product> searchProductBySolr(){
+		return null;
+	}
+	
+	public static List<Product> searchProductByMongoDB(MongoDBClient mongoClient,
 			String city, List<Integer> categoryList, boolean todayOnly,
 			String[] keywordList, int startOffset, int maxCount) {
 
@@ -547,6 +598,48 @@ public class ProductManager extends CommonManager {
 		
 		DBCursor cursor = mongoClient.find(DBConstants.T_PRODUCT, query, orderBy, startOffset, maxCount);
 		return getProduct(cursor);
+	}
+	
+	public static List<Product> searchProductBySolr(SolrClient solrClient,
+			String city, List<Integer> categoryList, boolean todayOnly,
+			String keyword, int startOffset, int maxCount) {
+		SolrQuery query = new SolrQuery();	
+		query.setFilterQueries("city:"+city);
+		query.setQuery(keyword);
+		log.info("<searchProductBySolr> query="+query.toString());
+		CommonsHttpSolrServer server = solrClient.getSolrServer();
+		QueryResponse rsp;
+		try {
+			rsp = server.query(query);
+			if (rsp == null)
+				return null;
+			
+			SolrDocumentList resultList = rsp.getResults();
+			if (resultList == null)
+				return null;
+			
+			Iterator<SolrDocument> iter = resultList.iterator();
+			while (iter.hasNext()) {
+				SolrDocument resultDoc = iter.next();
+				String productId = (String) resultDoc.getFieldValue(DBConstants.F_INDEX_ID); 
+				String productCity = (String) resultDoc.getFieldValue(DBConstants.F_CITY); 
+				String productTitle = (String) resultDoc.getFieldValue(DBConstants.F_TITLE); 
+				
+				log.info("<search> result="+productId+","+productCity+","+productTitle);
+			}
+			
+			// TODO convert to product
+			
+		} catch (SolrServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		return null;
 	}
 
 	public static void incActionCounter(MongoDBClient mongoClient, String productId,
