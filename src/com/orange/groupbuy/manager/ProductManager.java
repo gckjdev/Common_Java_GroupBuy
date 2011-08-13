@@ -549,6 +549,12 @@ public class ProductManager extends CommonManager {
 		return getProduct(cursor);
 	}
 
+	public static void incActionCounter(MongoDBClient mongoClient, String productId,
+			String actionName, int actionValue) {
+		
+		mongoClient.inc(DBConstants.T_PRODUCT, DBConstants.F_ID, productId, actionName, actionValue);
+	}
+
 	
 	
 }
