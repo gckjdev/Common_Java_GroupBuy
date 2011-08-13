@@ -42,6 +42,7 @@ public class ServiceConstant  {
 	public static final String METHOD_GETPUBLICTIMELINE = "gpt";
 	public static final String METHOD_ACTIONONPOST = "aop";	
 	public static final String METHOD_SEARCHPRODUCT = "fpk";
+	public static final String METHOD_UPDATEKEYWORD = "uk";
 
 	
 	// for groupbuy
