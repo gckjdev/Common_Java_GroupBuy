@@ -65,7 +65,11 @@ public class CommonData {
 	
 	public int getInt(String key){
 		Integer value = (Integer)dbObject.get(key);
-		return value.intValue();
+		if (value != null)
+			return value.intValue();
+		else {
+			return 0;
+		}
 	}
 	
 	public double getDouble(String key){

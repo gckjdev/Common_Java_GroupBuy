@@ -53,6 +53,10 @@ public class Product extends CommonData {
 	 * 
 	 */
 	private static final long serialVersionUID = 1463231236679654576L;
+	
+	public List<String> getTag() {
+		return this.getStringList(DBConstants.F_TAG);
+	} 
 
 	public String getLoc() {
 		return this.getString(DBConstants.F_LOC);
@@ -182,8 +186,8 @@ public class Product extends CommonData {
 		this.put(DBConstants.F_DESCRIPTION, description);
 	}
 
-	public List<String> getCategory() {
-		return (List<String>) this.getStringList(DBConstants.F_CATEGORY);
+	public int getCategory() {
+		return this.getInt(DBConstants.F_CATEGORY);
 	}
 
 	public void setCategory(String... categoryList) {
