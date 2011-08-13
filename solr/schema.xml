@@ -497,6 +497,17 @@
    <field name="id" type="string" indexed="true" stored="true" required="true" /> 
    <field name="title" type="text_general" indexed="true" stored="true" required="true" />
    <field name="city" type="text_general" indexed="true" stored="true" required="true" />
+   <field name="s_date" type="long" indexed="true" stored="true" required="true" />
+   <field name="e_date" type="long" indexed="true" stored="true" required="true" />
+   <field name="cate" type="long" indexed="true" stored="true" required="true" />
+   <field name="desc" type="text_general" indexed="true" stored="true" required="false" />
+   <field name="detail" type="text_general" indexed="true" stored="true" required="false" />
+   <field name="shop" type="text_general" indexed="true" stored="true" required="false" multiValued="true"/>
+   <field name="addr" type="text_general" indexed="true" stored="true" required="false" multiValued="true"/>
+   <field name="tag" type="text_general" indexed="true" stored="true" required="false" multiValued="true"/>
+   <field name="s_name" type="text_general" indexed="true" stored="true" required="true" />
+   
+   
    <field name="all" type="text_general" indexed="true" stored="false" multiValued="true" />
    
 
@@ -569,8 +580,12 @@
 
 	<copyField source="city" dest="all"/>
 	<copyField source="title" dest="all"/>
-		
-   
+	<copyField source="desc" dest="all"/>
+	<copyField source="detail" dest="all"/>
+	<copyField source="shop" dest="all"/>
+	<copyField source="addr" dest="all"/>
+	<copyField source="tag" dest="all"/>
+	<copyField source="s_name" dest="all"/>
 	
    <!-- Above, multiple source fields are copied to the [text] field. 
 	  Another way to map multiple source fields to the same 
