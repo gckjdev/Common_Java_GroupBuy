@@ -467,6 +467,27 @@
     See http://wiki.apache.org/solr/SpatialSearch
    -->
     <fieldtype name="geohash" class="solr.GeoHashField"/>
+	
+	
+	<fieldtype name="textComplex" class="solr.TextField" positionIncrementGap="100">
+	<analyzer>
+		<tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="complex" dic="C:\solr-3.3.0\example\solr\dic">
+		</tokenizer>
+	</analyzer>
+	</fieldtype>
+	<fieldtype name="textMaxWord" class="solr.TextField" positionIncrementGap="100">
+		<analyzer>
+			<tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="max-word" dic="C:\solr-3.3.0\example\solr\dic">
+			</tokenizer>
+		</analyzer>
+	</fieldtype>
+	<fieldtype name="textSimple" class="solr.TextField" positionIncrementGap="100">
+		<analyzer>
+			<tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="simple" dic="C:\solr-3.3.0\example\solr\dic">
+			</tokenizer>
+		</analyzer>
+	</fieldtype>
+	
  </types>
 
 
@@ -495,20 +516,20 @@
    -->
 
    <field name="id" type="string" indexed="true" stored="true" required="true" /> 
-   <field name="title" type="text_general" indexed="true" stored="true" required="true" />
-   <field name="city" type="text_general" indexed="true" stored="true" required="true" />
+   <field name="title" type="textMaxWord" indexed="true" stored="true" required="true" />
+   <field name="city" type="textMaxWord" indexed="true" stored="true" required="true" />
    <field name="s_date" type="long" indexed="true" stored="true" required="true" />
    <field name="e_date" type="long" indexed="true" stored="true" required="true" />
    <field name="cate" type="long" indexed="true" stored="true" required="true" />
-   <field name="desc" type="text_general" indexed="true" stored="true" required="false" />
-   <field name="detail" type="text_general" indexed="true" stored="true" required="false" />
-   <field name="shop" type="text_general" indexed="true" stored="true" required="false" multiValued="true"/>
-   <field name="addr" type="text_general" indexed="true" stored="true" required="false" multiValued="true"/>
-   <field name="tag" type="text_general" indexed="true" stored="true" required="false" multiValued="true"/>
-   <field name="s_name" type="text_general" indexed="true" stored="true" required="true" />
+   <field name="desc" type="textMaxWord" indexed="true" stored="true" required="false" />
+   <field name="detail" type="textMaxWord" indexed="true" stored="true" required="false" />
+   <field name="shop" type="textMaxWord" indexed="true" stored="true" required="false" multiValued="true"/>
+   <field name="addr" type="textMaxWord" indexed="true" stored="true" required="false" multiValued="true"/>
+   <field name="tag" type="textMaxWord" indexed="true" stored="true" required="false" multiValued="true"/>
+   <field name="s_name" type="textMaxWord" indexed="true" stored="true" required="true" />
    
    
-   <field name="all" type="text_general" indexed="true" stored="false" multiValued="true" />
+   <field name="all" type="textMaxWord" indexed="true" stored="false" multiValued="true" />
    
 
    <!-- Uncommenting the following will create a "timestamp" field using
