@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
+
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -39,7 +39,6 @@ import com.orange.common.solr.SolrClient;
 //import com.sun.corba.se.spi.ior.ObjectId;
 import org.bson.types.ObjectId;
 
-import sun.security.action.GetPropertyAction;
 
 public class ProductManager extends CommonManager {
 
@@ -672,7 +671,32 @@ public class ProductManager extends CommonManager {
 					+ todayDateString + " TO *]";
 			query.addFilterQuery(todayDateQuery);
 		}
-
+		
+		if (categoryList != null && categoryList.size() > 0) {
+			System.out.println("enter cateorylist query");
+			//"myField:(id1 OR id2 OR id3)"
+			int size = categoryList.size();
+			String categoryQuery = DBConstants.F_CATEGORY + ":";
+			String temp = "";
+			for (int i=0; i<size; i++) {
+				if (i == size-1)
+					temp = temp.concat("" + categoryList.get(i));
+				else
+					temp = temp.concat(categoryList.get(i) + " OR ");
+			}
+			if (size == 1)
+				categoryQuery = categoryQuery.concat(temp);
+			else
+				categoryQuery = categoryQuery.concat("(").concat(temp).concat(")");
+			query.addFilterQuery(categoryQuery);	
+		}
+		
+		if(maxCount > 0)
+			query.setRows(maxCount);
+		if(startOffset >= 0)
+			query.setStart(startOffset);
+		
+		
 		log.info("<searchProductBySolr> query=" + query.toString());
 
 		CommonsHttpSolrServer server = solrClient.getSolrServer();
@@ -681,6 +705,18 @@ public class ProductManager extends CommonManager {
 			rsp = server.query(query);
 			if (rsp == null)
 				return null;
+			/*// TODO for test
+			Map<String, String> map = rsp.getExplainMap();
+			if(map != null){
+				Iterator it = map.entrySet().iterator();
+				while(it.hasNext()) {
+					Map.Entry<String, String> entry = (Map.Entry<String, String>)it.next();
+					String key = entry.getKey();
+					String value = entry.getValue();
+					log.info("<searchProductBySolr> key="+key+",value="+value);
+				}
+			}*/
+			
 
 			SolrDocumentList resultList = rsp.getResults();
 			if (resultList == null)
@@ -690,7 +726,7 @@ public class ProductManager extends CommonManager {
 			List<ObjectId> objectIdList = new ArrayList<ObjectId>();
 			while (iter.hasNext()) {
 				SolrDocument resultDoc = iter.next();
-
+				
 				String productId = (String) resultDoc
 						.getFieldValue(DBConstants.F_INDEX_ID);
 				String productCity = (String) resultDoc
