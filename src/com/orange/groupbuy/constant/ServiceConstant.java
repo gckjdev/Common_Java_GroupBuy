@@ -43,7 +43,7 @@ public class ServiceConstant  {
 	public static final String METHOD_ACTIONONPOST = "aop";	
 	public static final String METHOD_SEARCHPRODUCT = "fpk";
 	public static final String METHOD_UPDATEKEYWORD = "uk";
-
+	public static final String METHOD_ACTIONONPRODUCT = "ap";
 	
 	// for groupbuy
 	public static final String METHOD_REGISTERDEVICE = "rd";
