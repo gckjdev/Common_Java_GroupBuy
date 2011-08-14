@@ -67,6 +67,8 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_PARAMETER_ACTIONNAME_NULL = 10057;
 	public static final int ERROR_PARAMETER_CATEGORY_NULL 		= 10058;
 	public static final int ERROR_PARAMETER_CATEGORY_EMPTY 		= 10059;
+	public static final int ERROR_PARAMETER_KEYWORD_NULL 		= 10060;
+	public static final int ERROR_PARAMETER_KEYWORD_EMPTY 		= 10061;
 	
 	// User Errors
 	static public final int ERROR_LOGINID_EXIST             = 20001;
