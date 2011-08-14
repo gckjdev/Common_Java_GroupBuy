@@ -20,6 +20,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.bson.types.BasicBSONList;
+import org.bson.types.ObjectId;
 import org.springframework.context.support.StaticApplicationContext;
 
 import com.mongodb.BasicDBList;
@@ -634,8 +635,7 @@ public class ProductManager extends CommonManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+				
 		
 		
 		
@@ -645,9 +645,10 @@ public class ProductManager extends CommonManager {
 	public static void incActionCounter(MongoDBClient mongoClient, String productId,
 			String actionName, int actionValue) {
 		
-		mongoClient.inc(DBConstants.T_PRODUCT, DBConstants.F_ID, productId, actionName, actionValue);
+		ObjectId id = new ObjectId(productId);
+		mongoClient.inc(DBConstants.T_PRODUCT, DBConstants.F_ID, id, actionName, actionValue);
 	}
-
+ 
 	
 	
 }
