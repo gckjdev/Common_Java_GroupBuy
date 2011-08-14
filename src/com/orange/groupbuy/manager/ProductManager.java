@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.apache.cassandra.cli.CliParser.replica_placement_strategy_return;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
@@ -28,6 +27,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.Mongo;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.common.utils.DateUtil;
 import com.orange.common.utils.StringUtil;
@@ -35,6 +35,10 @@ import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.ProductAddress;
 import com.orange.common.solr.SolrClient;
+//import com.sun.corba.se.spi.ior.ObjectId;
+import org.bson.types.ObjectId;
+
+import sun.security.action.GetPropertyAction;
 
 public class ProductManager extends CommonManager {
 
@@ -641,34 +645,35 @@ public class ProductManager extends CommonManager {
 
 	// TODO
 	public static List<Product> searchProductBySolr(SolrClient solrClient,
-			String city, List<Integer> categoryList, boolean todayOnly,
-			String keyword, int startOffset, int maxCount) {
-		
+			MongoDBClient mongoClient, String city, List<Integer> categoryList,
+			boolean todayOnly, String keyword, int startOffset, int maxCount) {
+
 		SolrQuery query = new SolrQuery();
-		if(keyword == null || keyword.isEmpty())
+		if (keyword == null || keyword.isEmpty())
 			return null;
 		query.setQuery(keyword);
-		
-		if(city != null && !city.isEmpty())
-			query.setFilterQueries(DBConstants.F_CITY+":" + city);
-		
+
+		if (city != null && !city.isEmpty())
+			query.setFilterQueries(DBConstants.F_CITY + ":" + city);
+
 		long dateLong = new Date().getTime();
 		String dateString = String.valueOf(dateLong);
-		String dateQuery = DBConstants.F_END_DATE+":"+"["+dateString+" TO *]";
+		String dateQuery = DBConstants.F_END_DATE + ":" + "[" + dateString
+				+ " TO *]";
 		query.addFilterQuery(dateQuery);
-		
-		if(todayOnly){
+
+		if (todayOnly) {
 			Date todayDate = DateUtil.getDateOfToday();
-//			long dateInc = 3600 * 1000 * 24 * 0;
+			// long dateInc = 3600 * 1000 * 24 * 0;
 			String todayDateString = String.valueOf(todayDate.getTime());
-			System.out.println("todayDateString = "+todayDateString);
-			String todayDateQuery = DBConstants.F_START_DATE+":"+"["+todayDateString+" TO *]";
+			System.out.println("todayDateString = " + todayDateString);
+			String todayDateQuery = DBConstants.F_START_DATE + ":" + "["
+					+ todayDateString + " TO *]";
 			query.addFilterQuery(todayDateQuery);
 		}
-		
 
 		log.info("<searchProductBySolr> query=" + query.toString());
-		
+
 		CommonsHttpSolrServer server = solrClient.getSolrServer();
 		QueryResponse rsp;
 		try {
@@ -681,19 +686,52 @@ public class ProductManager extends CommonManager {
 				return null;
 
 			Iterator<SolrDocument> iter = resultList.iterator();
+			List<ObjectId> objectIdList = new ArrayList<ObjectId>();
 			while (iter.hasNext()) {
 				SolrDocument resultDoc = iter.next();
-				
-				String productId = (String) resultDoc.getFieldValue(DBConstants.F_INDEX_ID);
-				String productCity = (String) resultDoc.getFieldValue(DBConstants.F_CITY);
-				String productTitle = (String) resultDoc.getFieldValue(DBConstants.F_TITLE);
-				Long productEndTime = (Long) resultDoc.getFieldValue(DBConstants.F_END_DATE);
-				Long productStartTime = (Long) resultDoc.getFieldValue(DBConstants.F_START_DATE);
-				log.info("<search> result=" + productId + "," + productCity+ "," + productTitle
-						+","+productEndTime+","+productStartTime);
+
+				String productId = (String) resultDoc
+						.getFieldValue(DBConstants.F_INDEX_ID);
+				String productCity = (String) resultDoc
+						.getFieldValue(DBConstants.F_CITY);
+				String productTitle = (String) resultDoc
+						.getFieldValue(DBConstants.F_TITLE);
+				Long productEndTime = (Long) resultDoc
+						.getFieldValue(DBConstants.F_END_DATE);
+				Long productStartTime = (Long) resultDoc
+						.getFieldValue(DBConstants.F_START_DATE);
+				log.info("<search> result=" + productId + "," + productCity
+						+ "," + productTitle + "," + productEndTime + ","
+						+ productStartTime);
+
+				ObjectId objectId = new ObjectId(productId);
+				objectIdList.add(objectId);
 			}
-			log.info("<search> result.size()="+resultList.size());
-			// TODO convert to product
+			log.info("<search> result.size()=" + resultList.size());
+
+			if (objectIdList == null || objectIdList.size() == 0)
+				return null;
+			// convert to product
+			DBCursor dbCursor = mongoClient.findByIds(DBConstants.T_PRODUCT,
+					"_id", objectIdList);
+			if (dbCursor == null)
+				return null;
+			List<Product> productList = getProduct(dbCursor);
+			List<Product> orderedProductList = new ArrayList<Product>();
+			int i;
+			int size = productList.size();
+			for (ObjectId objectId : objectIdList) {
+				i = 0;
+				Product product = productList.get(i);
+				while (!product.getObjectId().equals(objectId)
+						&& (size > (++i))) {
+					product = productList.get(i);
+				}
+				if (i < size)
+					orderedProductList.add(product);
+			}
+					
+			return orderedProductList;
 
 		} catch (SolrServerException e) {
 			// TODO Auto-generated catch block
@@ -703,11 +741,11 @@ public class ProductManager extends CommonManager {
 		return null;
 	}
 
-	public static void incActionCounter(MongoDBClient mongoClient, String productId,
-			String actionName, int actionValue) {
-		
-		mongoClient.inc(DBConstants.T_PRODUCT, DBConstants.F_ID, productId, actionName, actionValue);
-	}
+	public static void incActionCounter(MongoDBClient mongoClient,
+			String productId, String actionName, int actionValue) {
 
+		mongoClient.inc(DBConstants.T_PRODUCT, DBConstants.F_ID, productId,
+				actionName, actionValue);
+	}
 
 }
