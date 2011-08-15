@@ -522,7 +522,7 @@
    <field name="e_date" type="long" indexed="true" stored="true" required="true" />
    <field name="cate" type="long" indexed="true" stored="true" required="true" />
    <field name="desc" type="textMaxWord" indexed="true" stored="true" required="false" />
-   <field name="detail" type="textMaxWord" indexed="true" stored="true" required="false" />
+   <field name="tip" type="textMaxWord" indexed="true" stored="true" required="false" />
    <field name="shop" type="textMaxWord" indexed="true" stored="true" required="false" multiValued="true"/>
    <field name="addr" type="textMaxWord" indexed="true" stored="true" required="false" multiValued="true"/>
    <field name="tag" type="textMaxWord" indexed="true" stored="true" required="false" multiValued="true"/>
@@ -602,7 +602,7 @@
 	<copyField source="city" dest="all"/>
 	<copyField source="title" dest="all"/>
 	<copyField source="desc" dest="all"/>
-	<copyField source="detail" dest="all"/>
+	<copyField source="tip" dest="all"/>
 	<copyField source="shop" dest="all"/>
 	<copyField source="addr" dest="all"/>
 	<copyField source="tag" dest="all"/>
