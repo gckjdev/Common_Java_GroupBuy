@@ -174,10 +174,21 @@ public class ProductManager extends CommonManager {
 
 	public static Product findProduct(MongoDBClient mongoClient,
 			String productURL, String city) {
-		Map<String, String> fieldValues = new HashMap<String, String>();
-		fieldValues.put(DBConstants.F_LOC, productURL);
-		fieldValues.put(DBConstants.F_CITY, city);
-		DBObject obj = mongoClient.findOne(DBConstants.T_PRODUCT, fieldValues);
+		
+		
+		BasicDBObject query = new BasicDBObject();
+		query.put(DBConstants.F_LOC, productURL);
+		
+		if (!city.equals(DBConstants.V_NATIONWIDE)){
+			List<String> cityList = new ArrayList<String>();
+			cityList.add(city);
+			cityList.add(DBConstants.V_NATIONWIDE);
+			BasicDBObject in = new BasicDBObject();
+			in.put("$in", cityList);
+			query.put(DBConstants.F_CITY, in);
+		}
+		
+		DBObject obj = mongoClient.findOne(DBConstants.T_PRODUCT, query);
 		if (obj != null) {
 			Product product = new Product(obj);
 			return product;
@@ -656,7 +667,7 @@ public class ProductManager extends CommonManager {
 		if (city != null && !city.isEmpty())
 			query.setFilterQueries(DBConstants.F_CITY + ":" + city);
 
-		query.set("fl", "score, id");
+		query.set("fl", "score, *");
 		query.set("debugQuery", "on");
 		
 		long dateLong = new Date().getTime();
@@ -669,7 +680,6 @@ public class ProductManager extends CommonManager {
 			Date todayDate = DateUtil.getDateOfToday();
 			// long dateInc = 3600 * 1000 * 24 * 0;
 			String todayDateString = String.valueOf(todayDate.getTime());
-			System.out.println("todayDateString = " + todayDateString);
 			String todayDateQuery = DBConstants.F_START_DATE + ":" + "["
 					+ todayDateString + " TO *]";
 			query.addFilterQuery(todayDateQuery);
@@ -732,29 +742,29 @@ public class ProductManager extends CommonManager {
 				
 				String productId = (String) resultDoc
 						.getFieldValue(DBConstants.F_INDEX_ID);
-				String productCity = (String) resultDoc
-						.getFieldValue(DBConstants.F_CITY);
-				String productTitle = (String) resultDoc
-						.getFieldValue(DBConstants.F_TITLE);
-				Long productEndTime = (Long) resultDoc
-						.getFieldValue(DBConstants.F_END_DATE);
-				Long productStartTime = (Long) resultDoc
-						.getFieldValue(DBConstants.F_START_DATE);
-				log.info("<search> result=" + productId + "," + productCity
-						+ "," + productTitle + "," + productEndTime + ","
-						+ productStartTime);
+//				String productCity = (String) resultDoc
+//						.getFieldValue(DBConstants.F_CITY);
+//				String productTitle = (String) resultDoc
+//						.getFieldValue(DBConstants.F_TITLE);
+//				Long productEndTime = (Long) resultDoc
+//						.getFieldValue(DBConstants.F_END_DATE);
+//				Long productStartTime = (Long) resultDoc
+//						.getFieldValue(DBConstants.F_START_DATE);
+//				log.info("<search> result=" + productId + "," + productCity
+//						+ "," + productTitle + "," + productEndTime + ","
+//						+ productStartTime);
 
 				ObjectId objectId = new ObjectId(productId);
 				objectIdList.add(objectId);				
 				log.info("doc="+ resultDoc.toString());
 			}
-			log.info("<search> result.size()=" + resultList.size());
+			log.info("<searchProductBySolr> search done, result size = " + resultList.size());
 
 			if (objectIdList == null || objectIdList.size() == 0)
 				return null;
 			// convert to product
 			DBCursor dbCursor = mongoClient.findByIds(DBConstants.T_PRODUCT,
-					"_id", objectIdList);
+					DBConstants.F_ID, objectIdList);
 			if (dbCursor == null)
 				return null;
 			List<Product> productList = getProduct(dbCursor);
@@ -775,10 +785,10 @@ public class ProductManager extends CommonManager {
 			return orderedProductList;
 
 		} catch (SolrServerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			log.severe("<searchProductBySolr> catch exception="+e.toString());
+			return null;
 		}
-		return null;
 	}
 
 
