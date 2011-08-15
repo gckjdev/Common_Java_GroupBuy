@@ -85,6 +85,9 @@ db.task.insert({"status":0, "site_id":"ztuan", "url":"http://tuan.zol.com/api/zo
 // 粉团 hao123
 db.task.insert({"status":0, "site_id":"fentuan", "url":"http://www.fentuan.com/api/baidu.php"})
 
+// 点评 hao123
+db.task.insert({"status":0, "site_id":"dianping", "url":"http://t.dianping.com/api.xml"})
+
 // 搜索预置关键字表
 db.app.insert({"app_id":"GROUPBUY","version":"0.6","app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8","keys":[{"name":"0元抽奖", "query":"抽奖"},{"name":"秒杀", "query":"秒杀"},{"name":"K歌", "query":"K歌"},{"name":"自助餐", "query":"自助餐"}, {"name":"电影票", "query":"电影票"} ,{"name":"二人套餐", "query":"二人套餐"}, {"name":"寿司", "query":"寿司"},{"name":"旅游", "query":"旅游"} ,{"name":"低价酒店", "query":"酒店"}]})
 
