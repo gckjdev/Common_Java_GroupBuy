@@ -657,6 +657,9 @@ public class ProductManager extends CommonManager {
 		if (city != null && !city.isEmpty())
 			query.setFilterQueries(DBConstants.F_CITY + ":" + city);
 
+		query.set("fl", "score, id");
+		query.set("debugQuery", "on");
+		
 		long dateLong = new Date().getTime();
 		String dateString = String.valueOf(dateLong);
 		String dateQuery = DBConstants.F_END_DATE + ":" + "[" + dateString
@@ -706,7 +709,8 @@ public class ProductManager extends CommonManager {
 						+ productStartTime);
 
 				ObjectId objectId = new ObjectId(productId);
-				objectIdList.add(objectId);
+				objectIdList.add(objectId);				
+				log.info("doc="+ resultDoc.toString());
 			}
 			log.info("<search> result.size()=" + resultList.size());
 
