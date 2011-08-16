@@ -161,9 +161,13 @@ public class DBConstants {
 //	public static final String F_NAME = "name";
 //	public static final String F_DESC = "desc";
 
+	// App Table
 	public static final String F_APPURL = "app_url";
 	public static final String F_VERSION = "version";
 	public static final String F_ICON = "icon";
+	public static final String F_KEYWORD_NAME = "name";
+	public static final String F_KEYWORD_QUERY = "query";
+	
 
 	public static final String F_SINA_APPKEY = "sinaAppKey";
 	public static final String F_SINA_APPSECRET = "sinaAppSecret";
@@ -281,6 +285,7 @@ public class DBConstants {
 
 	public static final String F_DATE = "date";
 	public static final String F_SEARCH_HISTORY = "s_his";
+
 
 
 
