@@ -471,22 +471,33 @@
 	
 	<fieldtype name="textComplex" class="solr.TextField" positionIncrementGap="100">
 	<analyzer>
-		<tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="complex" dic="C:\solr-3.3.0\example\solr\dic">
+		<tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="complex">
 		</tokenizer>
 	</analyzer>
 	</fieldtype>
 	<fieldtype name="textMaxWord" class="solr.TextField" positionIncrementGap="100">
 		<analyzer>
-			<tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="max-word" dic="C:\solr-3.3.0\example\solr\dic">
+			<tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="max-word">
 			</tokenizer>
 		</analyzer>
 	</fieldtype>
 	<fieldtype name="textSimple" class="solr.TextField" positionIncrementGap="100">
 		<analyzer>
-			<tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="simple" dic="C:\solr-3.3.0\example\solr\dic">
+			<tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="simple" >
 			</tokenizer>
 		</analyzer>
 	</fieldtype>
+	
+	
+	<fieldType name="paodingText" class="solr.TextField" positionIncrementGap="100">  
+      <analyzer type="index">  
+		<!-- 使用paoding分词器，按最多切分 mode="most-words"这个是在上面哪个类里定义好的。-->
+        <tokenizer class="net.paoding.analysis.analyzer.solr.ChineseTokenizerFactory" mode="most-words" dic="C:\solr-3.3.0\example\solr\dic"/>  
+      </analyzer>  
+      <analyzer type="query">  
+         <tokenizer class="net.paoding.analysis.analyzer.solr.ChineseTokenizerFactory" mode="most-words" dic="C:\solr-3.3.0\example\solr\dic"/>   
+      </analyzer>  
+	</fieldType>  
 	
  </types>
 
@@ -522,7 +533,7 @@
    <field name="e_date" type="long" indexed="true" stored="true" required="true" />
    <field name="cate" type="long" indexed="true" stored="true" required="true" />
    <field name="desc" type="textMaxWord" indexed="true" stored="true" required="false" />
-   <field name="detail" type="textMaxWord" indexed="true" stored="true" required="false" />
+   <field name="tip" type="textMaxWord" indexed="true" stored="true" required="false" />
    <field name="shop" type="textMaxWord" indexed="true" stored="true" required="false" multiValued="true"/>
    <field name="addr" type="textMaxWord" indexed="true" stored="true" required="false" multiValued="true"/>
    <field name="tag" type="textMaxWord" indexed="true" stored="true" required="false" multiValued="true"/>
@@ -602,7 +613,7 @@
 	<copyField source="city" dest="all"/>
 	<copyField source="title" dest="all"/>
 	<copyField source="desc" dest="all"/>
-	<copyField source="detail" dest="all"/>
+	<copyField source="tip" dest="all"/>
 	<copyField source="shop" dest="all"/>
 	<copyField source="addr" dest="all"/>
 	<copyField source="tag" dest="all"/>

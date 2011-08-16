@@ -695,7 +695,12 @@ public class ProductManager extends CommonManager {
 			query.setRows(maxCount);
 		if(startOffset >= 0)
 			query.setStart(startOffset);
+
 		
+		query.set("fl", "score, id, title");
+		// TODO for test
+//		query.setQuery("_val_:scale(score,0.5,1)");
+//		query.set("_val_", "scale(score,0.5,1)");
 		
 		log.info("<searchProductBySolr> query=" + query.toString());
 
@@ -703,19 +708,9 @@ public class ProductManager extends CommonManager {
 		QueryResponse rsp;
 		try {
 			rsp = server.query(query);
+			
 			if (rsp == null)
 				return null;
-			/*// TODO for test
-			Map<String, String> map = rsp.getExplainMap();
-			if(map != null){
-				Iterator it = map.entrySet().iterator();
-				while(it.hasNext()) {
-					Map.Entry<String, String> entry = (Map.Entry<String, String>)it.next();
-					String key = entry.getKey();
-					String value = entry.getValue();
-					log.info("<searchProductBySolr> key="+key+",value="+value);
-				}
-			}*/
 			
 
 			SolrDocumentList resultList = rsp.getResults();
@@ -729,17 +724,11 @@ public class ProductManager extends CommonManager {
 				
 				String productId = (String) resultDoc
 						.getFieldValue(DBConstants.F_INDEX_ID);
-				String productCity = (String) resultDoc
-						.getFieldValue(DBConstants.F_CITY);
-				String productTitle = (String) resultDoc
-						.getFieldValue(DBConstants.F_TITLE);
-				Long productEndTime = (Long) resultDoc
-						.getFieldValue(DBConstants.F_END_DATE);
-				Long productStartTime = (Long) resultDoc
-						.getFieldValue(DBConstants.F_START_DATE);
-				log.info("<search> result=" + productId + "," + productCity
-						+ "," + productTitle + "," + productEndTime + ","
-						+ productStartTime);
+				Float productScore = (Float) resultDoc
+						.getFieldValue("score");
+				String productTitle =  (String) resultDoc.getFieldValue(DBConstants.F_TITLE);
+			
+				log.info("<search> id="+productId+",score="+productScore+",title="+productTitle);
 
 				ObjectId objectId = new ObjectId(productId);
 				objectIdList.add(objectId);
