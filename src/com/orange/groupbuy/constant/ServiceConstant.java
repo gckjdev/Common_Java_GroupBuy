@@ -63,6 +63,7 @@ public class ServiceConstant  {
 	public static final String PARA_FACEBOOKID = "fid";
 	public static final String PARA_RENRENID = "rid";
 	public static final String PARA_TWITTERID = "tid";
+	public static final String PARA_QUERY = "q";
 
 	public static final String PARA_MOBILE = "mb";
 	public static final String PARA_EMAIL = "em";
