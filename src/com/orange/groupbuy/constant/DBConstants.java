@@ -12,6 +12,7 @@ public class DBConstants {
 	public static final String T_PRODUCT = "product";
 	public static final String T_IDX_PRODUCT_GPS = "address";
 	public static final String T_APP = "app";
+	public static final String T_KEYWORD_STAT = "keyword_stat";
 	
 	// fields
 	public static final String F_TASK_STATUS = "status";
@@ -285,6 +286,9 @@ public class DBConstants {
 
 	public static final String F_DATE = "date";
 	public static final String F_SEARCH_HISTORY = "s_his";
+	public static final String F_COUNT = "cnt";
+
+
 
 
 

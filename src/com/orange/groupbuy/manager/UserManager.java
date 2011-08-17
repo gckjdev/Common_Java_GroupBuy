@@ -61,16 +61,37 @@ public class UserManager extends CommonManager{
 			return null;
 	}
 
-	public static void addSearchKeyword(MongoDBClient mongoClient, String deviceId, String[] keywords) {
+	public static void addSearchKeyword(MongoDBClient mongoClient, String deviceId, String keywords) {
 		addSearchKeyword(mongoClient, deviceId, keywords, false, 0.0f, 0.0f);
 	}
 
 	public static void addSearchKeyword(MongoDBClient mongoClient,
-			String deviceId, String[] keywords, double longitude, double latitude) {
+			String deviceId, String keywords, double longitude, double latitude) {
 		addSearchKeyword(mongoClient, deviceId, keywords, true, longitude, latitude);
 	}
 	
 	public static void addSearchKeyword(MongoDBClient mongoClient,
+			String deviceId, String keyword, boolean hasLocation, double longitude, double latitude) {
+		
+		if (deviceId == null || keyword == null || keyword.isEmpty())
+			return;
+		
+		// user found, add keywords into user history
+		BasicDBObject value = new BasicDBObject();
+		value.put(DBConstants.F_SEARCH_HISTORY, keyword);
+
+		DBObject addToSet = new BasicDBObject();
+		addToSet.put("$addToSet", value);
+
+		DBObject query = new BasicDBObject();
+		query.put(DBConstants.F_DEVICEID, deviceId);
+		
+		System.out.println("<addSearchKeyword> query="+query.toString()+",value="+addToSet);
+		mongoClient.updateAll(DBConstants.T_USER, query, addToSet);
+		
+	}
+	
+	public static void addSearchKeywordDetailRecord(MongoDBClient mongoClient,
 			String deviceId, String[] keywords, boolean hasLocation, double longitude, double latitude) {
 		
 		if (deviceId == null || keywords == null || keywords.length == 0)
