@@ -108,6 +108,7 @@ public class DBConstants {
 	public static final String F_EMAIL = "email";
 	public static final String F_MOBILE = "mobile";
 	public static final String F_PASSWORD = "password";
+	public static final String F_VERIFYCODE = "verify_code";
 	public static final String F_STATUS = "status";
 
 	public static final String F_NICKNAME = "nickName";
@@ -190,6 +191,7 @@ public class DBConstants {
 	// Value
 	public static final String STATUS_NORMAL = "1";
 	public static final String STATUS_SUSPEND = "2";
+	public static final String STATUS_TO_VERIFY = "3";
 
 	// Constants
 	public static final int LOGINID_OWN = 1;

@@ -10,7 +10,8 @@ public class ServiceConstant  {
 	public static final String SNS_LOG_FILE = "F:/sns.log";
 //	public static final String FILE_SERVER_NAME = "http://192.168.1.151:80/upload/";
 //	public static final String FILE_LOCAL_PATH = "C:/xampp/htdocs/upload/";
-
+	public static final String CONFIRM_URL = "http://127.0.0.1:8000/api/i";
+	
 	// method name
 	public static final String METHOD = "m";
 	public static final String METHOD_TEST = "test";
@@ -44,6 +45,8 @@ public class ServiceConstant  {
 	public static final String METHOD_SEARCHPRODUCT = "fpk";
 	public static final String METHOD_UPDATEKEYWORD = "uk";
 	public static final String METHOD_ACTIONONPRODUCT = "ap";
+	public static final String METHOD_REGISTERUSER = "ru";
+	public static final String METHOD_CONFIRMUSER = "cfu";
 	
 	// for groupbuy
 	public static final String METHOD_REGISTERDEVICE = "rd";
@@ -57,6 +60,7 @@ public class ServiceConstant  {
 	public static final String PARA_LOGINIDTYPE = "lty";
 	public static final String PARA_USERTYPE = "uty";
 	public static final String PARA_PASSWORD = "pwd";
+	public static final String PARA_VERIFYCODE = "vcd";
 	
 	public static final String PARA_SINAID = "sid";
 	public static final String PARA_QQID = "qid";
@@ -214,5 +218,6 @@ public class ServiceConstant  {
 
 	public static final String PARA_ACTION_NAME = "an";
 	public static final String PARA_ACTION_VALUE = "av";
+	
 
 }

@@ -69,6 +69,12 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_PARAMETER_CATEGORY_EMPTY 		= 10059;
 	public static final int ERROR_PARAMETER_KEYWORD_NULL 		= 10060;
 	public static final int ERROR_PARAMETER_KEYWORD_EMPTY 		= 10061;
+	public static final int ERROR_PARAMETER_MOBILE_NULL 		= 10062;
+	public static final int ERROR_PARAMETER_MOBILE_EMPTY 		= 10063;
+	public static final int ERROR_PARAMETER_EMAIL_NULL 		= 10064;
+	public static final int ERROR_PARAMETER_EMAIL_EMPTY 		= 10065;
+	public static final int ERROR_PARAMETER_VERIFYCODE_NULL 		= 10066;
+	public static final int ERROR_PARAMETER_VERIFYCODE_EMPTY 		= 10067;
 	
 	// User Errors
 	static public final int ERROR_LOGINID_EXIST             = 20001;
@@ -78,7 +84,8 @@ public class ErrorCode extends CommonErrorCode {
 	static public final int ERROR_USERID_NOT_FOUND          = 20005;
 	static public final int ERROR_CREATE_USER				= 20006;
 	public static final int ERROR_USER_GET_NICKNAME 		= 20007;
-
+	public static final int ERROR_EMAIL_EXIST				= 20008;
+	public static final int ERROR_EMAIL_VERIFIED			= 20009;
 
 	// Place Error
 	static public final int ERROR_PLACE_NAME_EXIST          = 30001;
