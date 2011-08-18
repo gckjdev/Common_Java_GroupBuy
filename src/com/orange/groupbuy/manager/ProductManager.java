@@ -152,6 +152,10 @@ public class ProductManager extends CommonManager {
 				doc.addField(DBConstants.F_ADDRESS, addressList, 1.0f);
 			if (tagList != null && tagList.size() > 0)
 				doc.addField(DBConstants.F_TAG, tagList, 1.0f);
+			
+			String siteId = product.getSiteId();
+			if (siteId != null)
+				doc.addField(DBConstants.F_SITE_ID, siteId);
 
 			Collection<SolrInputDocument> docs = new ArrayList<SolrInputDocument>();
 			docs.add(doc);
