@@ -670,9 +670,6 @@ public class ProductManager extends CommonManager {
 
 		if (city != null && !city.isEmpty())
 			query.setFilterQueries(DBConstants.F_CITY + ":" + city);
-
-		query.set("fl", "score, *");
-		query.set("debugQuery", "on");
 		
 		long dateLong = new Date().getTime();
 		String dateString = String.valueOf(dateLong);
@@ -714,14 +711,14 @@ public class ProductManager extends CommonManager {
 			query.setStart(startOffset);
 
 		
-		query.set("fl", "score, id, title");
+		query.set("fl", "score, id");
 		// TODO for test
 //		query.setQuery("_val_:scale(score,0.5,1)");
 //		query.set("_val_", "scale(score,0.5,1)");
 		
 		log.info("<searchProductBySolr> query=" + query.toString());
 
-		CommonsHttpSolrServer server = solrClient.getSolrServer();
+		CommonsHttpSolrServer server = SolrClient.getSolrServer();
 		QueryResponse rsp;
 		try {
 			rsp = server.query(query);
@@ -741,15 +738,14 @@ public class ProductManager extends CommonManager {
 				
 				String productId = (String) resultDoc
 						.getFieldValue(DBConstants.F_INDEX_ID);
-				Float productScore = (Float) resultDoc
-						.getFieldValue("score");
-				String productTitle =  (String) resultDoc.getFieldValue(DBConstants.F_TITLE);
-			
-				log.info("<search> id="+productId+",score="+productScore+",title="+productTitle);
+//				Float productScore = (Float) resultDoc
+//						.getFieldValue("score");
+//				String productTitle =  (String) resultDoc.getFieldValue(DBConstants.F_TITLE);			
+//				log.info("<search> id="+productId+",score="+productScore+",title="+productTitle);
 
 				ObjectId objectId = new ObjectId(productId);
 				objectIdList.add(objectId);				
-				log.info("doc="+ resultDoc.toString());
+				log.info("<searchProductBySolr> result doc="+ resultDoc.toString());
 			}
 			log.info("<searchProductBySolr> search done, result size = " + resultList.size());
 
