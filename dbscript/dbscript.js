@@ -97,7 +97,7 @@ db.app.insert({"app_id":"GROUPBUY","version":"0.6","app_url":"http://phobos.appl
 // user的索引表 table product index;
 db.user.ensureIndex({"deviceId":1})
 db.user.ensureIndex({"email":1})
-db.user.ensureIndex({"vecify_code":1})
+db.user.ensureIndex({"verify_code":1})
 
 // product的索引表 table product index;
 db.product.ensureIndex({"gps":"2d"})

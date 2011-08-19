@@ -10,7 +10,7 @@ public class ServiceConstant  {
 	public static final String SNS_LOG_FILE = "F:/sns.log";
 //	public static final String FILE_SERVER_NAME = "http://192.168.1.151:80/upload/";
 //	public static final String FILE_LOCAL_PATH = "C:/xampp/htdocs/upload/";
-	public static final String CONFIRM_URL = "http://127.0.0.1:8000/api/i";
+	public static final String VERIFY_URL = "http://127.0.0.1:8000/service";
 	
 	// method name
 	public static final String METHOD = "m";
@@ -60,7 +60,7 @@ public class ServiceConstant  {
 	public static final String PARA_LOGINIDTYPE = "lty";
 	public static final String PARA_USERTYPE = "uty";
 	public static final String PARA_PASSWORD = "pwd";
-	public static final String PARA_VERIFYCODE = "vcd";
+	public static final String PARA_VERIFYCODE = "code";
 	
 	public static final String PARA_SINAID = "sid";
 	public static final String PARA_QQID = "qid";
