@@ -113,7 +113,7 @@ public class UserManager extends CommonManager{
 		
 		DBObject update = new BasicDBObject();
 		DBObject updateValue = new BasicDBObject();
-		updateValue.put(DBConstants.F_PASSWORD, StringUtil.md5base64encode(new_pwd));
+		updateValue.put(DBConstants.F_PASSWORD, new_pwd);
 		update.put("$set", updateValue);
 		
 		DBCollection collection = mongoClient.getDb().getCollection(DBConstants.T_USER);
@@ -151,7 +151,7 @@ public class UserManager extends CommonManager{
 		BasicDBObject user = new BasicDBObject();
 		user.put(DBConstants.F_APPID, appId);
 		user.put(DBConstants.F_EMAIL, email);
-		user.put(DBConstants.F_PASSWORD, StringUtil.md5base64encode(password));
+		user.put(DBConstants.F_PASSWORD, password);
 		user.put(DBConstants.F_VERIFYCODE, StringUtil.randomUUID());
 		user.put(DBConstants.F_CREATE_DATE, new Date()); //DateUtil.currentDate());
 		if (isVerification)
