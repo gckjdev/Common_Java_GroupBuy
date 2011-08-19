@@ -61,6 +61,7 @@ public class ServiceConstant  {
 	public static final String PARA_LOGINIDTYPE = "lty";
 	public static final String PARA_USERTYPE = "uty";
 	public static final String PARA_PASSWORD = "pwd";
+	public static final String PARA_NEW_PASSWORD = "npwd";
 	public static final String PARA_VERIFYCODE = "code";
 	
 	public static final String PARA_SINAID = "sid";
@@ -72,6 +73,7 @@ public class ServiceConstant  {
 
 	public static final String PARA_MOBILE = "mb";
 	public static final String PARA_EMAIL = "em";
+	public static final String PARA_NEW_EMAIL = "nem";
 	
 	public static final String PARA_DEVICEID = "did";
 	public static final String PARA_DEVICETYPE = "dty";

@@ -87,6 +87,7 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_EMAIL_EXIST				= 20008;
 	public static final int ERROR_EMAIL_VERIFIED			= 20009;
 	public static final int ERROR_PASSWORD_NOT_MATCH        = 20010;
+	public static final int ERROR_EMAIL_NOT_VALID        	= 20011;
 
 	// Place Error
 	static public final int ERROR_PLACE_NAME_EXIST          = 30001;

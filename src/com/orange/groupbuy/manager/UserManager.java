@@ -12,6 +12,8 @@ import me.prettyprint.hector.api.beans.HColumn;
 import me.prettyprint.hector.api.beans.Row;
 import me.prettyprint.hector.api.beans.Rows;
 
+import antlr.StringUtils;
+
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -81,8 +83,43 @@ public class UserManager extends CommonManager{
 		update.put("$set", updateValue);
 		
 		DBCollection collection = mongoClient.getDb().getCollection(DBConstants.T_USER);
-		
 		collection.findAndModify(query, null, null, false, update, true,false);
+	}
+	
+	public static void updateEmail(MongoDBClient mongoClient, String email, String new_email){
+		if (mongoClient == null || email == null || email.length() <= 0 || new_email == null || new_email.length() <= 0 )
+			return;
+		
+		BasicDBObject query = new BasicDBObject();
+		query.put(DBConstants.F_EMAIL, email);
+		
+		DBObject update = new BasicDBObject();
+		DBObject updateValue = new BasicDBObject();
+		updateValue.put(DBConstants.F_EMAIL, new_email);
+		update.put("$set", updateValue);
+		
+		DBCollection collection = mongoClient.getDb().getCollection(DBConstants.T_USER);
+		collection.findAndModify(query, null, null, false, update, true,false);
+		
+		return;
+	}
+	
+	public static void updatePassword(MongoDBClient mongoClient, String mail, String new_pwd){
+		if (mongoClient == null || mail == null || mail.length() <= 0 || new_pwd == null || new_pwd.length() <= 0 )
+			return;
+		
+		BasicDBObject query = new BasicDBObject();
+		query.put(DBConstants.F_EMAIL, mail);
+		
+		DBObject update = new BasicDBObject();
+		DBObject updateValue = new BasicDBObject();
+		updateValue.put(DBConstants.F_PASSWORD, StringUtil.md5base64encode(new_pwd));
+		update.put("$set", updateValue);
+		
+		DBCollection collection = mongoClient.getDb().getCollection(DBConstants.T_USER);
+		collection.findAndModify(query, null, null, false, update, true,false);
+		
+		return;
 	}
 	
 	public static BasicDBObject createDeviceUser(MongoDBClient mongoClient, String appId,
