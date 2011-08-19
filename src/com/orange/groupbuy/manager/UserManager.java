@@ -40,7 +40,7 @@ public class UserManager extends CommonManager{
 		return cursor.next();		
 	}
 	
-	public static Object findUserByEmail(MongoDBClient mongoClient, String email) {
+	public static DBObject findUserByEmail(MongoDBClient mongoClient, String email) {
 		if (mongoClient == null || email == null || email.length() <= 0)
 			return null;
 		
@@ -54,7 +54,7 @@ public class UserManager extends CommonManager{
 		return cursor.next();
 	}
 
-	public static Object findUserByVerifyCode(MongoDBClient mongoClient, String vcd) {
+	public static DBObject findUserByVerifyCode(MongoDBClient mongoClient, String vcd) {
 		if (mongoClient == null || vcd == null || vcd.length() <= 0)
 			return null;
 		
