@@ -149,7 +149,8 @@ public class UserManager extends CommonManager{
 			String email, String password, boolean isVerification) {
 		
 		BasicDBObject user = new BasicDBObject();
-		user.put(DBConstants.F_APPID, appId);
+		user.put(DBConstants.F_APPID, appId);		
+		user.put(DBConstants.F_CREATE_SOURCE_ID, appId);
 		user.put(DBConstants.F_EMAIL, email);
 		user.put(DBConstants.F_PASSWORD, password);
 		user.put(DBConstants.F_VERIFYCODE, StringUtil.randomUUID());
