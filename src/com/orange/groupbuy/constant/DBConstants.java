@@ -102,6 +102,7 @@ public class DBConstants {
 	public static final String F_LANGUAGE = "language";
 	public static final String F_COUNTRYCODE = "country_code";
 	public static final String F_CREATE_SOURCE_ID = "source_id";
+	
 
 	public static final String F_CREATE_DATE = "create_date";
 

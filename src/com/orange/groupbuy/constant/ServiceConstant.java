@@ -46,7 +46,8 @@ public class ServiceConstant  {
 	public static final String METHOD_UPDATEKEYWORD = "uk";
 	public static final String METHOD_ACTIONONPRODUCT = "ap";
 	public static final String METHOD_REGISTERUSER = "ru";
-	public static final String METHOD_CONFIRMUSER = "cfu";
+	public static final String METHOD_LOGIN = "lg";
+
 	
 	// for groupbuy
 	public static final String METHOD_REGISTERDEVICE = "rd";
@@ -60,6 +61,7 @@ public class ServiceConstant  {
 	public static final String PARA_LOGINIDTYPE = "lty";
 	public static final String PARA_USERTYPE = "uty";
 	public static final String PARA_PASSWORD = "pwd";
+	public static final String PARA_NEW_PASSWORD = "npwd";
 	public static final String PARA_VERIFYCODE = "code";
 	
 	public static final String PARA_SINAID = "sid";
@@ -71,6 +73,7 @@ public class ServiceConstant  {
 
 	public static final String PARA_MOBILE = "mb";
 	public static final String PARA_EMAIL = "em";
+	public static final String PARA_NEW_EMAIL = "nem";
 	
 	public static final String PARA_DEVICEID = "did";
 	public static final String PARA_DEVICETYPE = "dty";
