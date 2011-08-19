@@ -61,6 +61,7 @@ public class ServiceConstant  {
 	public static final String PARA_LOGINIDTYPE = "lty";
 	public static final String PARA_USERTYPE = "uty";
 	public static final String PARA_PASSWORD = "pwd";
+	public static final String PARA_VERIFICATION = "vri";
 	public static final String PARA_NEW_PASSWORD = "npwd";
 	public static final String PARA_VERIFYCODE = "code";
 	
@@ -222,5 +223,5 @@ public class ServiceConstant  {
 	public static final String PARA_ACTION_NAME = "an";
 	public static final String PARA_ACTION_VALUE = "av";
 	
-
+	public static final String VERIFICATION = "1";
 }

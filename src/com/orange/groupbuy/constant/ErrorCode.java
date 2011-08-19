@@ -75,6 +75,8 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_PARAMETER_EMAIL_EMPTY 		= 10065;
 	public static final int ERROR_PARAMETER_VERIFYCODE_NULL 		= 10066;
 	public static final int ERROR_PARAMETER_VERIFYCODE_EMPTY 		= 10067;
+	public static final int ERROR_PARAMETER_VERIFICATION_NULL 		= 10068;
+	public static final int ERROR_PARAMETER_VERIFICATION_EMPTY 		= 10069;
 	
 	// User Errors
 	static public final int ERROR_LOGINID_EXIST             = 20001;

@@ -146,7 +146,7 @@ public class UserManager extends CommonManager{
 	}
 	
 	public static BasicDBObject createUserByEmail(MongoDBClient mongoClient, String appId,
-			String email, String password) {
+			String email, String password, boolean isVerification) {
 		
 		BasicDBObject user = new BasicDBObject();
 		user.put(DBConstants.F_APPID, appId);
@@ -154,7 +154,10 @@ public class UserManager extends CommonManager{
 		user.put(DBConstants.F_PASSWORD, StringUtil.md5base64encode(password));
 		user.put(DBConstants.F_VERIFYCODE, StringUtil.randomUUID());
 		user.put(DBConstants.F_CREATE_DATE, new Date()); //DateUtil.currentDate());
-		user.put(DBConstants.F_STATUS, DBConstants.STATUS_TO_VERIFY);
+		if (isVerification)
+			user.put(DBConstants.F_STATUS, DBConstants.STATUS_TO_VERIFY);
+		else
+			user.put(DBConstants.F_STATUS, DBConstants.STATUS_NORMAL);
 		
 		boolean result = mongoClient.insert(DBConstants.T_USER, user);
 		if (result)
