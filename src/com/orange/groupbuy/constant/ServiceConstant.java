@@ -47,6 +47,10 @@ public class ServiceConstant  {
 	public static final String METHOD_ACTIONONPRODUCT = "ap";
 	public static final String METHOD_REGISTERUSER = "ru";
 	public static final String METHOD_LOGIN = "lg";
+	public static final String METHOD_ADDSHOPPINGITEM = "asi";
+	public static final String METHOD_UPDATESHOPPINGITEM = "usi";
+	public static final String METHOD_DELETESHOPPINGITEM = "dsi";
+	public static final String METHOD_GETSHOPPINGITEM = "gsi";
 
 	
 	// for groupbuy
