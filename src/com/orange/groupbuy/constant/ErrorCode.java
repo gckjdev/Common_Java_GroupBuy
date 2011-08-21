@@ -96,8 +96,8 @@ public class ErrorCode extends CommonErrorCode {
 	
 	// User Shopping Item Error
 	public static final int ERROR_ADD_SHOPPING_ITEM 		= 30001;
-
-
+	public static final int ERROR_UPDATE_SHOPPING_ITEM 		= 30002;
+	public static final int ERROR_DELETE_SHOPPING_ITEM 		= 30003;
 	
 	// Post Error
 	static public final int ERROR_POST_NOT_FOUND            = 40001;
@@ -130,6 +130,8 @@ public class ErrorCode extends CommonErrorCode {
 	static public final int ERROR_UPLOAD_FILE 				= 90006;
 	public static final int ERROR_CREATE_THUNMB_FILEPATH 	= 90007;
 	public static final int ERROR_CREATE_THUNMB_FILE 		= 90008;
+
+
 
 
 

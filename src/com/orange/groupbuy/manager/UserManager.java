@@ -245,7 +245,7 @@ public class UserManager extends CommonManager{
 		return true;
 	}
 	
-	private static BasicDBObject createItem(String itemId,
+	private static BasicDBObject createItemForAdd(String itemId,
 			String categoryName, String subCategoryName, String keywords,
 			double maxPrice, double minRebate){
 		
@@ -270,11 +270,41 @@ public class UserManager extends CommonManager{
 		return item;
 	}
 
+	private static BasicDBObject createItemForUpdate(String itemId,
+			String categoryName, String subCategoryName, String keywords,
+			double maxPrice, double minRebate){
+						
+		if (StringUtil.isEmpty(itemId))
+			return null;
+		
+		// key should like "xxx.$.xxx" for array update
+		String prefix = DBConstants.F_SHOPPING_LIST.concat(".$.");
+
+		BasicDBObject item = new BasicDBObject();		
+		
+		item.put(prefix.concat(DBConstants.F_CATEGORY_NAME), categoryName);
+		item.put(prefix.concat(DBConstants.F_SUB_CATEGORY_NAME), subCategoryName);
+		item.put(prefix.concat(DBConstants.F_KEYWORD), keywords);
+
+		if (maxPrice >= 0.0f)
+			item.put(prefix.concat(DBConstants.F_MAX_PRICE), maxPrice);
+		else
+			item.put(prefix.concat(DBConstants.F_MAX_PRICE), null);			
+			
+		if (minRebate >= 0.0f)
+			item.put(prefix.concat(DBConstants.F_MIN_REBATE), minRebate);
+		else
+			item.put(prefix.concat(DBConstants.F_MIN_REBATE), null);
+		
+		return item;
+	}
+
+	
 	public static boolean addUserShoppingItem(MongoDBClient mongoClient, String userId, String itemId,
 			String categoryName, String subCategoryName, String keywords,
 			double maxPrice, double minRebate) {
 		
-		BasicDBObject item = createItem(itemId, categoryName, 
+		BasicDBObject item = createItemForAdd(itemId, categoryName, 
 				subCategoryName, keywords, maxPrice, minRebate);
 		if (item == null)
 			return false;
@@ -290,5 +320,52 @@ public class UserManager extends CommonManager{
 		
 		mongoClient.updateAll(DBConstants.T_USER, query, update);		
 		return true;
+	}
+
+	private static String getItemArrayKey(){
+		return DBConstants.F_SHOPPING_LIST.concat(".").concat(DBConstants.F_ITEM_ID);
+	}
+	
+	public static boolean updateUserShoppingItem(MongoDBClient mongoClient,
+			String userId, String itemId, String categoryName,
+			String subCategoryName, String keywords, double maxPrice,
+			double minRebate) {
+
+		BasicDBObject item = createItemForUpdate(itemId, categoryName, 
+				subCategoryName, keywords, maxPrice, minRebate);
+		if (item == null)
+			return false;
+
+		BasicDBObject query = new BasicDBObject();
+		query.put(DBConstants.F_USERID, userId);
+		String queryKeyForItem = getItemArrayKey();
+		query.put(queryKeyForItem, itemId);
+
+		BasicDBObject update = new BasicDBObject();
+		update.put("$set", item);
+		
+		mongoClient.updateAll(DBConstants.T_USER, query, update);		
+		return true;
+	}
+
+	public static boolean deleteUserShoppingItem(MongoDBClient mongoClient,
+			String userId, String itemId) {
+
+		if (itemId == null || userId == null)
+			return false;
+		
+		BasicDBObject query = new BasicDBObject();
+		query.put(DBConstants.F_USERID, userId);
+		String queryKeyForItem = getItemArrayKey();
+		query.put(queryKeyForItem, itemId);
+
+		BasicDBObject update = new BasicDBObject();
+		BasicDBObject unsetValue = new BasicDBObject();
+		String unsetKey = getItemArrayKey();
+		unsetValue.put(unsetKey, 1);			// remove the key found
+		update.put("$unset", unsetValue);
+		
+		mongoClient.updateAll(DBConstants.T_USER, query, update);		
+		return false;
 	}
 }
