@@ -63,20 +63,23 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_PARAMETER_MESSAGECONTENT_NULL = 10053;
 	public static final int ERROR_PARAMETER_MESSAGEID_EMPTY 	= 10054;
 	public static final int ERROR_PARAMETER_MESSAGEID_NULL 		= 10055;
-	public static final int ERROR_PARAMETER_ACTIONNAME_EMPTY = 10056;
-	public static final int ERROR_PARAMETER_ACTIONNAME_NULL = 10057;
+	public static final int ERROR_PARAMETER_ACTIONNAME_EMPTY 	= 10056;
+	public static final int ERROR_PARAMETER_ACTIONNAME_NULL 	= 10057;
 	public static final int ERROR_PARAMETER_CATEGORY_NULL 		= 10058;
 	public static final int ERROR_PARAMETER_CATEGORY_EMPTY 		= 10059;
 	public static final int ERROR_PARAMETER_KEYWORD_NULL 		= 10060;
 	public static final int ERROR_PARAMETER_KEYWORD_EMPTY 		= 10061;
 	public static final int ERROR_PARAMETER_MOBILE_NULL 		= 10062;
 	public static final int ERROR_PARAMETER_MOBILE_EMPTY 		= 10063;
-	public static final int ERROR_PARAMETER_EMAIL_NULL 		= 10064;
+	public static final int ERROR_PARAMETER_EMAIL_NULL 			= 10064;
 	public static final int ERROR_PARAMETER_EMAIL_EMPTY 		= 10065;
 	public static final int ERROR_PARAMETER_VERIFYCODE_NULL 		= 10066;
 	public static final int ERROR_PARAMETER_VERIFYCODE_EMPTY 		= 10067;
 	public static final int ERROR_PARAMETER_VERIFICATION_NULL 		= 10068;
 	public static final int ERROR_PARAMETER_VERIFICATION_EMPTY 		= 10069;
+	public static final int ERROR_PARAMETER_ITEMID_EMPTY 			= 10070;
+	public static final int ERROR_PARAMETER_ITEMID_NULL 			= 10071;
+
 	
 	// User Errors
 	static public final int ERROR_LOGINID_EXIST             = 20001;
@@ -90,14 +93,11 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_EMAIL_VERIFIED			= 20009;
 	public static final int ERROR_PASSWORD_NOT_MATCH        = 20010;
 	public static final int ERROR_EMAIL_NOT_VALID        	= 20011;
-
-	// Place Error
-	static public final int ERROR_PLACE_NAME_EXIST          = 30001;
-	static public final int ERROR_PLACE_NOT_FOUND           = 30002;
-	public static final int ERROR_CREATE_PLACE 				= 30003;
-	public static final int ERROR_GET_NEARBY_PLACES 		= 30004;
-	public static final int ERROR_GET_NEARBY_POSTS	 		= 30005;
-	public static final int ERROR_UPDATE_PLACE 				= 30006;
+	
+	// User Shopping Item Error
+	public static final int ERROR_ADD_SHOPPING_ITEM 		= 30001;
+	public static final int ERROR_UPDATE_SHOPPING_ITEM 		= 30002;
+	public static final int ERROR_DELETE_SHOPPING_ITEM 		= 30003;
 	
 	// Post Error
 	static public final int ERROR_POST_NOT_FOUND            = 40001;
@@ -118,7 +118,7 @@ public class ErrorCode extends CommonErrorCode {
 	
 	
 	// DB Error
-	static public final int ERROR_CASSANDRA                 = 80001;
+	static public final int ERROR_DATABASE_SAVE             = 80001;
 	static public final int ERROR_CASSANDRA_UNAVAILABLE     = 80002;
 
 	// System Error
@@ -130,6 +130,10 @@ public class ErrorCode extends CommonErrorCode {
 	static public final int ERROR_UPLOAD_FILE 				= 90006;
 	public static final int ERROR_CREATE_THUNMB_FILEPATH 	= 90007;
 	public static final int ERROR_CREATE_THUNMB_FILE 		= 90008;
+
+
+
+
 
 
 

@@ -126,7 +126,7 @@ public class DBConstants {
 	public static final String F_CREATE_SOURCE_ID = "source_id";
 	
 
-	public static final String F_CREATE_DATE = "create_date";
+	public static final String F_CREATE_DATE = "c_date";
 
 	public static final String F_EMAIL = "email";
 	public static final String F_MOBILE = "mobile";
@@ -312,6 +312,14 @@ public class DBConstants {
 	public static final String F_DATE = "date";
 	public static final String F_SEARCH_HISTORY = "s_his";
 	public static final String F_COUNT = "cnt";
+
+	public static final String F_CATEGORY_NAME = "cate_n";
+	public static final String F_SUB_CATEGORY_NAME = "subcate_n";
+	public static final String F_MAX_PRICE = "max_p";
+	public static final String F_MIN_REBATE = "min_r";
+
+	public static final String F_SHOPPING_LIST = "s_list";
+	public static final String F_ITEM_ID = "item_id";
 
 
 
