@@ -13,6 +13,7 @@ public class DBConstants {
 	public static final String T_IDX_PRODUCT_GPS = "address";
 	public static final String T_APP = "app";
 	public static final String T_KEYWORD_STAT = "keyword_stat";
+	public static final String T_PUSH_MESSAGE = "push_message";
 	
 	// fields
 	public static final String F_TASK_STATUS = "status";
@@ -22,6 +23,22 @@ public class DBConstants {
 	public static final String F_TASK_SITE_ID = "site_id";
 	public static final String F_TASK_RETRY_TIMES = "retry";
 	
+	public static final String F_PUSH_MESSAGE_STATUS = "status";
+	public static final String F_PUSH_MESSAGE_USER_ID = "user_id";
+	public static final String F_PUSH_MESSAGE_PRODUCT_ID = "p_id";
+	public static final String F_PUSH_MESSAGE_EMAIL = "email";
+	public static final String F_PUSH_MESSAGE_DEVICETOKEN = "d_token";
+	public static final String F_PUSH_MESSAGE_DEVICEOS = "os";
+	public static final String F_PUSH_MESSAGE_START_DATE = "s_date";
+	public static final String F_PUSH_MESSAGE_FINISH_DATE = "f_date";
+	public static final String F_PUSH_MESSAGE_ERROR_CODE = "err_code";
+	public static final String F_PUSH_MESSAGE_TYPE = "type";
+    public static final String F_PUSH_MESSAGE_SUBJECT = "p_sub";
+    public static final String F_PUSH_MESSAGE_BODY = "p_body";
+    public static final String F_PUSH_MESSAGE_IPHONE = "p_iphone";
+    public static final String F_PUSH_MESSAGE_ANDROID = "p_android";
+	
+	
 	// constants
 	public static final int C_TASK_STATUS_NOT_RUNNING = 0;
 	public static final int C_TASK_STATUS_RUNNING = 1;
@@ -29,6 +46,11 @@ public class DBConstants {
 	public static final int C_TASK_STATUS_CLOSE = 3;
 	public static final int C_TASK_STATUS_FAILURE = 4;
 	public static final int C_TASK_STATUS_FAIL_MAX_RETRY = 5;
+	
+	public static final int C_PUSH_MESSAGE_STATUS_NOT_RUNNING = 0;
+    public static final int C_PUSH_MESSAGE_STATUS_RUNNING = 1;
+    public static final int C_PUSH_MESSAGE_STATUS_CLOSE = 2;
+    public static final int C_PUSH_MESSAGE_STATUS_FAILURE = 3;
 
 	
 	// major product or not
