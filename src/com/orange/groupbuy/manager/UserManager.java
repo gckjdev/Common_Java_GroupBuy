@@ -21,9 +21,11 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.orange.common.cassandra.CassandraClient;
 import com.orange.common.mongodb.MongoDBClient;
+import com.orange.common.urbanairship.RegisterService;
 import com.orange.common.utils.DateUtil;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
+import com.orange.groupbuy.constant.PushNotificationConstants;
 import com.orange.groupbuy.dao.Gps;
 import com.orange.groupbuy.dao.User;
 
@@ -367,5 +369,15 @@ public class UserManager extends CommonManager{
 		
 		mongoClient.updateAll(DBConstants.T_USER, query, update);		
 		return false;
+	}
+
+	public static void registerUserDeviceToken(String userId, String deviceToken) {
+		RegisterService registerService = RegisterService.createService(
+				PushNotificationConstants.APPLICATION_KEY, 
+				PushNotificationConstants.APPLICATION_SECRET,
+				PushNotificationConstants.APPLICATION_MASTER_SECRET,
+				userId,
+				deviceToken);
+		registerService.handleServiceRequest();
 	}
 }
