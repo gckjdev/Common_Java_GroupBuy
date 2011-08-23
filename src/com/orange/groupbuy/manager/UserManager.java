@@ -1,25 +1,12 @@
 package com.orange.groupbuy.manager;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-
-import me.prettyprint.hector.api.beans.ColumnSlice;
-import me.prettyprint.hector.api.beans.HColumn;
-import me.prettyprint.hector.api.beans.Row;
-import me.prettyprint.hector.api.beans.Rows;
-
-import antlr.StringUtils;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.orange.common.cassandra.CassandraClient;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.common.urbanairship.RegisterService;
 import com.orange.common.utils.DateUtil;
@@ -43,80 +30,48 @@ public class UserManager extends CommonManager{
 		if (mongoClient == null || email == null || email.length() <= 0)
 			return null;
 		
-		BasicDBObject query = new BasicDBObject();
-		query.put(DBConstants.F_EMAIL, email);
-		DBCollection collection = mongoClient.getDb().getCollection(DBConstants.T_USER);
-		DBCursor cursor = collection.find(query);
-		if (cursor == null || cursor.hasNext() == false)
-			return null;
+		return mongoClient.findOne(DBConstants.T_USER, DBConstants.F_EMAIL, email);
 		
-		return cursor.next();
 	}
 
 	public static DBObject findUserByVerifyCode(MongoDBClient mongoClient, String vcd) {
-		if (mongoClient == null || vcd == null || vcd.length() <= 0)
-			return null;
-		
-		BasicDBObject query = new BasicDBObject();
-		query.put(DBConstants.F_VERIFYCODE, vcd);
-		DBCollection collection = mongoClient.getDb().getCollection(DBConstants.T_USER);
-		DBCursor cursor = collection.find(query);
-		if (cursor == null || cursor.hasNext() == false)
-			return null;				
-		
-		return cursor.next();
+	    if (mongoClient == null || vcd == null || vcd.length() <= 0)
+            return null;
+        
+         return mongoClient.findOne(DBConstants.T_USER, DBConstants.F_VERIFYCODE, vcd);
+
 	}
-	
+
 	public static void updateStatusByVerifyCode(MongoDBClient mongoClient, String sta, String vcd){
-		if (mongoClient == null || sta == null || sta.length() <= 0 || vcd == null || vcd.length() <= 0)
-			return;				
-		
-		BasicDBObject query = new BasicDBObject();
-		query.put(DBConstants.F_VERIFYCODE, vcd);
-		
-		DBObject update = new BasicDBObject();
-		DBObject updateValue = new BasicDBObject();
-		updateValue.put(DBConstants.F_STATUS, sta);
-		update.put("$set", updateValue);
-		
-		DBCollection collection = mongoClient.getDb().getCollection(DBConstants.T_USER);
-		collection.findAndModify(query, null, null, false, update, true,false);
-	}
+        if (mongoClient == null || sta == null || sta.length() <= 0 || vcd == null || vcd.length() <= 0)
+            return;
+
+        Map<String, Object> equalCondition = new HashMap<String, Object>();
+        Map<String, Object> updateMap = new HashMap<String, Object>();
+        equalCondition.put(DBConstants.F_VERIFYCODE, vcd);
+        updateMap.put(DBConstants.F_STATUS, sta);
+
+        mongoClient.findAndModify(DBConstants.T_USER, equalCondition,updateMap);
+    }
 	
 	public static void updateEmail(MongoDBClient mongoClient, String email, String new_email){
 		if (mongoClient == null || email == null || email.length() <= 0 || new_email == null || new_email.length() <= 0 )
 			return;
-		
-		BasicDBObject query = new BasicDBObject();
-		query.put(DBConstants.F_EMAIL, email);
-		
-		DBObject update = new BasicDBObject();
-		DBObject updateValue = new BasicDBObject();
-		updateValue.put(DBConstants.F_EMAIL, new_email);
-		update.put("$set", updateValue);
-		
-		DBCollection collection = mongoClient.getDb().getCollection(DBConstants.T_USER);
-		collection.findAndModify(query, null, null, false, update, true,false);
-		
-		return;
+
+		mongoClient.findAndModify(DBConstants.T_USER, DBConstants.F_EMAIL, email, new_email);
 	}
 	
 	public static void updatePassword(MongoDBClient mongoClient, String mail, String new_pwd){
 		if (mongoClient == null || mail == null || mail.length() <= 0 || new_pwd == null || new_pwd.length() <= 0 )
 			return;
-		
-		BasicDBObject query = new BasicDBObject();
-		query.put(DBConstants.F_EMAIL, mail);
-		
-		DBObject update = new BasicDBObject();
-		DBObject updateValue = new BasicDBObject();
-		updateValue.put(DBConstants.F_PASSWORD, new_pwd);
-		update.put("$set", updateValue);
-		
-		DBCollection collection = mongoClient.getDb().getCollection(DBConstants.T_USER);
-		collection.findAndModify(query, null, null, false, update, true,false);
-		
-		return;
+
+		Map<String, Object> equalCondition = new HashMap<String, Object>();
+        Map<String, Object> updateMap = new HashMap<String, Object>();
+        equalCondition.put(DBConstants.F_EMAIL, mail);
+        updateMap.put(DBConstants.F_PASSWORD, new_pwd);
+
+        mongoClient.findAndModify(DBConstants.T_USER, equalCondition,updateMap);
+
 	}
 	
 	public static BasicDBObject createDeviceUser(MongoDBClient mongoClient, String appId,

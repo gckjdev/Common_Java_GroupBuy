@@ -72,9 +72,8 @@ public class FetchTaskManager extends CommonManager{
 		else{
 			task.put(DBConstants.F_TASK_STATUS, Integer.valueOf(DBConstants.C_TASK_STATUS_FAIL_MAX_RETRY));			
 		}
-		
+
 		mongoClient.save(DBConstants.T_FETCH_TASK, task);		
 	}
-	
-	
+
 }
