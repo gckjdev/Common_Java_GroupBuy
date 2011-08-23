@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.common.utils.StringUtil;
@@ -33,35 +32,24 @@ public class UserManager extends CommonManager{
 	}
 
 	public static DBObject findUserByVerifyCode(MongoDBClient mongoClient, String vcd) {
-		if (mongoClient == null || vcd == null || vcd.length() <= 0)
-			return null;
-		
+	    if (mongoClient == null || vcd == null || vcd.length() <= 0)
+            return null;
+        
+         return mongoClient.findOne(DBConstants.T_USER, DBConstants.F_VERIFYCODE, vcd);
 
-		BasicDBObject query = new BasicDBObject();
-		query.put(DBConstants.F_VERIFYCODE, vcd);
-		DBCollection collection = mongoClient.getDb().getCollection(DBConstants.T_USER);
-		DBCursor cursor = collection.find(query);
-		if (cursor == null || cursor.hasNext() == false)
-			return null;				
-		
-		return cursor.next();
 	}
 
 	public static void updateStatusByVerifyCode(MongoDBClient mongoClient, String sta, String vcd){
-		if (mongoClient == null || sta == null || sta.length() <= 0 || vcd == null || vcd.length() <= 0)
-			return;
+        if (mongoClient == null || sta == null || sta.length() <= 0 || vcd == null || vcd.length() <= 0)
+            return;
 
-		BasicDBObject query = new BasicDBObject();
-		query.put(DBConstants.F_VERIFYCODE, vcd);
-		
-		DBObject update = new BasicDBObject();
-		DBObject updateValue = new BasicDBObject();
-		updateValue.put(DBConstants.F_STATUS, sta);
-		update.put("$set", updateValue);
-		
-		DBCollection collection = mongoClient.getDb().getCollection(DBConstants.T_USER);
-		collection.findAndModify(query, null, null, false, update, true,false);
-	}
+        Map<String, Object> equalCondition = new HashMap<String, Object>();
+        Map<String, Object> updateMap = new HashMap<String, Object>();
+        equalCondition.put(DBConstants.F_VERIFYCODE, vcd);
+        updateMap.put(DBConstants.F_STATUS, sta);
+
+        mongoClient.findAndModify(DBConstants.T_USER, equalCondition,updateMap);
+    }
 	
 	public static void updateEmail(MongoDBClient mongoClient, String email, String new_email){
 		if (mongoClient == null || email == null || email.length() <= 0 || new_email == null || new_email.length() <= 0 )
