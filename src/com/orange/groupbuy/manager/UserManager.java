@@ -203,7 +203,7 @@ public class UserManager extends CommonManager{
 	}
 	
 	private static BasicDBObject createItemForAdd(String itemId,
-			String categoryName, String subCategoryName, String keywords,
+			String categoryName, String subCategoryName, String keywords, String city,
 			double maxPrice, double minRebate){
 		
 		if (StringUtil.isEmpty(itemId))
@@ -219,6 +219,8 @@ public class UserManager extends CommonManager{
 			item.put(DBConstants.F_SUB_CATEGORY_NAME, subCategoryName);
 		if (!StringUtil.isEmpty(keywords))
 			item.put(DBConstants.F_KEYWORD, keywords);
+		if (!StringUtil.isEmpty(city))
+            item.put(DBConstants.F_CITY, city);
 		if (maxPrice >= 0.0f)
 			item.put(DBConstants.F_MAX_PRICE, maxPrice);
 		if (minRebate >= 0.0f)
@@ -228,7 +230,7 @@ public class UserManager extends CommonManager{
 	}
 
 	private static BasicDBObject createItemForUpdate(String itemId,
-			String categoryName, String subCategoryName, String keywords,
+			String categoryName, String subCategoryName, String keywords, String city,
 			double maxPrice, double minRebate){
 						
 		if (StringUtil.isEmpty(itemId))
@@ -242,6 +244,7 @@ public class UserManager extends CommonManager{
 		item.put(prefix.concat(DBConstants.F_CATEGORY_NAME), categoryName);
 		item.put(prefix.concat(DBConstants.F_SUB_CATEGORY_NAME), subCategoryName);
 		item.put(prefix.concat(DBConstants.F_KEYWORD), keywords);
+		item.put(prefix.concat(DBConstants.F_CITY), city);
 
 		if (maxPrice >= 0.0f)
 			item.put(prefix.concat(DBConstants.F_MAX_PRICE), maxPrice);
@@ -258,11 +261,11 @@ public class UserManager extends CommonManager{
 
 	
 	public static boolean addUserShoppingItem(MongoDBClient mongoClient, String userId, String itemId,
-			String categoryName, String subCategoryName, String keywords,
+			String categoryName, String subCategoryName, String keywords, String city,
 			double maxPrice, double minRebate) {
 		
 		BasicDBObject item = createItemForAdd(itemId, categoryName, 
-				subCategoryName, keywords, maxPrice, minRebate);
+				subCategoryName, keywords, city, maxPrice, minRebate);
 		if (item == null)
 			return false;
 
@@ -284,12 +287,12 @@ public class UserManager extends CommonManager{
 	}
 	
 	public static boolean updateUserShoppingItem(MongoDBClient mongoClient,
-			String userId, String itemId, String categoryName,
+			String userId, String itemId, String categoryName, String city,
 			String subCategoryName, String keywords, double maxPrice,
 			double minRebate) {
 
 		BasicDBObject item = createItemForUpdate(itemId, categoryName, 
-				subCategoryName, keywords, maxPrice, minRebate);
+				subCategoryName, keywords, city, maxPrice, minRebate);
 		if (item == null)
 			return false;
 
