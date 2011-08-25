@@ -56,12 +56,12 @@ public class PushMessageManager {
      * @param pushMessage the push message
      */
     public static void pushMessageClose(final MongoDBClient mongoClient, final PushMessage pushMessage) {
-        pushMessage.put(DBConstants.F_TASK_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_CLOSE);
+        pushMessage.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_CLOSE);
         mongoClient.save(DBConstants.T_PUSH_MESSAGE, pushMessage.getDbObject());   
     }
     
     public static void pushMessageFailure(final MongoDBClient mongoClient, final PushMessage pushMessage) {
-        pushMessage.put(DBConstants.F_TASK_STATUS, Integer.valueOf(DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE));
+        pushMessage.put(DBConstants.F_PUSH_MESSAGE_STATUS, Integer.valueOf(DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE));
         mongoClient.save(DBConstants.T_PUSH_MESSAGE, pushMessage.getDbObject());   
     }
 }
