@@ -25,7 +25,7 @@ public class User extends CommonData {
 			item.put(DBConstants.F_SUB_CATEGORY_NAME, subCategoryName);
 		if (!StringUtil.isEmpty(keywords))
 			item.put(DBConstants.F_KEYWORD, keywords);
-		if (!StringUtil.isEmpty(keywords))
+		if (!StringUtil.isEmpty(city))
             item.put(DBConstants.F_CITY, city);
 		if (maxPrice >= 0.0f)
 			item.put(DBConstants.F_MAX_PRICE, maxPrice);
