@@ -362,7 +362,7 @@ public class UserManager extends CommonManager{
         mongoClient.save(DBConstants.T_USER, user.getDbObject());
     }
 
-    public static void insertRecommendItem(final MongoDBClient mongoClient, User user, Product product, String itemId) {
+    public static void setRecommendItem(final MongoDBClient mongoClient, User user, Product product, String itemId) {
 
         float score = product.getScore();
         
@@ -370,6 +370,8 @@ public class UserManager extends CommonManager{
             BasicDBObject item = new BasicDBObject();
             item.put(DBConstants.F_PRODUCTID, product.getStringObjectId());
             item.put(DBConstants.F_SCORE, product.getScore());
+            item.put(DBConstants.F_START_DATE, product.getStartDate());
+            item.put(DBConstants.F_END_DATE, product.getStartDate());
 
             BasicDBObject query = new BasicDBObject();
             query.put(DBConstants.F_FOREIGN_USER_ID, user.getStringObjectId());
