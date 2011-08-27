@@ -77,6 +77,11 @@ public class CommonData {
 		return value.doubleValue();		
 	}
 	
+	public float getFloat(String key){
+	    Float value = (Float)dbObject.get(key);
+        return value.floatValue();     
+    }
+	
 	public Date getDate(String key){
 		Date value = (Date)dbObject.get(key);
 		return value;		

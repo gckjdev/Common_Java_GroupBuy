@@ -9,11 +9,11 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.common.urbanairship.RegisterService;
-import com.orange.common.utils.DateUtil;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.PushNotificationConstants;
 import com.orange.groupbuy.dao.Gps;
+import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.User;
 
 public class UserManager extends CommonManager{
@@ -338,4 +338,66 @@ public class UserManager extends CommonManager{
 				deviceToken);
 		registerService.handleServiceRequest();
 	}
+	
+	public static User findUserForRecommend(final MongoDBClient mongoClient) {
+	    
+	    DBObject obj = mongoClient.findAndModifyUpsert(DBConstants.T_USER,
+	                                             DBConstants.F_RECOMMEND_STATUS,
+	                                             DBConstants.C_RECOMMEND_STATUS_NOT_RUNNING,
+	                                             DBConstants.C_RECOMMEND_STATUS_RUNNING) ;
+	    if (obj != null) {
+	        return new User(obj);
+	    }
+	        
+	    return null;
+	}
+	
+    public static void recommendClose(final MongoDBClient mongoClient, final User user) {
+        user.put(DBConstants.F_RECOMMEND_STATUS, DBConstants.C_RECOMMEND_STATUS_COLSE);
+        mongoClient.save(DBConstants.T_USER, user.getDbObject());
+    }
+
+    public static void recommendFailure(final MongoDBClient mongoClient, final User user) {
+        user.put(DBConstants.F_RECOMMEND_STATUS, Integer.valueOf(DBConstants.C_RECOMMEND_STATUS_FAILURE));
+        mongoClient.save(DBConstants.T_USER, user.getDbObject());
+    }
+
+    public static void insertRecommendItem(final MongoDBClient mongoClient, User user, Product product, String itemId) {
+
+        float score = product.getScore();
+        
+        if (score >= DBConstants.MIN_SCORE_TO_RECOMMEND) {
+            BasicDBObject item = new BasicDBObject();
+            item.put(DBConstants.F_PRODUCTID, product.getStringObjectId());
+            item.put(DBConstants.F_SCORE, product.getScore());
+
+            BasicDBObject query = new BasicDBObject();
+            query.put(DBConstants.F_FOREIGN_USER_ID, user.getStringObjectId());
+            query.put(DBConstants.F_ITEM_ID, itemId);
+
+            BasicDBObject pushValue = new BasicDBObject();
+            pushValue.put(DBConstants.F_RECOMMENDLIST, item);
+
+            BasicDBObject update = new BasicDBObject();
+            update.put("$push", pushValue);
+
+            mongoClient.upsertAll(DBConstants.T_RECOMMEND, query, update);
+        }
+    }
+
+    public static void resetAllRunningMessage(final MongoDBClient mongoClient) {
+        BasicDBObject query = new BasicDBObject();
+        BasicDBObject update = new BasicDBObject();
+        
+        BasicDBObject value = new BasicDBObject();
+        value.put("$ne", DBConstants.C_RECOMMEND_STATUS_NOT_RUNNING);
+        query.put(DBConstants.F_RECOMMEND_STATUS, value);
+
+        BasicDBObject updateValue = new BasicDBObject();
+        updateValue.put(DBConstants.F_RECOMMEND_STATUS, DBConstants.C_RECOMMEND_STATUS_NOT_RUNNING);
+        update.put("$set", updateValue);
+        
+        mongoClient.updateAll(DBConstants.T_USER, query, update);
+        
+    }
 }

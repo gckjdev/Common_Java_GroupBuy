@@ -19,6 +19,8 @@ public class User extends CommonData {
 		
 		BasicDBObject item = new BasicDBObject();		
 		
+		if (!StringUtil.isEmpty(itemId))
+            item.put(DBConstants.F_ITEM_ID, itemId);
 		if (!StringUtil.isEmpty(categoryName))
 			item.put(DBConstants.F_CATEGORY_NAME, categoryName);
 		if (!StringUtil.isEmpty(subCategoryName))
@@ -44,5 +46,54 @@ public class User extends CommonData {
 		return true;
 	}
 	
+	   public BasicDBList getShoppingItem() {
+	       
+	       BasicDBList shoppingList = (BasicDBList)dbObject.get(DBConstants.F_SHOPPING_LIST);
+	       if(shoppingList != null) {
+	           return shoppingList;
+	       }
+	       return null;
+	    }
+	
+	
+	public String getCity() {
+	    return this.getString(DBConstants.F_CITY);
+	}
+	
+	public void setCity(String city) {
+	    this.put(DBConstants.F_CITY, city);
+	}
+	
+	public String getCategory() {
+        return this.getString(DBConstants.F_CATEGORY_NAME);
+    }
+	
+	public void  setCategory(String category) {
+	    this.put(DBConstants.F_CATEGORY_NAME, category);
+    }
+	
+	public String getSubCategory() {
+        return this.getString(DBConstants.F_SUB_CATEGORY_NAME);
+    }
+	
+	public void setSubCategory(String subcategory) {
+	    this.put(DBConstants.F_SUB_CATEGORY_NAME, subcategory);
+	}
+	
+	public double getMaxPrice() {
+        return StringUtil.doubleFromString(this.getString(DBConstants.F_MAX_PRICE));
+    }
+    
+    public void setMaxPrice(String maxPrice) {
+        this.put(DBConstants.F_MAX_PRICE, maxPrice);
+    }
+    
+    public double getRebate() {
+        return StringUtil.doubleFromString(this.getString(DBConstants.F_REBATE));
+    }
+    
+    public void setRebate(String rebate) {
+        this.put(DBConstants.F_REBATE, rebate);
+    }
 	
 }

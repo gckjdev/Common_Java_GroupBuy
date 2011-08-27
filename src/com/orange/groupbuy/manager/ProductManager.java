@@ -733,18 +733,22 @@ public class ProductManager extends CommonManager {
 
 			Iterator<SolrDocument> iter = resultList.iterator();
 			List<ObjectId> objectIdList = new ArrayList<ObjectId>();
+			Map <ObjectId,Float> productScoreMap = new HashMap<ObjectId,Float>();
 			while (iter.hasNext()) {
 				SolrDocument resultDoc = iter.next();
 				
 				String productId = (String) resultDoc
 						.getFieldValue(DBConstants.F_INDEX_ID);
-//				Float productScore = (Float) resultDoc
-//						.getFieldValue("score");
+				Float productScore = (Float) resultDoc
+						.getFieldValue("score");
 //				String productTitle =  (String) resultDoc.getFieldValue(DBConstants.F_TITLE);			
 //				log.info("<search> id="+productId+",score="+productScore+",title="+productTitle);
 
 				ObjectId objectId = new ObjectId(productId);
-				objectIdList.add(objectId);				
+				objectIdList.add(objectId);
+				
+				productScoreMap.put(objectId, productScore);
+				
 				log.info("<searchProductBySolr> result doc="+ resultDoc.toString());
 			}
 			log.info("<searchProductBySolr> search done, result size = " + resultList.size());
@@ -763,12 +767,16 @@ public class ProductManager extends CommonManager {
 			for (ObjectId objectId : objectIdList) {
 				i = 0;
 				Product product = productList.get(i);
+				Float score = productScoreMap.get(objectId);
+				
 				while (!product.getObjectId().equals(objectId)
 						&& (size > (++i))) {
 					product = productList.get(i);
 				}
-				if (i < size)
-					orderedProductList.add(product);
+				if (i < size){
+				    product.setScore(score);
+				    orderedProductList.add(product);
+				}
 			}
 					
 			return orderedProductList;
