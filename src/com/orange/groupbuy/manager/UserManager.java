@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bson.types.ObjectId;
+
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -270,7 +272,8 @@ public class UserManager extends CommonManager{
 			return false;
 
 		BasicDBObject query = new BasicDBObject();
-		query.put(DBConstants.F_USERID, userId);
+		ObjectId id = new ObjectId(userId);
+		query.put(DBConstants.F_USERID, id);
 
 		BasicDBObject pushValue = new BasicDBObject();		
 		pushValue.put(DBConstants.F_SHOPPING_LIST, item);
@@ -297,7 +300,8 @@ public class UserManager extends CommonManager{
 			return false;
 
 		BasicDBObject query = new BasicDBObject();
-		query.put(DBConstants.F_USERID, userId);
+        ObjectId id = new ObjectId(userId);
+        query.put(DBConstants.F_USERID, id);		
 		String queryKeyForItem = getItemArrayKey();
 		query.put(queryKeyForItem, itemId);
 
@@ -315,7 +319,8 @@ public class UserManager extends CommonManager{
 			return false;
 		
 		BasicDBObject query = new BasicDBObject();
-		query.put(DBConstants.F_USERID, userId);
+        ObjectId id = new ObjectId(userId);
+        query.put(DBConstants.F_USERID, id);
 		String queryKeyForItem = getItemArrayKey();
 		query.put(queryKeyForItem, itemId);
 
