@@ -219,6 +219,8 @@ public class ServiceConstant  {
 	public static final String PARA_WAP_URL = "wu";
 	public static final String PARA_TEL = "te";
 	public static final String PARA_SHOP = "sh";
+	public static final String PARA_UP = "up";
+	public static final String PARA_DOWN = "down";
 	
 	public static final String PARA_ITEMID = "ii";
 	public static final String PARA_CATEGORY_NAME = "na";

@@ -369,6 +369,26 @@ public class Product extends CommonData {
 	public void setPriority(int priority) {
 		this.put(DBConstants.F_PRIORITY, priority);
 	}
+	
+	public void setUp(int up) {
+	    this.put(DBConstants.F_UP, up);
+	}
+	
+	public int getUp() {
+	    return this.getInt(DBConstants.F_UP);
+	}
+	
+	public void setDown(int down) {
+	    this.put(DBConstants.F_DOWN, down);
+	}
+	
+	public int getDown() {
+	    return this.getInt(DBConstants.F_DOWN);
+	}
+
+    public int getActionCounterValueByName(String actionName) {        
+        return this.getInt(actionName);
+    }
 
     public float getScore() {
         return score;
@@ -385,6 +405,4 @@ public class Product extends CommonData {
 //	public float getScore() {
 //	    return this.getFloat(DBConstants.F_SCORE);
 //	}
-	
-	
 }
