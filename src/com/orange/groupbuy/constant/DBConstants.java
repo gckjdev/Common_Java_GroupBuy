@@ -70,13 +70,13 @@ public class DBConstants {
 	public static final int C_CATEGORY_KEEPFIT = 5;
 	public static final int C_CATEGORY_LIFE = 6;
 	
-	public static final String C_CATEGORY_NAME_UNKNOWN = "ÁªºÂ?";
-	public static final String C_CATEGORY_NAME_EAT = "Áæ??";
-	public static final String C_CATEGORY_NAME_FUN = "Â®±‰?";
-	public static final String C_CATEGORY_NAME_FACE = "Áæ??";
-	public static final String C_CATEGORY_NAME_SHOPPING = "ÁΩ?¥≠";
-	public static final String C_CATEGORY_NAME_KEEPFIT = "Ëø??";
-	public static final String C_CATEGORY_NAME_LIFE = "??¥ª";
+	public static final String C_CATEGORY_NAME_UNKNOWN = "ÁªºÂêà";
+	public static final String C_CATEGORY_NAME_EAT = "ÁæéÈ£ü";
+	public static final String C_CATEGORY_NAME_FUN = "Â®±‰πê";
+	public static final String C_CATEGORY_NAME_FACE = "ÁæéÂÆπ";
+	public static final String C_CATEGORY_NAME_SHOPPING = "ÁΩëË¥≠";
+	public static final String C_CATEGORY_NAME_KEEPFIT = "ËøêÂä®";
+	public static final String C_CATEGORY_NAME_LIFE = "ÁîüÊ¥ª";
 	
 	public static final int SORT_BY_START_DATE = 0;
 	public static final int SORT_BY_PRICE = 1;
@@ -292,10 +292,6 @@ public class DBConstants {
 	public static final String F_TAG = "tag";
 	public static final String F_PRIORITY = "pri";
 	public static final String F_MERCHANT_END_DATE = "me_date";
-	
-	public static final String F_UP = "up";
-	public static final String F_DOWN = "down";
-
 	public static final String F_SCORE = "score";
 	public static final String F_RECOMMENDLIST = "re_list";
 
@@ -303,7 +299,7 @@ public class DBConstants {
 	public static final String F_KEYWORD = "keys";
 	public static final String F_PRODUCTID = "p_id";
 	
-	public static final String V_NATIONWIDE = "?®Â?";
+	public static final String V_NATIONWIDE = "ÂÖ®ÂõΩ";
 
 	public static final String F_ID = "_id";
 	public static final String F_INDEX_ID = "id";
@@ -335,33 +331,6 @@ public class DBConstants {
 	public static final String F_ITEM_ID = "item_id";
 
     public static final float MIN_SCORE_TO_RECOMMEND = 0.2f;
-
-
-
-
-
-
-
-	
-
-
-	
-
-
-
-
-	//user table fields
-	
-//	user("device_id","device_model","device_os","device_token","language",
-//			"country_code","create_date","create_source_id","subscribe")
-	
-//	public static final String F_DEVICEID = "device_id";
-	
-	
-	
-
-
-
-
-
+    
+    // test
 }
