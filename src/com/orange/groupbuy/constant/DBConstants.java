@@ -285,6 +285,9 @@ public class DBConstants {
 	public static final String F_TAG = "tag";
 	public static final String F_PRIORITY = "pri";
 	public static final String F_MERCHANT_END_DATE = "me_date";
+	
+	public static final String F_UP = "up";
+	public static final String F_DOWN = "down";
 
 	public static final String F_COMMENTS = "comments";
 	public static final String F_KEYWORD = "keys";

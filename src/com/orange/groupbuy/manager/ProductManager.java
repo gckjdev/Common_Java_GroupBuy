@@ -784,9 +784,29 @@ public class ProductManager extends CommonManager {
 	public static void incActionCounter(MongoDBClient mongoClient,
 			String productId, String actionName, int actionValue) {
 
-		mongoClient.inc(DBConstants.T_PRODUCT, DBConstants.F_ID, productId,
+	    ObjectId id = new ObjectId(productId);
+		mongoClient.inc(DBConstants.T_PRODUCT, DBConstants.F_ID, id,
 				actionName, actionValue);
 	}
 
+    public static Product findProductById(MongoDBClient mongoClient, String productId) {
+        
+        ObjectId id = new ObjectId(productId);
+        return new Product(mongoClient.findOne(DBConstants.T_PRODUCT, DBConstants.F_ID, id));
+    }
 
+    public static void pushCommet(MongoDBClient mongoClient, String productId, String username, String content, Date date) {
+        BasicDBObject query = new BasicDBObject();
+        query.put(DBConstants.F_ID, new ObjectId(productId));
+        
+        BasicDBObject pushValue = new BasicDBObject();
+        pushValue.put("username", username);
+        pushValue.put("content", content);
+        pushValue.put("date", date);
+
+        BasicDBObject update = new BasicDBObject();
+        update.put("$push", pushValue);
+        
+        mongoClient.updateOrInsert(DBConstants.T_PRODUCT, query, update);
+    }
 }
