@@ -4,7 +4,9 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.groupbuy.constant.DBConstants;
+import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.PushMessage;
+import com.orange.groupbuy.dao.User;
 
 /**
  * The Class PushMessageManager.
@@ -47,6 +49,22 @@ public class PushMessageManager {
             return new PushMessage(obj);
         }
         return null;
+    }
+
+    public static void savePushMessage(final MongoDBClient mongoClient, Product product, User user) {
+
+        DBObject obj = new BasicDBObject();
+        StringBuilder builder = new StringBuilder();
+        builder.append(product.getCity())
+        .append(",")
+        .append(product.getDescription())
+        .append(",")
+        .append(product.getLoc());
+        System.out.println(builder.toString());
+        obj.put(DBConstants.F_PUSH_MESSAGE_SUBJECT, product.getTitle());
+        obj.put(DBConstants.F_PUSH_MESSAGE_BODY, builder.toString());
+        obj.put(DBConstants.F_PUSH_MESSAGE_DEVICETOKEN, user.getDeviceToken());
+        mongoClient.save(DBConstants.T_PUSH_MESSAGE, obj);
     }
 
     /**

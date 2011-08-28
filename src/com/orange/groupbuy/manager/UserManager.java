@@ -192,7 +192,7 @@ public class UserManager extends CommonManager{
 		if (mongoClient == null || userId == null || userId.length() <= 0)
 			return null;
 		
-		DBObject obj = mongoClient.findOne(DBConstants.T_USER, DBConstants.F_USERID, userId);
+		DBObject obj = mongoClient.findOne(DBConstants.T_USER, DBConstants.F_USERID, new ObjectId(userId));
 		if (obj == null)
 			return null;
 		
@@ -382,11 +382,14 @@ public class UserManager extends CommonManager{
             query.put(DBConstants.F_FOREIGN_USER_ID, user.getStringObjectId());
             query.put(DBConstants.F_ITEM_ID, itemId);
 
+            String productIdKey = DBConstants.F_RECOMMENDLIST.concat(".").concat(DBConstants.F_PRODUCTID);
+            query.put(productIdKey, product.getId());
+
             BasicDBObject pushValue = new BasicDBObject();
             pushValue.put(DBConstants.F_RECOMMENDLIST, item);
 
             BasicDBObject update = new BasicDBObject();
-            update.put("$push", pushValue);
+            update.put("$addToSet", pushValue);
 
             mongoClient.upsertAll(DBConstants.T_RECOMMEND, query, update);
         }

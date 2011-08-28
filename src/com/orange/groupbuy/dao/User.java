@@ -54,46 +54,13 @@ public class User extends CommonData {
 	       }
 	       return null;
 	    }
-	
-	
-	public String getCity() {
-	    return this.getString(DBConstants.F_CITY);
-	}
-	
-	public void setCity(String city) {
-	    this.put(DBConstants.F_CITY, city);
-	}
-	
-	public String getCategory() {
-        return this.getString(DBConstants.F_CATEGORY_NAME);
-    }
-	
-	public void  setCategory(String category) {
-	    this.put(DBConstants.F_CATEGORY_NAME, category);
-    }
-	
-	public String getSubCategory() {
-        return this.getString(DBConstants.F_SUB_CATEGORY_NAME);
-    }
-	
-	public void setSubCategory(String subcategory) {
-	    this.put(DBConstants.F_SUB_CATEGORY_NAME, subcategory);
-	}
-	
-	public double getMaxPrice() {
-        return StringUtil.doubleFromString(this.getString(DBConstants.F_MAX_PRICE));
+
+    public String getUserId() {
+        return getObjectId().toString();
     }
     
-    public void setMaxPrice(String maxPrice) {
-        this.put(DBConstants.F_MAX_PRICE, maxPrice);
-    }
-    
-    public double getRebate() {
-        return StringUtil.doubleFromString(this.getString(DBConstants.F_REBATE));
-    }
-    
-    public void setRebate(String rebate) {
-        this.put(DBConstants.F_REBATE, rebate);
+    public String getDeviceToken() {
+        return this.getString(DBConstants.F_DEVICETOKEN);
     }
 	
 }

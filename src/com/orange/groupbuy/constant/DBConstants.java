@@ -57,7 +57,11 @@ public class DBConstants {
     public static final int C_RECOMMEND_STATUS_RUNNING = 1;
     public static final int C_RECOMMEND_STATUS_COLSE = 2;
     public static final int C_RECOMMEND_STATUS_FAILURE = 3;
-	
+    
+    public static final int C_ITEM_NOT_SENT = 0;
+    public static final int C_ITEM_NOT_SENDING = 1;
+    public static final int C_ITEM_SENT = 2;
+    
 	// major product or not
 	public static final int C_NOT_MAJOR = 0;
 	public static final int C_IS_MAJOR = 1;
@@ -294,6 +298,7 @@ public class DBConstants {
 	public static final String F_MERCHANT_END_DATE = "me_date";
 	public static final String F_SCORE = "score";
 	public static final String F_RECOMMENDLIST = "re_list";
+	public static final String F_ITEM_SENT_STATUS = "status";
 
 	public static final String F_COMMENTS = "comments";
 	public static final String F_KEYWORD = "keys";
@@ -330,7 +335,7 @@ public class DBConstants {
 	public static final String F_SHOPPING_LIST = "s_list";
 	public static final String F_ITEM_ID = "item_id";
 
-    public static final float MIN_SCORE_TO_RECOMMEND = 0.2f;
+    public static final float MIN_SCORE_TO_RECOMMEND = 0.4f;
 
     public static final String F_UP = "up";
     public static final String F_DOWN = "down";
