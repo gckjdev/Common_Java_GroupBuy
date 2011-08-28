@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
+import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
 import com.orange.common.utils.DateUtil;
 import com.orange.common.utils.ListUtil;
@@ -405,4 +406,8 @@ public class Product extends CommonData {
 //	public float getScore() {
 //	    return this.getFloat(DBConstants.F_SCORE);
 //	}
+    
+    public BasicDBList getComments() {
+        return (BasicDBList)this.dbObject.get(DBConstants.F_COMMENTS);
+    }
 }

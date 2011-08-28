@@ -803,15 +803,15 @@ public class ProductManager extends CommonManager {
         return new Product(mongoClient.findOne(DBConstants.T_PRODUCT, DBConstants.F_ID, id));
     }
 
-    public static void pushCommet(MongoDBClient mongoClient, String productId, String userId, String nickName, String content, Date date) {
+    public static void writeCommet(MongoDBClient mongoClient, String productId, String userId, String nickName, String content, Date date) {
         BasicDBObject query = new BasicDBObject();
         query.put(DBConstants.F_ID, new ObjectId(productId));
         
         BasicDBObject item = new BasicDBObject();
         item.put(DBConstants.F_USERID, userId);
         item.put(DBConstants.F_NICKNAME, nickName);
-        item.put(DBConstants.F_START_DATE, content);
-        item.put(DBConstants.F_END_DATE, date);
+        item.put(DBConstants.F_COMMENT_CONTENT, content);
+        item.put(DBConstants.F_CREATE_DATE, date);
         
         BasicDBObject pushValue = new BasicDBObject();
         pushValue.put(DBConstants.F_COMMENTS, item);

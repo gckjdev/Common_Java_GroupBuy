@@ -334,6 +334,8 @@ public class DBConstants {
 
     public static final String F_UP = "up";
     public static final String F_DOWN = "down";
+
+    public static final String F_COMMENT_CONTENT = "content";
     
     // test
 }
