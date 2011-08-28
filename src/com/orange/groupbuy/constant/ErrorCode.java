@@ -93,7 +93,7 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_EMAIL_VERIFIED			= 20009;
 	public static final int ERROR_PASSWORD_NOT_MATCH        = 20010;
 	public static final int ERROR_EMAIL_NOT_VALID        	= 20011;
-	
+
 	// User Shopping Item Error
 	public static final int ERROR_ADD_SHOPPING_ITEM 		= 30001;
 	public static final int ERROR_UPDATE_SHOPPING_ITEM 		= 30002;
