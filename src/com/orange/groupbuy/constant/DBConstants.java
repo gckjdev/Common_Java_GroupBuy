@@ -332,32 +332,4 @@ public class DBConstants {
 
     public static final float MIN_SCORE_TO_RECOMMEND = 0.2f;
 
-
-
-
-
-
-
-	
-
-
-	
-
-
-
-
-	//user table fields
-	
-//	user("device_id","device_model","device_os","device_token","language",
-//			"country_code","create_date","create_source_id","subscribe")
-	
-//	public static final String F_DEVICEID = "device_id";
-	
-	
-	
-
-
-
-
-
 }
