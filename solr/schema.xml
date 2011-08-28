@@ -538,7 +538,10 @@
    <field name="addr" type="textMaxWord" indexed="true" stored="true" required="false" multiValued="true"/>
    <field name="tag" type="textMaxWord" indexed="true" stored="true" required="false" multiValued="true"/>
    <field name="s_name" type="textMaxWord" indexed="true" stored="true" required="true" />
-   
+   <field name="s_id" type="text_general" indexed="true" stored="true" required="true" />
+   <field name="price" type="float" indexed="true" stored="true" required="false" />
+   <field name="rebate" type="float" indexed="true" stored="true" required="false" />
+   <field name="bought" type="float" indexed="true" stored="true" required="false" />
    
    <field name="all" type="textMaxWord" indexed="true" stored="false" multiValued="true" />
    

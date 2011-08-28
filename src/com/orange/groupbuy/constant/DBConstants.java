@@ -14,6 +14,7 @@ public class DBConstants {
 	public static final String T_APP = "app";
 	public static final String T_KEYWORD_STAT = "keyword_stat";
 	public static final String T_PUSH_MESSAGE = "push_message";
+	public static final String T_RECOMMEND = "recommend";
 	
 	// fields
 	public static final String F_TASK_STATUS = "status";
@@ -23,7 +24,7 @@ public class DBConstants {
 	public static final String F_TASK_SITE_ID = "site_id";
 	public static final String F_TASK_RETRY_TIMES = "retry";
 	
-	public static final String F_PUSH_MESSAGE_STATUS = "status";
+	public static final String F_PUSH_MESSAGE_STATUS = "p_status";
 	public static final String F_PUSH_MESSAGE_USER_ID = "user_id";
 	public static final String F_PUSH_MESSAGE_PRODUCT_ID = "p_id";
 	public static final String F_PUSH_MESSAGE_EMAIL = "email";
@@ -37,7 +38,7 @@ public class DBConstants {
     public static final String F_PUSH_MESSAGE_BODY = "p_body";
     public static final String F_PUSH_MESSAGE_IPHONE = "p_iphone";
     public static final String F_PUSH_MESSAGE_ANDROID = "p_android";
-	
+    public static final String F_RECOMMEND_STATUS = "r_status";
 	
 	// constants
 	public static final int C_TASK_STATUS_NOT_RUNNING = 0;
@@ -51,7 +52,11 @@ public class DBConstants {
     public static final int C_PUSH_MESSAGE_STATUS_RUNNING = 1;
     public static final int C_PUSH_MESSAGE_STATUS_CLOSE = 2;
     public static final int C_PUSH_MESSAGE_STATUS_FAILURE = 3;
-
+    
+    public static final int C_RECOMMEND_STATUS_NOT_RUNNING = 0;
+    public static final int C_RECOMMEND_STATUS_RUNNING = 1;
+    public static final int C_RECOMMEND_STATUS_COLSE = 2;
+    public static final int C_RECOMMEND_STATUS_FAILURE = 3;
 	
 	// major product or not
 	public static final int C_NOT_MAJOR = 0;
@@ -65,13 +70,13 @@ public class DBConstants {
 	public static final int C_CATEGORY_KEEPFIT = 5;
 	public static final int C_CATEGORY_LIFE = 6;
 	
-	public static final String C_CATEGORY_NAME_UNKNOWN = "ÁªºÂêà";
-	public static final String C_CATEGORY_NAME_EAT = "ÁæéÈ£ü";
-	public static final String C_CATEGORY_NAME_FUN = "Â®±‰πê";
-	public static final String C_CATEGORY_NAME_FACE = "ÁæéÂÆπ";
-	public static final String C_CATEGORY_NAME_SHOPPING = "ÁΩëË¥≠";
-	public static final String C_CATEGORY_NAME_KEEPFIT = "ËøêÂä®";
-	public static final String C_CATEGORY_NAME_LIFE = "ÁîüÊ¥ª";
+	public static final String C_CATEGORY_NAME_UNKNOWN = "ÁªºÂ?";
+	public static final String C_CATEGORY_NAME_EAT = "Áæ??";
+	public static final String C_CATEGORY_NAME_FUN = "Â®±‰?";
+	public static final String C_CATEGORY_NAME_FACE = "Áæ??";
+	public static final String C_CATEGORY_NAME_SHOPPING = "ÁΩ?¥≠";
+	public static final String C_CATEGORY_NAME_KEEPFIT = "Ëø??";
+	public static final String C_CATEGORY_NAME_LIFE = "??¥ª";
 	
 	public static final int SORT_BY_START_DATE = 0;
 	public static final int SORT_BY_PRICE = 1;
@@ -128,6 +133,8 @@ public class DBConstants {
 
 	public static final String F_CREATE_DATE = "c_date";
 
+	public static final String F_FOREIGN_USER_ID = "user_id";
+	
 	public static final String F_EMAIL = "email";
 	public static final String F_MOBILE = "mobile";
 	public static final String F_PASSWORD = "password";
@@ -289,11 +296,14 @@ public class DBConstants {
 	public static final String F_UP = "up";
 	public static final String F_DOWN = "down";
 
+	public static final String F_SCORE = "score";
+	public static final String F_RECOMMENDLIST = "re_list";
+
 	public static final String F_COMMENTS = "comments";
 	public static final String F_KEYWORD = "keys";
 	public static final String F_PRODUCTID = "p_id";
 	
-	public static final String V_NATIONWIDE = "ÂÖ®ÂõΩ";
+	public static final String V_NATIONWIDE = "?®Â?";
 
 	public static final String F_ID = "_id";
 	public static final String F_INDEX_ID = "id";
@@ -323,6 +333,8 @@ public class DBConstants {
 
 	public static final String F_SHOPPING_LIST = "s_list";
 	public static final String F_ITEM_ID = "item_id";
+
+    public static final float MIN_SCORE_TO_RECOMMEND = 0.2f;
 
 
 

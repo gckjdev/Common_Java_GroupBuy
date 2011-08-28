@@ -39,7 +39,7 @@ public class PushMessageManager {
      * @return the list
      */
     public static PushMessage findMessageForPush(final MongoDBClient mongoClient) {
-        DBObject obj = mongoClient.findAndModify(DBConstants.T_PUSH_MESSAGE, 
+        DBObject obj = mongoClient.findAndModifyUpsert(DBConstants.T_PUSH_MESSAGE, 
                                                  DBConstants.F_PUSH_MESSAGE_STATUS,
                                                  DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING,
                                                  DBConstants.C_PUSH_MESSAGE_STATUS_RUNNING);

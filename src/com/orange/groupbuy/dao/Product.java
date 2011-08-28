@@ -12,6 +12,8 @@ import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
 
 public class Product extends CommonData {
+    
+    private float score;
 
 	public Product(DBObject obj) {
 		super(obj);
@@ -387,4 +389,20 @@ public class Product extends CommonData {
     public int getActionCounterValueByName(String actionName) {        
         return this.getInt(actionName);
     }
+
+    public float getScore() {
+        return score;
+    }
+
+    public void setScore(Float score) {
+        this.score = score;
+    }
+	
+//	public void setScore(Float score) {
+//	    this.put(DBConstants.F_SCORE, score);
+//	}
+//	
+//	public float getScore() {
+//	    return this.getFloat(DBConstants.F_SCORE);
+//	}
 }
