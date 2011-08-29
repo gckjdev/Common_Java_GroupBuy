@@ -71,7 +71,7 @@ public class RecommendItemManager {
         item.put(DBConstants.F_START_DATE, product.getStartDate());
         item.put(DBConstants.F_END_DATE, product.getStartDate());
         item.put(DBConstants.F_ITEM_SENT_STATUS, DBConstants.C_ITEM_NOT_SENT);
-        
+
         existProductList.add(item);
     }
 

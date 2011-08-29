@@ -370,7 +370,7 @@ public class UserManager extends CommonManager{
     public static void setRecommendItem(final MongoDBClient mongoClient, User user, Product product, String itemId) {
 
         float score = product.getScore();
-        
+
         if (score >= DBConstants.MIN_SCORE_TO_RECOMMEND) {
             BasicDBObject item = new BasicDBObject();
             item.put(DBConstants.F_PRODUCTID, product.getStringObjectId());
