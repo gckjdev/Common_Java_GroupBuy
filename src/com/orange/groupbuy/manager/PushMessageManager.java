@@ -71,7 +71,7 @@ public class PushMessageManager {
         String iPhoneMessage = buildMessageForIPhone(product, user);
 
         BasicDBObject obj = new BasicDBObject();
-        obj.put(DBConstants.F_PUSH_MESSAGE_DEVICETOKEN, user.getDeviceToken());
+        obj.put(DBConstants.F_DEVICETOKEN, user.getDeviceToken());
         obj.put(DBConstants.F_PRODUCTID, product.getId());
         obj.put(DBConstants.F_FOREIGN_USER_ID, userId);
         obj.put(DBConstants.F_PUSH_MESSAGE_IPHONE, iPhoneMessage);
