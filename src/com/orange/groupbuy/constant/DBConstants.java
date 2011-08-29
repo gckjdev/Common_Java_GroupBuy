@@ -339,6 +339,8 @@ public class DBConstants {
     public static final int C_PUSH_TYPE_IPHONE = 1;
     public static final int C_PUSH_TYPE_ADNDROID = 2;
     public static final int C_PUSH_TYPE_EMAIL = 3;
+
+    public static final String F_COMMENT_CONTENT = "content";
     
     // test
 }

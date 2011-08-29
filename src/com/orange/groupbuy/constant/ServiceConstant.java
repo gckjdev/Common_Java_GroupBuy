@@ -232,4 +232,7 @@ public class ServiceConstant  {
 	public static final String PARA_ACTION_VALUE = "av";
 	
 	public static final String VERIFICATION = "1";
+    public static final String PARA_COMMENT_CONTENT = "comc";
+    public static final String METHOD_WRITEPRODUCTCOMMENT = "wpc";
+    public static final String METHOD_GETPRODUCTCOMMENTS = "gpc";
 }
