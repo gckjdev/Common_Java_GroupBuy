@@ -1,5 +1,9 @@
 package com.orange.groupbuy.manager;
 
+import java.util.Date;
+
+import org.apache.log4j.Logger;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
@@ -13,6 +17,8 @@ import com.orange.groupbuy.dao.User;
  */
 public class PushMessageManager {
 
+    public static final Logger log = Logger.getLogger(PushMessageManager.class.getName());
+    
     /**
      * Reset all running message.
      *
@@ -21,7 +27,7 @@ public class PushMessageManager {
     public static void resetAllRunningMessage(final MongoDBClient mongoClient) {
         BasicDBObject query = new BasicDBObject();
         BasicDBObject update = new BasicDBObject();
-        
+
         BasicDBObject value = new BasicDBObject();
         value.put("$ne", DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING);
         query.put(DBConstants.F_PUSH_MESSAGE_STATUS, value);
@@ -30,6 +36,7 @@ public class PushMessageManager {
         updateValue.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING);
         update.put("$set", updateValue);
         
+
         mongoClient.updateAll(DBConstants.T_PUSH_MESSAGE, query, update);
     }
 
@@ -41,7 +48,7 @@ public class PushMessageManager {
      * @return the list
      */
     public static PushMessage findMessageForPush(final MongoDBClient mongoClient) {
-        DBObject obj = mongoClient.findAndModifyUpsert(DBConstants.T_PUSH_MESSAGE, 
+        DBObject obj = mongoClient.findAndModifyUpsert(DBConstants.T_PUSH_MESSAGE,
                                                  DBConstants.F_PUSH_MESSAGE_STATUS,
                                                  DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING,
                                                  DBConstants.C_PUSH_MESSAGE_STATUS_RUNNING);
@@ -53,18 +60,49 @@ public class PushMessageManager {
 
     public static void savePushMessage(final MongoDBClient mongoClient, Product product, User user) {
 
-        DBObject obj = new BasicDBObject();
-        StringBuilder builder = new StringBuilder();
-        builder.append(product.getCity())
-        .append(",")
-        .append(product.getDescription())
-        .append(",")
-        .append(product.getLoc());
-        System.out.println(builder.toString());
-        obj.put(DBConstants.F_PUSH_MESSAGE_SUBJECT, product.getTitle());
-        obj.put(DBConstants.F_PUSH_MESSAGE_BODY, builder.toString());
+        String userId = user.getUserId();
+        BasicDBObject query = new BasicDBObject();
+        query.put(DBConstants.F_FOREIGN_USER_ID, userId);
+        query.put(DBConstants.F_PRODUCTID, product.getId());
+
+//        obj.put(DBConstants.F_PUSH_MESSAGE_SUBJECT, product.getTitle());
+//        obj.put(DBConstants.F_PUSH_MESSAGE_BODY, builder.toString());
+
+        String iPhoneMessage = buildMessageForIPhone(product, user);
+
+        BasicDBObject obj = new BasicDBObject();
         obj.put(DBConstants.F_PUSH_MESSAGE_DEVICETOKEN, user.getDeviceToken());
-        mongoClient.save(DBConstants.T_PUSH_MESSAGE, obj);
+        obj.put(DBConstants.F_PRODUCTID, product.getId());
+        obj.put(DBConstants.F_FOREIGN_USER_ID, userId);
+        obj.put(DBConstants.F_PUSH_MESSAGE_IPHONE, iPhoneMessage);
+        obj.put(DBConstants.F_PUSH_MESSAGE_TYPE, DBConstants.C_PUSH_TYPE_IPHONE);
+        obj.put(DBConstants.F_START_DATE, new Date());
+
+        BasicDBObject update = new BasicDBObject();
+        update.put("$set", obj);
+
+        log.debug("update push, query=" + query.toString() + ", value=" + update.toString());
+
+        mongoClient.updateOrInsert(DBConstants.T_PUSH_MESSAGE, query, update);
+    }
+
+    private static final int MAX_IPHONE_LEN = 80;
+
+    private static String buildMessageForIPhone(Product product, User user) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("有满足您需求的团购推荐了！【").append(product.getSiteName()).append("】 ").
+                append(product.getTitle());
+
+        String message = builder.toString();
+        int len = message.length();
+        if (len > MAX_IPHONE_LEN) {
+            len = MAX_IPHONE_LEN;
+            return message.substring(0, len).concat("...");
+        }
+        else {
+            return message;
+        }
+
     }
 
     /**

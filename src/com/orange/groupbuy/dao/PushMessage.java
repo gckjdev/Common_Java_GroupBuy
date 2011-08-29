@@ -105,7 +105,11 @@ public class PushMessage extends CommonData {
      * @return the user id
      */
     public final String getUserId() {
-        return this.getString(DBConstants.F_PUSH_MESSAGE_USER_ID);
+        return this.getString(DBConstants.F_FOREIGN_USER_ID);
+    }
+
+    public String getProductId() {
+        return this.getString(DBConstants.F_PRODUCTID);
     }
 
 }

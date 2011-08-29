@@ -25,11 +25,7 @@ public class DBConstants {
 	public static final String F_TASK_RETRY_TIMES = "retry";
 	
 	public static final String F_PUSH_MESSAGE_STATUS = "p_status";
-	public static final String F_PUSH_MESSAGE_USER_ID = "user_id";
-	public static final String F_PUSH_MESSAGE_PRODUCT_ID = "p_id";
 	public static final String F_PUSH_MESSAGE_EMAIL = "email";
-	public static final String F_PUSH_MESSAGE_DEVICETOKEN = "d_token";
-	public static final String F_PUSH_MESSAGE_DEVICEOS = "os";
 	public static final String F_PUSH_MESSAGE_START_DATE = "s_date";
 	public static final String F_PUSH_MESSAGE_FINISH_DATE = "f_date";
 	public static final String F_PUSH_MESSAGE_ERROR_CODE = "err_code";
@@ -59,7 +55,7 @@ public class DBConstants {
     public static final int C_RECOMMEND_STATUS_FAILURE = 3;
     
     public static final int C_ITEM_NOT_SENT = 0;
-    public static final int C_ITEM_NOT_SENDING = 1;
+    public static final int C_ITEM_SENDING = 1;
     public static final int C_ITEM_SENT = 2;
     
 	// major product or not
@@ -335,10 +331,14 @@ public class DBConstants {
 	public static final String F_SHOPPING_LIST = "s_list";
 	public static final String F_ITEM_ID = "item_id";
 
-    public static final float MIN_SCORE_TO_RECOMMEND = 0.4f;
+    public static final float MIN_SCORE_TO_RECOMMEND = 0.3f;
 
     public static final String F_UP = "up";
     public static final String F_DOWN = "down";
+
+    public static final int C_PUSH_TYPE_IPHONE = 1;
+    public static final int C_PUSH_TYPE_ADNDROID = 2;
+    public static final int C_PUSH_TYPE_EMAIL = 3;
     
     // test
 }

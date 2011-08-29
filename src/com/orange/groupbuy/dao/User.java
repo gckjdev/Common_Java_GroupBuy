@@ -62,5 +62,9 @@ public class User extends CommonData {
     public String getDeviceToken() {
         return this.getString(DBConstants.F_DEVICETOKEN);
     }
+    
+    public void setDeviceToke(String deviceToken) {
+        this.getDbObject().put(DBConstants.F_DEVICETOKEN, deviceToken);
+    }
 	
 }
