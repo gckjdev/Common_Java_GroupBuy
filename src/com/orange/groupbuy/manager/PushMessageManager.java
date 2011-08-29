@@ -35,7 +35,7 @@ public class PushMessageManager {
         BasicDBObject updateValue = new BasicDBObject();
         updateValue.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING);
         update.put("$set", updateValue);
-        
+
 
         mongoClient.updateAll(DBConstants.T_PUSH_MESSAGE, query, update);
     }

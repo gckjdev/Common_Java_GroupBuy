@@ -33,16 +33,7 @@ public class PushMessage extends CommonData {
      * @return the device token
      */
     public final String getDeviceToken() {
-        return this.getString(DBConstants.F_PUSH_MESSAGE_DEVICETOKEN);
-    }
-
-    /**
-     * Gets the device os.
-     *
-     * @return the device os
-     */
-    public final String getDeviceOS() {
-        return this.getString(DBConstants.F_PUSH_MESSAGE_DEVICEOS);
+        return this.getString(DBConstants.F_DEVICETOKEN);
     }
 
     /**
