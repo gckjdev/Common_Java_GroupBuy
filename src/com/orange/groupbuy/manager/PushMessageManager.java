@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
@@ -18,24 +19,26 @@ import com.orange.groupbuy.dao.User;
 public class PushMessageManager {
 
     public static final Logger log = Logger.getLogger(PushMessageManager.class.getName());
-    
+    private static final int MAX_IPHONE_LEN = 70;
+
+
     /**
      * Reset all running message.
      *
      * @param mongoClient the mongo client
      */
     public static void resetAllRunningMessage(final MongoDBClient mongoClient) {
-        BasicDBObject query = new BasicDBObject();
+        DBObject query = new BasicDBObject();
         BasicDBObject update = new BasicDBObject();
 
-        BasicDBObject value = new BasicDBObject();
-        value.put("$ne", DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING);
-        query.put(DBConstants.F_PUSH_MESSAGE_STATUS, value);
+        BasicDBList values = new BasicDBList();
+        values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, null));
+        values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_RUNNING));
+        query.put("$or", values);
 
         BasicDBObject updateValue = new BasicDBObject();
         updateValue.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING);
         update.put("$set", updateValue);
-
 
         mongoClient.updateAll(DBConstants.T_PUSH_MESSAGE, query, update);
     }
@@ -86,8 +89,6 @@ public class PushMessageManager {
         mongoClient.updateOrInsert(DBConstants.T_PUSH_MESSAGE, query, update);
     }
 
-    private static final int MAX_IPHONE_LEN = 80;
-
     private static String buildMessageForIPhone(Product product, User user) {
         StringBuilder builder = new StringBuilder();
         builder.append("有满足您需求的团购推荐了！【").append(product.getSiteName()).append("】 ").
@@ -113,11 +114,11 @@ public class PushMessageManager {
      */
     public static void pushMessageClose(final MongoDBClient mongoClient, final PushMessage pushMessage) {
         pushMessage.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_CLOSE);
-        mongoClient.save(DBConstants.T_PUSH_MESSAGE, pushMessage.getDbObject());   
+        mongoClient.save(DBConstants.T_PUSH_MESSAGE, pushMessage.getDbObject());
     }
-    
+
     public static void pushMessageFailure(final MongoDBClient mongoClient, final PushMessage pushMessage) {
         pushMessage.put(DBConstants.F_PUSH_MESSAGE_STATUS, Integer.valueOf(DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE));
-        mongoClient.save(DBConstants.T_PUSH_MESSAGE, pushMessage.getDbObject());   
+        mongoClient.save(DBConstants.T_PUSH_MESSAGE, pushMessage.getDbObject());
     }
 }
