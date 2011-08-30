@@ -13,11 +13,11 @@ import com.orange.groupbuy.dao.RecommendItem;
 public class RecommendItemManager {
 
     public static RecommendItem findRecommendItem(MongoDBClient mongoClient, String userId, String itemId) {
-        
+
         BasicDBObject query = new BasicDBObject();
         query.put(DBConstants.F_FOREIGN_USER_ID, userId);
         query.put(DBConstants.F_ITEM_ID, itemId);
-       
+
         BasicDBObject updateValue = new BasicDBObject();
         updateValue.put(DBConstants.F_FOREIGN_USER_ID, userId);
         updateValue.put(DBConstants.F_ITEM_ID, itemId);
@@ -26,41 +26,43 @@ public class RecommendItemManager {
         update.put("$set", updateValue);
 
         DBObject obj = mongoClient.findAndModifyInsert(DBConstants.T_RECOMMEND, query, update);
-        if (obj == null)
+        if (obj == null) {
             return null;
-        else
+        }
+        else {
             return new RecommendItem(obj);
+        }
     }
 
     public static boolean addOrUpdateProduct( RecommendItem recommendItem, Product product) {
-        
-        if (product.getScore() < DBConstants.MIN_SCORE_TO_RECOMMEND)
+
+        if (product.getScore() < DBConstants.MIN_SCORE_TO_RECOMMEND) {
             return false;
-        
+        }
         BasicDBList existProductList = recommendItem.getProductList();
-        if (existProductList == null){
+        if (existProductList == null) {
             existProductList = new BasicDBList();
             recommendItem.put(DBConstants.F_RECOMMENDLIST, existProductList);
         }
-        
+
         boolean found = false;
         String productId = product.getId();
         Iterator iter = existProductList.iterator();
-        while (iter.hasNext()){
-            BasicDBObject recommendProduct = (BasicDBObject)iter.next();
+        while (iter.hasNext()) {
+            BasicDBObject recommendProduct = (BasicDBObject) iter.next();
             String recommendProductId = recommendProduct.getString(DBConstants.F_PRODUCTID);
-            if (recommendProductId.equalsIgnoreCase(productId)){
+            if (recommendProductId.equalsIgnoreCase(productId)) {
                 recommendProduct.put(DBConstants.F_SCORE, product.getScore());
                 found = true;
                 break;
             }
-            
+
         }
-        
-        if (!found){
-           addRecommendProduct(existProductList, product);
+
+        if (!found) {
+            addRecommendProduct(existProductList, product);
         }
-        
+
         return true;
     }
 
