@@ -1,5 +1,7 @@
 package com.orange.groupbuy.constant;
 
+import org.antlr.grammar.v3.ANTLRv3Parser.finallyClause_return;
+
 public class ServiceConstant  {
 
 	// server name
@@ -51,7 +53,9 @@ public class ServiceConstant  {
 	public static final String METHOD_UPDATESHOPPINGITEM = "usi";
 	public static final String METHOD_DELETESHOPPINGITEM = "dsi";
 	public static final String METHOD_GETSHOPPINGITEM = "gsi";
-
+	
+	// internal usage
+	public static final String METHOD_DELETESOLRINDEX = "deletesolr";
 	
 	// for groupbuy
 	public static final String METHOD_REGISTERDEVICE = "rd";
@@ -75,6 +79,8 @@ public class ServiceConstant  {
 	public static final String PARA_RENRENID = "rid";
 	public static final String PARA_TWITTERID = "tid";
 	public static final String PARA_QUERY = "q";
+	public static final String PAPA_STARTDATE = "sd";
+	public static final String PAPA_ENDDATE = "ed";
 
 	public static final String PARA_MOBILE = "mb";
 	public static final String PARA_EMAIL = "em";
@@ -191,6 +197,8 @@ public class ServiceConstant  {
 	public static final String PARA_TODAY_ONLY = "to";
 	public static final String PARA_SORT_BY = "sb";
 	public static final String PARA_KEYWORD = "kw";
+	public static final String PARA_START_PRICE = "sp";
+	public static final String PARA_END_PRICE = "ep";
 	
 	public static final String METHOD_FINDPRODUCTSWITHPRICE = "fpp";
 	public static final String METHOD_FINDPRODUCTSWITHREBATE = "fpd";
@@ -199,6 +207,7 @@ public class ServiceConstant  {
 	public static final String METHOD_FINDPRODUCTSWITHCATEGORY = "fpc";
 	public static final String METHOD_FINDPRODUCTSGROUPBYCATEGORY = "fgc";	
 	public static final String METHOD_FINDPRODUCTS = "fp";
+	public static final String METHOD_FINDPRODUCTBYSCORE = "fps";
 	
 	//response parameters
 	public static final String PARA_LOC = "loc";
@@ -235,4 +244,6 @@ public class ServiceConstant  {
     public static final String PARA_COMMENT_CONTENT = "comc";
     public static final String METHOD_WRITEPRODUCTCOMMENT = "wpc";
     public static final String METHOD_GETPRODUCTCOMMENTS = "gpc";
+    
+    
 }
