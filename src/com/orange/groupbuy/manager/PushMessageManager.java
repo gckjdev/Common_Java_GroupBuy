@@ -86,7 +86,7 @@ public class PushMessageManager {
         mongoClient.updateOrInsert(DBConstants.T_PUSH_MESSAGE, query, update);
     }
 
-    private static final int MAX_IPHONE_LEN = 80;
+    private static final int MAX_IPHONE_LEN = 70;
 
     private static String buildMessageForIPhone(Product product, User user) {
         StringBuilder builder = new StringBuilder();

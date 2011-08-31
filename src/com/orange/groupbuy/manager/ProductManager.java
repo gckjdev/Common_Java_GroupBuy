@@ -687,7 +687,7 @@ public class ProductManager extends CommonManager {
 		}
 		
 		if (categoryList != null && categoryList.size() > 0) {
-			System.out.println("enter cateorylist query");
+			//System.out.println("enter cateorylist query");
 			//"myField:(id1 OR id2 OR id3)"
 			int size = categoryList.size();
 			String categoryQuery = DBConstants.F_CATEGORY + ":";
@@ -749,7 +749,7 @@ public class ProductManager extends CommonManager {
 				
 				productScoreMap.put(objectId, productScore);
 				
-				log.info("<searchProductBySolr> result doc="+ resultDoc.toString());
+				log.debug("<searchProductBySolr> result doc="+ resultDoc.toString());
 			}
 			log.info("<searchProductBySolr> search done, result size = " + resultList.size());
 
@@ -783,7 +783,7 @@ public class ProductManager extends CommonManager {
 
 		} catch (SolrServerException e) {
 			e.printStackTrace();
-			log.severe("<searchProductBySolr> catch exception="+e.toString());
+			log.error("<searchProductBySolr> catch exception="+e.toString()+","+e.getMessage());
 			return null;
 		}
 	}
