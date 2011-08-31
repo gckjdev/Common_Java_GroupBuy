@@ -368,6 +368,11 @@ public class ProductManager extends CommonManager {
 			boolean sortAscending) {
 		addFieldIntoOrder(orderBy, DBConstants.F_REBATE, sortAscending);
 	}
+	
+	public static void addTopScoreIntoOrder(DBObject orderBy,
+            boolean sortAscending) {
+        addFieldIntoOrder(orderBy, DBConstants.F_TOP_SCORE, sortAscending);
+    }
 
 	public static void addBoughtIntoOrder(DBObject orderBy,
 			boolean sortAscending) {
@@ -658,7 +663,6 @@ public class ProductManager extends CommonManager {
 		return getProduct(cursor);
 	}
 
-	// TODO
 	public static List<Product> searchProductBySolr(SolrClient solrClient,
 			MongoDBClient mongoClient, String city, List<Integer> categoryList,
 			boolean todayOnly, String keyword, int startOffset, int maxCount) {
@@ -820,5 +824,41 @@ public class ProductManager extends CommonManager {
         update.put("$push", pushValue);
         
         mongoClient.updateOrInsert(DBConstants.T_PRODUCT, query, update);
+    }
+
+    public static List<Product> getTopScoreProducts(MongoDBClient mongoClient, String city, int category,
+            int startOffset, int maxCount, int startPrice, int endPrice) {
+        // TODO Auto-generated method stub
+        DBObject query = new BasicDBObject();
+        DBObject orderBy = new BasicDBObject();
+
+        // set query
+        addCityIntoQuery(query, city);
+        addExpirationIntoQuery(query);
+        if (category != -1) {
+            List<Integer> categoryList = new ArrayList<Integer>();
+            categoryList.add(category);
+            addCategoryIntoQuery(query, categoryList);
+        } 
+        addPriceRangeIntoQuery(query, startPrice, endPrice);
+        addTopScoreIntoOrder(orderBy, false);
+        
+        log.info("<getTopScoreProducts> query = " + query.toString() + " , orderBy = "
+                + orderBy + " startOffset = " + startOffset + ", maxCount = "
+                + maxCount);
+
+        DBCursor cursor = mongoClient.find(DBConstants.T_PRODUCT, query,
+                orderBy, startOffset, maxCount);
+        return getProduct(cursor);
+        
+    }
+
+    private static void addPriceRangeIntoQuery(DBObject query, int startPrice, int endPrice) {
+        DBObject startPriceCondition = new BasicDBObject();
+        startPriceCondition.put("$gte", startPrice);
+        DBObject endPriceCondition = new BasicDBObject();
+        endPriceCondition.put("$lt", endPrice);
+        query.put(DBConstants.F_PRICE, startPriceCondition);       
+        query.put(DBConstants.F_PRICE, endPriceCondition); 
     }
 }
