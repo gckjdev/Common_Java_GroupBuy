@@ -55,8 +55,9 @@ public class PushMessageManager {
         mongoClient.updateAll(DBConstants.T_PUSH_MESSAGE, query, update);
     }
 
-    public static PushMessage findMessageForPush(final MongoDBClient mongoClient) {
 
+    public static PushMessage findMessageForPush(final MongoDBClient mongoClient) {
+        
         //find p_status:null OR failure but try_cnt < limit OR not_running
 
         DBObject query = new BasicDBObject();
@@ -178,5 +179,20 @@ public class PushMessageManager {
         pushMessage.put(DBConstants.F_PUSH_MESSAGE_STATUS, Integer.valueOf(DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE));
         pushMessage.put(DBConstants.F_PUSH_MESSAGE_TRYCOUNT, pushMessage.getTryCount() + 1);
         mongoClient.save(DBConstants.T_PUSH_MESSAGE, pushMessage.getDbObject());
+
+        User user = findUserByMessage(mongoClient, pushMessage);
+        if (user != null) {
+            user.setPushCount(user.getPushCount() - 1);
+            mongoClient.save(DBConstants.T_USER, user.getDbObject());
+        }
+    }
+
+    public static User findUserByMessage(final MongoDBClient mongoClient, final PushMessage pushMessage) {
+        String userId = pushMessage.getUserId();
+        DBObject obj = mongoClient.findOne(DBConstants.T_USER, DBConstants.F_USERID, new ObjectId(userId));
+        if (obj != null) {
+            return new User(obj);
+        }
+        return null;
     }
 }
