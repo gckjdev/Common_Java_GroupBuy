@@ -36,8 +36,16 @@ public class PushMessageManager {
         BasicDBObject update = new BasicDBObject();
 
         BasicDBList values = new BasicDBList();
+
+        BasicDBObject query_trycount = new BasicDBObject();
+        query_trycount.put(DBConstants.F_PUSH_MESSAGE_TRYCOUNT, new BasicDBObject("$lt", DBConstants.C_PUSH_MESSAGE_TRY_COUNT_LIMIT));
+        query_trycount.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE);
+        values.add(query_trycount);
+
         values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, null));
         values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_RUNNING));
+
+
         query.put("$or", values);
 
         BasicDBObject updateValue = new BasicDBObject();
@@ -47,18 +55,29 @@ public class PushMessageManager {
         mongoClient.updateAll(DBConstants.T_PUSH_MESSAGE, query, update);
     }
 
-    /**
-     * Find message for push.
-     *
-     * @param mongoClient the mongo client
-     * @param limit the limit
-     * @return the list
-     */
     public static PushMessage findMessageForPush(final MongoDBClient mongoClient) {
-        DBObject obj = mongoClient.findAndModifyUpsert(DBConstants.T_PUSH_MESSAGE,
-                                                 DBConstants.F_PUSH_MESSAGE_STATUS,
-                                                 DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING,
-                                                 DBConstants.C_PUSH_MESSAGE_STATUS_RUNNING);
+
+        //find p_status:null OR failure but try_cnt < limit OR not_running
+
+        DBObject query = new BasicDBObject();
+        BasicDBObject update = new BasicDBObject();
+        BasicDBList values = new BasicDBList();
+
+        BasicDBObject query_trycount = new BasicDBObject();
+        query_trycount.put(DBConstants.F_PUSH_MESSAGE_TRYCOUNT, new BasicDBObject("$lt", DBConstants.C_PUSH_MESSAGE_TRY_COUNT_LIMIT));
+        query_trycount.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE);
+        values.add(query_trycount);
+        values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, null));
+        values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING));
+
+        query.put("$or", values);
+
+        BasicDBObject updateValue = new BasicDBObject();
+        updateValue.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_RUNNING);
+        update.put("$set", updateValue);
+
+        DBObject obj =  mongoClient.findAndModifyNew(DBConstants.T_PUSH_MESSAGE, query, update);
+
 
         if (obj != null) {
             PushMessage message =  new PushMessage(obj);
@@ -157,6 +176,7 @@ public class PushMessageManager {
 
     public static void pushMessageFailure(final MongoDBClient mongoClient, final PushMessage pushMessage) {
         pushMessage.put(DBConstants.F_PUSH_MESSAGE_STATUS, Integer.valueOf(DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE));
+        pushMessage.put(DBConstants.F_PUSH_MESSAGE_TRYCOUNT, pushMessage.getTryCount() + 1);
         mongoClient.save(DBConstants.T_PUSH_MESSAGE, pushMessage.getDbObject());
     }
 }

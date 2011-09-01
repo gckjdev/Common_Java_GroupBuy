@@ -24,6 +24,7 @@ public class DBConstants {
 	public static final String F_TASK_SITE_ID = "site_id";
 	public static final String F_TASK_RETRY_TIMES = "retry";
 	
+	public static final String F_PUSH_MESSAGE_TRYCOUNT = "try_cnt";
 	public static final String F_PUSH_MESSAGE_STATUS = "p_status";
 	public static final String F_PUSH_MESSAGE_EMAIL = "email";
 	public static final String F_PUSH_MESSAGE_START_DATE = "s_date";
@@ -54,6 +55,8 @@ public class DBConstants {
     public static final int C_PUSH_MESSAGE_STATUS_RUNNING = 1;
     public static final int C_PUSH_MESSAGE_STATUS_CLOSE = 2;
     public static final int C_PUSH_MESSAGE_STATUS_FAILURE = 3;
+    
+    public static final int C_PUSH_MESSAGE_TRY_COUNT_LIMIT = 3;
     
     public static final int C_RECOMMEND_STATUS_NOT_RUNNING = 0;
     public static final int C_RECOMMEND_STATUS_RUNNING = 1;
@@ -339,7 +342,7 @@ public class DBConstants {
 	public static final String F_SHOPPING_LIST = "s_list";
 	public static final String F_ITEM_ID = "item_id";
 
-    public static final float MIN_SCORE_TO_RECOMMEND = 0.24f;
+    public static final float MIN_SCORE_TO_RECOMMEND = 0.2f;
 
     public static final String F_UP = "up";
     public static final String F_DOWN = "down";
