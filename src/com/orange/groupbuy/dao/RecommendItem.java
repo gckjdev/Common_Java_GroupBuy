@@ -61,7 +61,6 @@ public class RecommendItem extends CommonData {
         now.setTime(new Date());
 
         Date lastRecommendDate = getRecommendDate();
-
         Calendar lastRecommendCalendar = Calendar.getInstance(timeZone);
         if (lastRecommendDate != null) {
             lastRecommendCalendar.setTime(lastRecommendDate);

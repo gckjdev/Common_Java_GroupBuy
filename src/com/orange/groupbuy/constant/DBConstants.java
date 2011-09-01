@@ -14,8 +14,8 @@ public class DBConstants {
 	public static final String T_APP = "app";
 	public static final String T_KEYWORD_STAT = "keyword_stat";
 	public static final String T_PUSH_MESSAGE = "push_message";
-	public static final String T_RECOMMEND = "recommend";
-	
+	public static final String T_RECOMMEND = "recommend"; 
+
 	// fields
 	public static final String F_TASK_STATUS = "status";
 	public static final String F_TASK_URL = "url";
