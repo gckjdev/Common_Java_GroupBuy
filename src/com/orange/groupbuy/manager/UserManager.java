@@ -1,9 +1,12 @@
 package com.orange.groupbuy.manager;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
+import org.apache.log4j.Logger;
 import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBList;
@@ -11,6 +14,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.common.urbanairship.RegisterService;
+import com.orange.common.utils.DateUtil;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.PushNotificationConstants;
@@ -19,6 +23,8 @@ import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.User;
 
 public class UserManager extends CommonManager{
+    
+    public static final Logger log = Logger.getLogger(UserManager.class.getName());
 	
 	public static DBObject findUserByDeviceId(MongoDBClient mongoClient, String deviceId){
 		if (mongoClient == null || deviceId == null || deviceId.length() <= 0)
@@ -146,7 +152,7 @@ public class UserManager extends CommonManager{
 		DBObject query = new BasicDBObject();
 		query.put(DBConstants.F_DEVICEID, deviceId);
 		
-		System.out.println("<addSearchKeyword> query="+query.toString()+",value="+addToSet);
+		log.info("<addSearchKeyword> query="+query.toString()+",value="+addToSet);
 		mongoClient.updateAll(DBConstants.T_USER, query, addToSet);
 		
 	}
@@ -346,17 +352,55 @@ public class UserManager extends CommonManager{
 	
 	public static User findUserForRecommend(final MongoDBClient mongoClient) {
 	    
-	    DBObject obj = mongoClient.findAndModifyUpsert(DBConstants.T_USER,
-	                                             DBConstants.F_RECOMMEND_STATUS,
-	                                             DBConstants.C_RECOMMEND_STATUS_NOT_RUNNING,
-	                                             DBConstants.C_RECOMMEND_STATUS_RUNNING) ;
-	    if (obj != null) {
-	        return new User(obj);
-	    }
-	        
-	    return null;
-	}
-	
+        DBObject obj = mongoClient.findAndModifyUpsert(DBConstants.T_USER,
+                                                 DBConstants.F_RECOMMEND_STATUS,
+                                                 DBConstants.C_RECOMMEND_STATUS_NOT_RUNNING,
+                                                 DBConstants.C_RECOMMEND_STATUS_RUNNING);
+        if (obj != null) {
+            return new User(obj);
+        }
+            
+        return null;
+       
+    }
+
+    public static void addRecommendCount(User user) {
+        user.setRecommendCount(user.getRecommendCount() + 1);
+    }
+    
+    public static void addPushCount(User user) {
+        user.setPushCount(user.getPushCount() + 1);
+    }
+
+    public static boolean checkPushCount(MongoDBClient mongoClient, User user) {
+
+        TimeZone timeZone = TimeZone.getTimeZone("GMT+0800");
+        Calendar now = Calendar.getInstance(timeZone);
+        now.setTime(new Date());
+        Calendar lastPushCalendar = Calendar.getInstance(timeZone);
+        Date lastPushDate = user.getPushDate();
+
+        if (lastPushDate == null) {
+            return true;
+        }
+
+        lastPushCalendar.setTime(lastPushDate);
+
+        int pushCount = user.getPushCount();
+
+        if (pushCount > DBConstants.C_PUSH_DAILY_LIMIT) {
+            if (now.get(Calendar.DAY_OF_MONTH) > lastPushCalendar.get(Calendar.DAY_OF_MONTH)) {
+                user.setPushCount(0);
+                mongoClient.save(DBConstants.T_USER, user.getDbObject());
+            } else {
+                user.setPushCount(pushCount - 1);
+                mongoClient.save(DBConstants.T_USER, user.getDbObject());
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void recommendClose(final MongoDBClient mongoClient, final User user) {
         user.put(DBConstants.F_RECOMMEND_STATUS, DBConstants.C_RECOMMEND_STATUS_COLSE);
         mongoClient.save(DBConstants.T_USER, user.getDbObject());

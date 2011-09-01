@@ -1,8 +1,6 @@
 package com.orange.groupbuy.manager;
 
-import java.util.List;
-
-import org.eclipse.jetty.util.log.Log;
+import org.apache.log4j.Logger;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -11,6 +9,8 @@ import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.dao.HotKeyword;
 
 public class KeywordManager {
+    
+    public static final Logger log = Logger.getLogger(KeywordManager.class.getName());
 
 	public static boolean upsertKeyword(MongoDBClient mongoClient, String keyword){
 		if (keyword == null)
@@ -25,7 +25,7 @@ public class KeywordManager {
 		DBObject query = new BasicDBObject();
 		query.put(DBConstants.F_KEYWORD, keyword);
 		
-		System.out.println("<upsertKeyword> query="+query.toString()+",value="+incValue);
+		log.info("<upsertKeyword> query="+query.toString()+",value="+incValue);
 		mongoClient.updateOrInsert(DBConstants.T_KEYWORD_STAT, query, incValue);
 
 		
@@ -42,7 +42,7 @@ public class KeywordManager {
 		String key = DBConstants.F_KEYWORD.concat(".").concat(DBConstants.F_KEYWORD_NAME);
 		query.put(key, keyword);
 		
-		System.out.println("<findHotKeyword> query="+query.toString());		
+		log.info("<findHotKeyword> query="+query.toString());		
 		DBObject obj = mongoClient.findOne(DBConstants.T_APP, query);
 		if (obj == null)
 			return null;

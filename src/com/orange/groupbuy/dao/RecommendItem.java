@@ -1,9 +1,14 @@
 package com.orange.groupbuy.dao;
 
+import java.util.Calendar;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.TimeZone;
+
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.orange.common.utils.DateUtil;
 import com.orange.groupbuy.constant.DBConstants;
 
 public class RecommendItem extends CommonData {
@@ -15,7 +20,15 @@ public class RecommendItem extends CommonData {
         return (BasicDBList) dbObject.get(DBConstants.F_RECOMMENDLIST);
     }
 
-    public String sortAndSelectProduct() {
+    public void setRecommendDate(Date date) {
+        this.getDbObject().put(DBConstants.F_RECOMMEND_DATE, date);
+    }
+
+    public Date getRecommendDate() {
+        return getDate(DBConstants.F_RECOMMEND_DATE);
+    }
+
+    public String sortAndSelectProduct(User user) {
         BasicDBList list = getProductList();
 
         if (list == null || list.size() <= 0) {
@@ -43,16 +56,28 @@ public class RecommendItem extends CommonData {
         }
         );
 
-        for (Object obj : list) {
-            BasicDBObject product =  (BasicDBObject) obj;
-            int status = product.getInt(DBConstants.F_ITEM_SENT_STATUS);
-            if (status == DBConstants.C_ITEM_NOT_SENT) {
-                product.put(DBConstants.F_ITEM_SENT_STATUS, DBConstants.C_ITEM_SENDING);
-                return product.getString(DBConstants.F_PRODUCTID);
-            }
+        TimeZone timeZone = TimeZone.getTimeZone("GMT+0800");
+        Calendar now = Calendar.getInstance(timeZone);
+        now.setTime(new Date());
 
+        Date lastRecommendDate = getRecommendDate();
+        Calendar lastRecommendCalendar = Calendar.getInstance(timeZone);
+        if (lastRecommendDate != null) {
+            lastRecommendCalendar.setTime(lastRecommendDate);
+            if (now.get(Calendar.DAY_OF_MONTH) <= lastRecommendCalendar.get(Calendar.DAY_OF_MONTH)) {
+                return null;
+            }
         }
 
+        for (Object obj : list) {
+            BasicDBObject product = (BasicDBObject) obj;
+            int status = product.getInt(DBConstants.F_ITEM_SENT_STATUS);
+            if (status == DBConstants.C_ITEM_NOT_SENT) {
+                product.put(DBConstants.F_ITEM_SENT_STATUS, DBConstants.C_ITEM_SENT);
+                setRecommendDate(DateUtil.getGMT8Date());
+                return product.getString(DBConstants.F_PRODUCTID);
+            }
+        }
         return null;
 
     }
