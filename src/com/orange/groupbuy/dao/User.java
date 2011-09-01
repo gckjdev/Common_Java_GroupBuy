@@ -78,15 +78,7 @@ public class User extends CommonData {
     public void setRecommendStatus(int status) {
         this.getDbObject().put(DBConstants.F_RECOMMEND_STATUS, status);
     }
-    
-    public Date getRecommendDate() {
-        return getDate(DBConstants.F_RECOMMEND_START_DATE);
-    }
-    
-    public void setRecommendDate(Date date) {
-        this.getDbObject().put(DBConstants.F_RECOMMEND_START_DATE, date);
-    }
-    
+        
     public Date getPushDate() {
         return getDate(DBConstants.F_PUSH_DATE);
     }

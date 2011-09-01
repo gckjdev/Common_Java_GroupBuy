@@ -37,7 +37,7 @@ public class DBConstants {
     
     public static final String F_RECOMMEND_STATUS = "r_status";
     public static final String F_RECOMMEND_COUNT = "r_count";
-    public static final String F_RECOMMEND_START_DATE = "r_date";
+    public static final String F_RECOMMEND_DATE = "r_date";
     public static final String F_PUSH_COUNT = "p_count";
     public static final String F_PUSH_DATE = "p_date";
 
