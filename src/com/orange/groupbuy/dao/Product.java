@@ -1,8 +1,13 @@
 package com.orange.groupbuy.dao;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
+
+import sun.util.resources.CalendarData;
+
 import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
 import com.orange.common.utils.DateUtil;
@@ -68,11 +73,15 @@ public class Product extends CommonData {
     }
 	
 	public double calcTopScore_2(int bought, Date startDate) {
-        Date nowDate = new Date();
-        long end = nowDate.getTime();
-        long start = startDate.getTime();
-        if (bought >= 0 && end > start) {
-            double score = Math.log10(bought) +  ((double) (end-start) / 45000);
+	    
+	    TimeZone timeZone = TimeZone.getTimeZone("GMT+0800");
+        Calendar now = Calendar.getInstance(timeZone);
+        now.set(2010, 0, 0, 0, 0, 0);
+        Date constDate = now.getTime();   
+        long B = constDate.getTime();
+        long A = startDate.getTime();
+        if (bought >= 0 && A > B) {
+            double score = Math.log10(bought) +  ((double) (A-B) / 45000);
             return score;
         } else {
             return 0;

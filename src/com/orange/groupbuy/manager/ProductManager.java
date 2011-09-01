@@ -21,23 +21,17 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.bson.types.BasicBSONList;
 import org.bson.types.ObjectId;
-import org.springframework.context.support.StaticApplicationContext;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.Mongo;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.common.utils.DateUtil;
-import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.ProductAddress;
 import com.orange.common.solr.SolrClient;
-//import com.sun.corba.se.spi.ior.ObjectId;
-import org.bson.types.ObjectId;
 
 
 public class ProductManager extends CommonManager {
@@ -133,6 +127,8 @@ public class ProductManager extends CommonManager {
 			doc.addField(DBConstants.F_END_DATE, endDateLong, 1.0f);
 			int category = product.getCategory();
 			doc.addField(DBConstants.F_CATEGORY, category, 1.0f);
+			double price = product.getPrice();
+			doc.addField(DBConstants.F_PRICE, price, 1.0f);
 
 			String description = product.getDescription();
 			String detail = product.getDetail();
@@ -665,7 +661,7 @@ public class ProductManager extends CommonManager {
 
 	public static List<Product> searchProductBySolr(SolrClient solrClient,
 			MongoDBClient mongoClient, String city, List<Integer> categoryList,
-			boolean todayOnly, String keyword, int startOffset, int maxCount) {
+			boolean todayOnly, String keyword, int startOffset, int maxCount, Double price) {
 
 		SolrQuery query = new SolrQuery();
 		if (keyword == null || keyword.isEmpty())
@@ -677,48 +673,31 @@ public class ProductManager extends CommonManager {
 		
 		long dateLong = new Date().getTime();
 		String dateString = String.valueOf(dateLong);
-		String dateQuery = DBConstants.F_END_DATE + ":" + "[" + dateString
-				+ " TO *]";
-		query.addFilterQuery(dateQuery);
+		addRangeIntoFilterQuery(query, DBConstants.F_END_DATE, dateString, null);
 
 		if (todayOnly) {
 			Date todayDate = DateUtil.getDateOfToday();
 			// long dateInc = 3600 * 1000 * 24 * 0;
 			String todayDateString = String.valueOf(todayDate.getTime());
-			String todayDateQuery = DBConstants.F_START_DATE + ":" + "["
-					+ todayDateString + " TO *]";
-			query.addFilterQuery(todayDateQuery);
+			addRangeIntoFilterQuery(query, DBConstants.F_START_DATE, todayDateString, null);
 		}
 		
 		if (categoryList != null && categoryList.size() > 0) {
-			//System.out.println("enter cateorylist query");
-			//"myField:(id1 OR id2 OR id3)"
-			int size = categoryList.size();
-			String categoryQuery = DBConstants.F_CATEGORY + ":";
-			String temp = "";
-			for (int i=0; i<size; i++) {
-				if (i == size-1)
-					temp = temp.concat("" + categoryList.get(i));
-				else
-					temp = temp.concat(categoryList.get(i) + " OR ");
-			}
-			if (size == 1)
-				categoryQuery = categoryQuery.concat(temp);
-			else
-				categoryQuery = categoryQuery.concat("(").concat(temp).concat(")");
-			query.addFilterQuery(categoryQuery);	
+			//"myField:(id1 OR id2 OR id3)"	
+		    addOrIntoFilterQuery(query, DBConstants.F_CATEGORY, categoryList);
 		}
 		
-		if(maxCount > 0)
+		if (maxCount > 0)
 			query.setRows(maxCount);
-		if(startOffset >= 0)
+		if (startOffset >= 0)
 			query.setStart(startOffset);
 
+		if (price != null) {
+		    String priceString = String.valueOf(price.doubleValue());
+		    addRangeIntoFilterQuery(query, DBConstants.F_PRICE, null, priceString);
+		}
 		
-		query.set("fl", "score, id");
-		// TODO for test
-//		query.setQuery("_val_:scale(score,0.5,1)");
-//		query.set("_val_", "scale(score,0.5,1)");
+		query.set("fl", "score, id, price");
 		
 		log.info("<searchProductBySolr> query=" + query.toString());
 
@@ -729,7 +708,6 @@ public class ProductManager extends CommonManager {
 			
 			if (rsp == null)
 				return null;
-			
 
 			SolrDocumentList resultList = rsp.getResults();
 			if (resultList == null)
@@ -791,7 +769,14 @@ public class ProductManager extends CommonManager {
 			return null;
 		}
 	}
-
+	
+	public static List<Product> searchProductBySolr(SolrClient solrClient,
+            MongoDBClient mongoClient, String city, List<Integer> categoryList,
+            boolean todayOnly, String keyword, int startOffset, int maxCount) {
+	    
+	    List<Product> list = searchProductBySolr(solrClient, mongoClient, city, categoryList, todayOnly, keyword, startOffset, maxCount, null);
+	    return list;
+	}
 
 	public static void incActionCounter(MongoDBClient mongoClient,
 			String productId, String actionName, int actionValue) {
@@ -828,7 +813,6 @@ public class ProductManager extends CommonManager {
 
     public static List<Product> getTopScoreProducts(MongoDBClient mongoClient, String city, int category,
             int startOffset, int maxCount, int startPrice, int endPrice) {
-        // TODO Auto-generated method stub
         DBObject query = new BasicDBObject();
         DBObject orderBy = new BasicDBObject();
 
@@ -854,11 +838,52 @@ public class ProductManager extends CommonManager {
     }
 
     private static void addPriceRangeIntoQuery(DBObject query, int startPrice, int endPrice) {
-        DBObject startPriceCondition = new BasicDBObject();
-        startPriceCondition.put("$gte", startPrice);
-        DBObject endPriceCondition = new BasicDBObject();
-        endPriceCondition.put("$lt", endPrice);
-        query.put(DBConstants.F_PRICE, startPriceCondition);       
-        query.put(DBConstants.F_PRICE, endPriceCondition); 
+        DBObject priceCondition = new BasicDBObject();
+        priceCondition.put("$gte", startPrice);
+        priceCondition.put("$lt", endPrice);
+        query.put(DBConstants.F_PRICE, priceCondition);       
     }
+    
+    private static void addRangeIntoFilterQuery(SolrQuery solrQuery, String field, String start, String end) {
+        if (field == null || solrQuery == null)
+            return;
+        
+        String query = field.concat(":[");
+        if (start == null) {
+            query = query.concat("* TO ");
+        } else {
+            query = query.concat(start).concat(" TO ");
+        }
+        if (end == null) {
+            query = query.concat("*]");
+        } else {
+            query = query.concat(end).concat("]");
+        }
+        
+        solrQuery.addFilterQuery(query);
+    }
+    
+    private static void addOrIntoFilterQuery(SolrQuery solrQuery, String field, List<?> list) {
+        if (solrQuery == null || list == null || list.size() == 0) 
+            return;
+        
+      //"myField:(id1 OR id2 OR id3)"
+        int size = list.size();
+        String query = field + ":";
+        String temp = "";
+        for (int i=0; i<size; i++) {
+            if (i == size-1)
+                temp = temp.concat("" + list.get(i));
+            else
+                temp = temp.concat(list.get(i) + " OR ");
+        }
+        if (size == 1)
+            query = query.concat(temp);
+        else
+            query = query.concat("(").concat(temp).concat(")");
+        
+        solrQuery.addFilterQuery(query);    
+    }
+    
+    
 }
