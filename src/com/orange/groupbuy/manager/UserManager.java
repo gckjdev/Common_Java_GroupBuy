@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBList;
@@ -19,6 +20,8 @@ import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.User;
 
 public class UserManager extends CommonManager{
+    
+    public static final Logger log = Logger.getLogger(UserManager.class.getName());
 	
 	public static DBObject findUserByDeviceId(MongoDBClient mongoClient, String deviceId){
 		if (mongoClient == null || deviceId == null || deviceId.length() <= 0)
@@ -146,7 +149,7 @@ public class UserManager extends CommonManager{
 		DBObject query = new BasicDBObject();
 		query.put(DBConstants.F_DEVICEID, deviceId);
 		
-		System.out.println("<addSearchKeyword> query="+query.toString()+",value="+addToSet);
+		log.info("<addSearchKeyword> query="+query.toString()+",value="+addToSet);
 		mongoClient.updateAll(DBConstants.T_USER, query, addToSet);
 		
 	}
