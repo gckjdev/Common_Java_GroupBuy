@@ -1,13 +1,17 @@
 package com.orange.groupbuy.manager;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
+import com.orange.common.utils.DateUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.PushMessage;
@@ -19,7 +23,7 @@ import com.orange.groupbuy.dao.User;
 public class PushMessageManager {
 
     public static final Logger log = Logger.getLogger(PushMessageManager.class.getName());
-    private static final int MAX_IPHONE_LEN = 70;
+    private static final int MAX_IPHONE_LEN = 60;
 
 
     /**
@@ -55,9 +59,43 @@ public class PushMessageManager {
                                                  DBConstants.F_PUSH_MESSAGE_STATUS,
                                                  DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING,
                                                  DBConstants.C_PUSH_MESSAGE_STATUS_RUNNING);
+
         if (obj != null) {
-            return new PushMessage(obj);
+            PushMessage message =  new PushMessage(obj);
+            User user = findAndModifyUserByMessage(mongoClient, message);
+            if (UserManager.checkPushCount(mongoClient, user)) {
+                return message;
+            } else {
+                obj.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING);
+                mongoClient.save(DBConstants.T_PUSH_MESSAGE, obj);
+                log.info("push message exceed daily limit!");
+                return null;
+            }
         }
+        return null;
+    }
+
+    public static User findAndModifyUserByMessage(MongoDBClient mongoClient, PushMessage message) {
+        String userId = message.getUserId();
+
+        BasicDBObject query = new BasicDBObject();
+        query.put(DBConstants.F_USERID, new ObjectId(userId));
+
+        BasicDBObject update = new BasicDBObject();
+        BasicDBObject incValue = new BasicDBObject();
+        incValue.put(DBConstants.F_PUSH_COUNT, 1);
+        update.put("$inc", incValue);
+
+        BasicDBObject updateValue = new BasicDBObject();
+        updateValue.put(DBConstants.F_PUSH_DATE, DateUtil.getGMT8Date());
+        update.put("$set", updateValue);
+
+        DBObject obj = mongoClient.findAndModifyNew(DBConstants.T_USER, query, update);
+
+        if (obj != null) {
+            return new User(obj);
+        }
+
         return null;
     }
 
