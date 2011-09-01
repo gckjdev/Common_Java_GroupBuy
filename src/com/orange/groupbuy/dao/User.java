@@ -67,4 +67,40 @@ public class User extends CommonData {
         this.getDbObject().put(DBConstants.F_DEVICETOKEN, deviceToken);
     }
 	
+    public void setRecommendCount(int count) {
+        this.getDbObject().put(DBConstants.F_RECOMMEND_COUNT, count);
+    }
+    
+    public int getRecommendCount() {
+        return getInt(DBConstants.F_RECOMMEND_COUNT);
+    }
+    
+    public void setRecommendStatus(int status) {
+        this.getDbObject().put(DBConstants.F_RECOMMEND_STATUS, status);
+    }
+    
+    public Date getRecommendDate() {
+        return getDate(DBConstants.F_RECOMMEND_START_DATE);
+    }
+    
+    public void setRecommendDate(Date date) {
+        this.getDbObject().put(DBConstants.F_RECOMMEND_START_DATE, date);
+    }
+    
+    public Date getPushDate() {
+        return getDate(DBConstants.F_PUSH_DATE);
+    }
+    
+    public void setPushDate(Date date) {
+        this.getDbObject().put(DBConstants.F_PUSH_DATE, date);
+    }
+
+    public int getPushCount() {
+        return getInt(DBConstants.F_PUSH_COUNT);
+    }
+    
+    public void setPushCount(int count) {
+        this.getDbObject().put(DBConstants.F_PUSH_COUNT, count);
+    }
+    
 }

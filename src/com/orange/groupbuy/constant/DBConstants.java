@@ -34,8 +34,14 @@ public class DBConstants {
     public static final String F_PUSH_MESSAGE_BODY = "p_body";
     public static final String F_PUSH_MESSAGE_IPHONE = "p_iphone";
     public static final String F_PUSH_MESSAGE_ANDROID = "p_android";
+    
     public static final String F_RECOMMEND_STATUS = "r_status";
-	
+    public static final String F_RECOMMEND_COUNT = "r_count";
+    public static final String F_RECOMMEND_START_DATE = "r_date";
+    public static final String F_PUSH_COUNT = "p_count";
+    public static final String F_PUSH_DATE = "p_date";
+
+
 	// constants
 	public static final int C_TASK_STATUS_NOT_RUNNING = 0;
 	public static final int C_TASK_STATUS_RUNNING = 1;
@@ -54,9 +60,10 @@ public class DBConstants {
     public static final int C_RECOMMEND_STATUS_COLSE = 2;
     public static final int C_RECOMMEND_STATUS_FAILURE = 3;
     
+    public static final int C_PUSH_DAILY_LIMIT = 5;
+    
     public static final int C_ITEM_NOT_SENT = 0;
-    public static final int C_ITEM_SENDING = 1;
-    public static final int C_ITEM_SENT = 2;
+    public static final int C_ITEM_SENT = 1;
     
 	// major product or not
 	public static final int C_NOT_MAJOR = 0;
@@ -331,7 +338,7 @@ public class DBConstants {
 	public static final String F_SHOPPING_LIST = "s_list";
 	public static final String F_ITEM_ID = "item_id";
 
-    public static final float MIN_SCORE_TO_RECOMMEND = 0.3f;
+    public static final float MIN_SCORE_TO_RECOMMEND = 0.24f;
 
     public static final String F_UP = "up";
     public static final String F_DOWN = "down";
