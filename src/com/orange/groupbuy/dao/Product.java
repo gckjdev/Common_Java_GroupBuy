@@ -3,8 +3,6 @@ package com.orange.groupbuy.dao;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
-
 import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
 import com.orange.common.utils.DateUtil;
@@ -48,11 +46,46 @@ public class Product extends CommonData {
 		put(DBConstants.F_SITE_ID, siteId);
 		put(DBConstants.F_SITE_NAME, siteName);
 		put(DBConstants.F_SITE_URL, siteURL);
-
+		
+		double topScore = calcTopScore(bought, startDate);
+		put(DBConstants.F_TOP_SCORE, topScore);
+		System.out.println("<Product> topscore="+topScore+",title="+title);
+		
 		return true;
 	}
 
-	/**
+	public double calcTopScore(int bought, Date startDate) {
+        // TODO Auto-generated method stub
+	    final double GRAVITY = 1.8;
+	    Date nowDate = new Date();
+	    int hours = DateUtil.calcHour(startDate, nowDate);
+	    if (hours != -1) {
+	        double score = (double) bought / Math.pow((hours + 2), GRAVITY);    
+	        return score;
+	    } else {
+	        return 0; 
+	    }
+    }
+	
+	public double calcTopScore_2(int bought, Date startDate) {
+        Date nowDate = new Date();
+        long end = nowDate.getTime();
+        long start = startDate.getTime();
+        if (bought >= 0 && end > start) {
+            double score = Math.log10(bought) +  ((double) (end-start) / 45000);
+            return score;
+        } else {
+            return 0;
+        }
+    }
+	
+	public void calcAndSetTopScore(int bought, Date startDate) {
+	    double topScore = calcTopScore(bought, startDate);
+	    put(DBConstants.F_TOP_SCORE, topScore);
+	}
+    
+
+    /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1463231236679654576L;
@@ -409,5 +442,9 @@ public class Product extends CommonData {
     
     public BasicDBList getComments() {
         return (BasicDBList)this.dbObject.get(DBConstants.F_COMMENTS);
+    }
+
+    public double getTopScore() {
+        return this.getDouble(DBConstants.F_TOP_SCORE);
     }
 }

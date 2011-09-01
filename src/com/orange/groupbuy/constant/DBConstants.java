@@ -302,6 +302,7 @@ public class DBConstants {
 	public static final String F_SCORE = "score";
 	public static final String F_RECOMMENDLIST = "re_list";
 	public static final String F_ITEM_SENT_STATUS = "status";
+	public static final String F_TOP_SCORE = "topscore";
 
 	public static final String F_COMMENTS = "comments";
 	public static final String F_KEYWORD = "keys";
