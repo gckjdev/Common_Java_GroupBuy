@@ -74,11 +74,17 @@ public class CommonData {
 	
 	public double getDouble(String key){
 		Double value = (Double)dbObject.get(key);
+		if (value == null)
+		    return 0.0f;
+		
 		return value.doubleValue();		
 	}
 	
 	public float getFloat(String key){
 	    Float value = (Float)dbObject.get(key);
+        if (value == null)
+            return 0.0f;
+
         return value.floatValue();     
     }
 	
