@@ -15,25 +15,33 @@ public class User extends CommonData {
     }
 
     public boolean addShoppingItem(String itemId, String categoryName, String subCategoryName, String keywords,
-            String city, double maxPrice, double minRebate) {
+            String city, double maxPrice, double minRebate, Date expireDate) {
 
         BasicDBObject item = new BasicDBObject();
 
-        if (!StringUtil.isEmpty(itemId))
+        if (!StringUtil.isEmpty(itemId)) {
             item.put(DBConstants.F_ITEM_ID, itemId);
-        if (!StringUtil.isEmpty(categoryName))
+        }
+        if (!StringUtil.isEmpty(categoryName)) {
             item.put(DBConstants.F_CATEGORY_NAME, categoryName);
-        if (!StringUtil.isEmpty(subCategoryName))
+        }
+        if (!StringUtil.isEmpty(subCategoryName)) {
             item.put(DBConstants.F_SUB_CATEGORY_NAME, subCategoryName);
-        if (!StringUtil.isEmpty(keywords))
+        }
+        if (!StringUtil.isEmpty(keywords)) {
             item.put(DBConstants.F_KEYWORD, keywords);
-        if (!StringUtil.isEmpty(city))
+        }
+        if (!StringUtil.isEmpty(city)) {
             item.put(DBConstants.F_CITY, city);
-        if (maxPrice >= 0.0f)
+        }
+        if (maxPrice >= 0.0f) {
             item.put(DBConstants.F_MAX_PRICE, maxPrice);
-        if (minRebate >= 0.0f)
+        }
+        if (minRebate >= 0.0f) {
             item.put(DBConstants.F_MIN_REBATE, minRebate);
+        }
 
+        item.put(DBConstants.F_EXPIRE_DATE, new Date());
         item.put(DBConstants.F_CREATE_DATE, new Date());
 
         BasicDBList shoppingList = (BasicDBList) dbObject.get(DBConstants.F_SHOPPING_LIST);
@@ -65,14 +73,6 @@ public class User extends CommonData {
 
     public void setDeviceToke(String deviceToken) {
         this.getDbObject().put(DBConstants.F_DEVICETOKEN, deviceToken);
-    }
-
-    public void setRecommendCount(int count) {
-        this.getDbObject().put(DBConstants.F_RECOMMEND_COUNT, count);
-    }
-
-    public int getRecommendCount() {
-        return getInt(DBConstants.F_RECOMMEND_COUNT);
     }
 
     public void setRecommendStatus(int status) {
