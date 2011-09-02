@@ -212,6 +212,7 @@ public class ServiceConstant  {
 	public static final String METHOD_FINDPRODUCTSGROUPBYCATEGORY = "fgc";	
 	public static final String METHOD_FINDPRODUCTS = "fp";
 	public static final String METHOD_FINDPRODUCTBYSCORE = "fps";
+	public static final String METHOD_FINDPRODUCTBYSHOPPINGLIST = "fpsl";
 	
 	//response parameters
 	public static final String PARA_LOC = "loc";
