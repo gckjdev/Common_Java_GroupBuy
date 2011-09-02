@@ -212,7 +212,7 @@ public class UserManager extends CommonManager{
 	
 	private static BasicDBObject createItemForAdd(String itemId,
 			String categoryName, String subCategoryName, String keywords, String city,
-			double maxPrice, double minRebate){
+			double maxPrice, double minRebate, Date expireDate){
 		
 		if (StringUtil.isEmpty(itemId))
 			return null;
@@ -234,12 +234,14 @@ public class UserManager extends CommonManager{
 		if (minRebate >= 0.0f)
 			item.put(DBConstants.F_MIN_REBATE, minRebate);
 		
+        item.put(DBConstants.F_EXPIRE_DATE, expireDate);
+		
 		return item;
 	}
 
 	private static BasicDBObject createItemForUpdate(String itemId,
 			String categoryName, String subCategoryName, String keywords, String city,
-			double maxPrice, double minRebate){
+			double maxPrice, double minRebate, Date expireDate){
 						
 		if (StringUtil.isEmpty(itemId))
 			return null;
@@ -253,6 +255,8 @@ public class UserManager extends CommonManager{
 		item.put(prefix.concat(DBConstants.F_SUB_CATEGORY_NAME), subCategoryName);
 		item.put(prefix.concat(DBConstants.F_KEYWORD), keywords);
 		item.put(prefix.concat(DBConstants.F_CITY), city);
+		item.put(prefix.concat(DBConstants.F_EXPIRE_DATE), expireDate);
+		
 
 		if (maxPrice >= 0.0f)
 			item.put(prefix.concat(DBConstants.F_MAX_PRICE), maxPrice);
@@ -270,10 +274,10 @@ public class UserManager extends CommonManager{
 	
 	public static boolean addUserShoppingItem(MongoDBClient mongoClient, String userId, String itemId,
 			String categoryName, String subCategoryName, String keywords, String city,
-			double maxPrice, double minRebate) {
+			double maxPrice, double minRebate, Date expireDate) {
 		
 		BasicDBObject item = createItemForAdd(itemId, categoryName, 
-				subCategoryName, keywords, city, maxPrice, minRebate);
+				subCategoryName, keywords, city, maxPrice, minRebate, expireDate);
 		if (item == null)
 			return false;
 
@@ -298,10 +302,10 @@ public class UserManager extends CommonManager{
 	public static boolean updateUserShoppingItem(MongoDBClient mongoClient,
 			String userId, String itemId, String categoryName, String city,
 			String subCategoryName, String keywords, double maxPrice,
-			double minRebate) {
+			double minRebate, Date expireDate) {
 
 		BasicDBObject item = createItemForUpdate(itemId, categoryName, 
-				subCategoryName, keywords, city, maxPrice, minRebate);
+				subCategoryName, keywords, city, maxPrice, minRebate, expireDate);
 		if (item == null)
 			return false;
 
@@ -364,10 +368,6 @@ public class UserManager extends CommonManager{
        
     }
 
-    public static void addRecommendCount(User user) {
-        user.setRecommendCount(user.getRecommendCount() + 1);
-    }
-    
     public static void addPushCount(User user) {
         user.setPushCount(user.getPushCount() + 1);
     }

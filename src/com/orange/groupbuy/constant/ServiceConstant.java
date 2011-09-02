@@ -52,7 +52,11 @@ public class ServiceConstant  {
 	public static final String METHOD_ADDSHOPPINGITEM = "asi";
 	public static final String METHOD_UPDATESHOPPINGITEM = "usi";
 	public static final String METHOD_DELETESHOPPINGITEM = "dsi";
-	public static final String METHOD_GETSHOPPINGITEM = "gsi";
+	public static final String METHOD_GETSHOPPINGITEM = "gsi";	
+    public static final String METHOD_WRITEPRODUCTCOMMENT = "wpc";
+    public static final String METHOD_GETPRODUCTCOMMENTS = "gpc";
+    public static final String METHOD_GETALLCATEGORY = "gac";
+
 	
 	// internal usage
 	public static final String METHOD_DELETESOLRINDEX = "deletesolr";
@@ -237,14 +241,13 @@ public class ServiceConstant  {
 	public static final String PARA_SUB_CATEGORY_NAME = "scn";
 	public static final String PARA_CATEGORY_ID = "ci";
 	public static final String PARA_PRODUCT = "p";
+	public static final String PARA_EXPIRE_DATE = "e_date";
 
 	public static final String PARA_ACTION_NAME = "an";
 	public static final String PARA_ACTION_VALUE = "av";
 	
 	public static final String VERIFICATION = "1";
     public static final String PARA_COMMENT_CONTENT = "comc";
-    public static final String METHOD_WRITEPRODUCTCOMMENT = "wpc";
-    public static final String METHOD_GETPRODUCTCOMMENTS = "gpc";
     
     
 }
