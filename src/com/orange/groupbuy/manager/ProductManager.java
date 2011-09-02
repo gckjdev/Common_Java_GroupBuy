@@ -486,6 +486,7 @@ public class ProductManager extends CommonManager {
 		cursor.close();
 		return productList;
 	}
+	
 
 	public static List<Product> getAllProductsWithLocation(
 			MongoDBClient mongoClient, String latitude, String longitude,
@@ -760,7 +761,8 @@ public class ProductManager extends CommonManager {
 				    orderedProductList.add(product);
 				}
 			}
-					
+			
+			dbCursor.close();
 			return orderedProductList;
 
 		} catch (SolrServerException e) {
