@@ -52,7 +52,7 @@ public class Product extends CommonData {
 		put(DBConstants.F_SITE_NAME, siteName);
 		put(DBConstants.F_SITE_URL, siteURL);
 		
-		double topScore = calcTopScore(bought, startDate);
+		double topScore = calcTopScore_2(bought, startDate);
 		put(DBConstants.F_TOP_SCORE, topScore);
 		System.out.println("<Product> topscore="+topScore+",title="+title);
 		
@@ -61,7 +61,7 @@ public class Product extends CommonData {
 
 	public double calcTopScore(int bought, Date startDate) {
         // TODO Auto-generated method stub
-	    final double GRAVITY = 1.8;
+	    final double GRAVITY = 1.5;
 	    Date nowDate = new Date();
 	    int hours = DateUtil.calcHour(startDate, nowDate);
 	    if (hours != -1) {
@@ -73,23 +73,27 @@ public class Product extends CommonData {
     }
 	
 	public double calcTopScore_2(int bought, Date startDate) {
-	    
-	    TimeZone timeZone = TimeZone.getTimeZone("GMT+0800");
-        Calendar now = Calendar.getInstance(timeZone);
-        now.set(2010, 0, 0, 0, 0, 0);
-        Date constDate = now.getTime();   
-        long B = constDate.getTime();
-        long A = startDate.getTime();
-        if (bought >= 0 && A > B) {
-            double score = Math.log10(bought) +  ((double) (A-B) / 45000);
+	    final double T = 24 * 60 * 60 * 1000;
+	    final int N = 2;
+        long time = startDate.getTime();
+        if (bought >= 0) {
+            double score = logFuntion(N, bought) +  ((double)time / (T));
             return score;
         } else {
             return 0;
         }
     }
 	
-	public void calcAndSetTopScore(int bought, Date startDate) {
-	    double topScore = calcTopScore(bought, startDate);
+	private double logFuntion(int n, int bought) {
+	    if (n<0 || bought<0)
+	        return 0.0;
+	    double base = Math.log((double) bought) / Math.log((double) n); 
+	        
+        return base;  
+    }
+
+    public void calcAndSetTopScore(int bought, Date startDate) {
+	    double topScore = calcTopScore_2(bought, startDate);
 	    put(DBConstants.F_TOP_SCORE, topScore);
 	}
     
