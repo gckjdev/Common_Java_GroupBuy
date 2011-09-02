@@ -27,6 +27,23 @@ public class RecommendItem extends CommonData {
     public Date getRecommendDate() {
         return getDate(DBConstants.F_RECOMMEND_DATE);
     }
+    
+    public boolean hasRecommendToday() {
+        TimeZone timeZone = TimeZone.getTimeZone("GMT+0800");
+        Calendar now = Calendar.getInstance(timeZone);
+        now.setTime(new Date());
+
+        Date lastRecommendDate = getRecommendDate();
+        Calendar lastRecommendCalendar = Calendar.getInstance(timeZone);
+        if (lastRecommendDate != null) {
+            lastRecommendCalendar.setTime(lastRecommendDate);
+            if (now.get(Calendar.DAY_OF_MONTH) <= lastRecommendCalendar.get(Calendar.DAY_OF_MONTH)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 
     public String sortAndSelectProduct(User user) {
         BasicDBList list = getProductList();
@@ -56,25 +73,12 @@ public class RecommendItem extends CommonData {
         }
         );
 
-        TimeZone timeZone = TimeZone.getTimeZone("GMT+0800");
-        Calendar now = Calendar.getInstance(timeZone);
-        now.setTime(new Date());
-
-        Date lastRecommendDate = getRecommendDate();
-        Calendar lastRecommendCalendar = Calendar.getInstance(timeZone);
-        if (lastRecommendDate != null) {
-            lastRecommendCalendar.setTime(lastRecommendDate);
-            if (now.get(Calendar.DAY_OF_MONTH) <= lastRecommendCalendar.get(Calendar.DAY_OF_MONTH)) {
-                return null;
-            }
-        }
-
         for (Object obj : list) {
             BasicDBObject product = (BasicDBObject) obj;
             int status = product.getInt(DBConstants.F_ITEM_SENT_STATUS);
             if (status == DBConstants.C_ITEM_NOT_SENT) {
                 product.put(DBConstants.F_ITEM_SENT_STATUS, DBConstants.C_ITEM_SENT);
-                setRecommendDate(DateUtil.getGMT8Date());
+                setRecommendDate(new Date());
                 return product.getString(DBConstants.F_PRODUCTID);
             }
         }

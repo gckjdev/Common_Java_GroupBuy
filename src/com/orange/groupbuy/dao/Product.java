@@ -442,17 +442,9 @@ public class Product extends CommonData {
     }
 
     public void setScore(Float score) {
-        this.score = score;
+        this.score = score.floatValue();
     }
 	
-//	public void setScore(Float score) {
-//	    this.put(DBConstants.F_SCORE, score);
-//	}
-//	
-//	public float getScore() {
-//	    return this.getFloat(DBConstants.F_SCORE);
-//	}
-    
     public BasicDBList getComments() {
         return (BasicDBList)this.dbObject.get(DBConstants.F_COMMENTS);
     }
