@@ -237,6 +237,7 @@ public class ServiceConstant  {
 	public static final String PARA_SUB_CATEGORY_NAME = "scn";
 	public static final String PARA_CATEGORY_ID = "ci";
 	public static final String PARA_PRODUCT = "p";
+	public static final String PARA_EXPIRE_DATE = "e_date";
 
 	public static final String PARA_ACTION_NAME = "an";
 	public static final String PARA_ACTION_VALUE = "av";

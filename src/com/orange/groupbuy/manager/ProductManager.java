@@ -661,7 +661,7 @@ public class ProductManager extends CommonManager {
 
 	public static List<Product> searchProductBySolr(SolrClient solrClient,
 			MongoDBClient mongoClient, String city, List<Integer> categoryList,
-			boolean todayOnly, String keyword, int startOffset, int maxCount, Double price) {
+			boolean todayOnly, String keyword, Double price, int startOffset, int maxCount) {
 
 		SolrQuery query = new SolrQuery();
 		if (keyword == null || keyword.isEmpty())
@@ -774,7 +774,7 @@ public class ProductManager extends CommonManager {
             MongoDBClient mongoClient, String city, List<Integer> categoryList,
             boolean todayOnly, String keyword, int startOffset, int maxCount) {
 	    
-	    List<Product> list = searchProductBySolr(solrClient, mongoClient, city, categoryList, todayOnly, keyword, startOffset, maxCount, null);
+	    List<Product> list = searchProductBySolr(solrClient, mongoClient, city, categoryList, todayOnly, keyword, null, startOffset, maxCount);
 	    return list;
 	}
 
