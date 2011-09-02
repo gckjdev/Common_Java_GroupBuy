@@ -489,16 +489,6 @@
 	</fieldtype>
 	
 	
-	<fieldType name="paodingText" class="solr.TextField" positionIncrementGap="100">  
-      <analyzer type="index">  
-		<!-- 使用paoding分词器，按最多切分 mode="most-words"这个是在上面哪个类里定义好的。-->
-        <tokenizer class="net.paoding.analysis.analyzer.solr.ChineseTokenizerFactory" mode="most-words" dic="C:\solr-3.3.0\example\solr\dic"/>  
-      </analyzer>  
-      <analyzer type="query">  
-         <tokenizer class="net.paoding.analysis.analyzer.solr.ChineseTokenizerFactory" mode="most-words" dic="C:\solr-3.3.0\example\solr\dic"/>   
-      </analyzer>  
-	</fieldType>  
-	
  </types>
 
 
