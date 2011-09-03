@@ -339,6 +339,8 @@ public class DBConstants {
 
 	public static final String F_CATEGORY_NAME = "cate_n";
 	public static final String F_SUB_CATEGORY_NAME = "subcate_n";
+	public static final String F_SUB_CATEGORY_ID = "subcate_id";
+	public static final String F_SUB_CATEGORY_KEYS = "keys";
 	public static final String F_MAX_PRICE = "max_p";
 	public static final String F_MIN_REBATE = "min_r";
 	public static final String F_EXPIRE_DATE = "v_date";
@@ -356,6 +358,8 @@ public class DBConstants {
     public static final int C_PUSH_TYPE_EMAIL = 3;
 
     public static final String F_COMMENT_CONTENT = "content";
+
+    public static final String F_SUB_CATEGORY = "subcate";
 
     // category manager
     // public static final String F_CATEGORY_NAME = "cate_n";
