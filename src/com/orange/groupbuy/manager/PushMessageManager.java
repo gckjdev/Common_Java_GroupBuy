@@ -76,9 +76,9 @@ public class PushMessageManager {
         BasicDBObject updateValue = new BasicDBObject();
         updateValue.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_RUNNING);
         update.put("$set", updateValue);
-
+        
+        log.info("<findMessageForPush> query="+query.toString()+", update="+update.toString());
         DBObject obj =  mongoClient.findAndModifyNew(DBConstants.T_PUSH_MESSAGE, query, update);
-
 
         if (obj != null) {
             PushMessage message =  new PushMessage(obj);
@@ -88,7 +88,7 @@ public class PushMessageManager {
             } else {
                 obj.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING);
                 mongoClient.save(DBConstants.T_PUSH_MESSAGE, obj);
-                log.info("push message exceed daily limit!");
+                log.info("<findMessageForPush> Push message exceed daily limit of user="+user.getUserId());
                 return null;
             }
         }
