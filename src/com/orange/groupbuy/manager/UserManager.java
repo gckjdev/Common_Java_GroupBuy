@@ -1,8 +1,11 @@
 package com.orange.groupbuy.manager;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -14,12 +17,12 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.common.urbanairship.RegisterService;
-import com.orange.common.utils.DateUtil;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.PushNotificationConstants;
 import com.orange.groupbuy.dao.Gps;
 import com.orange.groupbuy.dao.Product;
+import com.orange.groupbuy.dao.RecommendItem;
 import com.orange.groupbuy.dao.User;
 
 public class UserManager extends CommonManager{
@@ -299,6 +302,10 @@ public class UserManager extends CommonManager{
 		return DBConstants.F_SHOPPING_LIST.concat(".").concat(DBConstants.F_ITEM_ID);
 	}
 	
+	private static String getItemArrayResultKey(){
+        return DBConstants.F_SHOPPING_LIST.concat(".$");
+    }
+	
 	public static boolean updateUserShoppingItem(MongoDBClient mongoClient,
 			String userId, String itemId, String categoryName, String city,
 			String subCategoryName, String keywords, double maxPrice,
@@ -336,13 +343,49 @@ public class UserManager extends CommonManager{
 
 		BasicDBObject update = new BasicDBObject();
 		BasicDBObject unsetValue = new BasicDBObject();
-		String unsetKey = getItemArrayKey();
+		String unsetKey = getItemArrayResultKey();
 		unsetValue.put(unsetKey, 1);			// remove the key found
 		update.put("$unset", unsetValue);
+		mongoClient.updateAll(DBConstants.T_USER, query, update);	
 		
-		mongoClient.updateAll(DBConstants.T_USER, query, update);		
-		return false;
+		// pull null
+		BasicDBObject query2 = new BasicDBObject();
+        query2.put(DBConstants.F_USERID, id);
+
+        BasicDBObject update2 = new BasicDBObject();
+        BasicDBObject pullValue = new BasicDBObject();
+        pullValue.put(DBConstants.F_SHOPPING_LIST, null);
+        update2.put("$pull", pullValue);
+        mongoClient.updateAll(DBConstants.T_USER, query2, update2);   
+
+		return true;
 	}
+	
+	public static Map<String,Integer> getUserRecommendItemCountMap(MongoDBClient mongoClient, String userId) {
+	    Map<String,Integer> map = new HashMap<String, Integer>(); 
+	    User user = findUserByUserId(mongoClient, userId);
+	    if (user == null) {
+	        return null;
+	    }
+	    BasicDBList shoppingList = user.getShoppingItem();
+	    if (shoppingList == null || shoppingList.size() == 0) {
+	        return null;
+	    }
+	    
+	    Iterator<Object> iter = shoppingList.iterator();
+	    while(iter.hasNext()) {
+            BasicDBObject obj = (BasicDBObject)iter.next();
+            if(obj != null) {
+                String itemId = obj.getString(DBConstants.F_ITEM_ID);
+                RecommendItem item = RecommendItemManager.findRecommendItem(mongoClient, userId, itemId);
+                int count = item.getRecommendCount();
+                map.put(itemId, count);
+            }
+	    }
+	    return map;
+	}
+	
+	
 
 	public static void registerUserDeviceToken(String userId, String deviceToken) {
 		RegisterService registerService = RegisterService.createService(

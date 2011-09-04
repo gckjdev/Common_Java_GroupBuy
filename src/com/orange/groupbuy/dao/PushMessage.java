@@ -19,8 +19,8 @@ public class PushMessage extends CommonData {
         return this.getString(DBConstants.F_DEVICETOKEN);
     }
 
-    public final String getPushType() {
-        return this.getString(DBConstants.F_PUSH_MESSAGE_TYPE);
+    public final int getPushType() {
+        return this.getInt(DBConstants.F_PUSH_MESSAGE_TYPE);
     }
 
 

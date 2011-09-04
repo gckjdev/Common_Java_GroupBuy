@@ -354,8 +354,9 @@ public class DBConstants {
     public static final String F_DOWN = "down";
 
     public static final int C_PUSH_TYPE_IPHONE = 1;
-    public static final int C_PUSH_TYPE_ADNDROID = 2;
+    public static final int C_PUSH_TYPE_ANDROID = 2;
     public static final int C_PUSH_TYPE_EMAIL = 3;
+    public static final int C_PUSH_TYPE_WEIBO = 4;
 
     public static final String F_COMMENT_CONTENT = "content";
 

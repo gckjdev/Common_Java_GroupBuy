@@ -56,11 +56,17 @@ public class RecommendItemManager {
         }
     }
 
-    public static List<Product> getSortedRecommendProducts(MongoDBClient mongoClient, RecommendItem recommendItem) {
+    public static List<Product> getRecommendProducts(MongoDBClient mongoClient, RecommendItem recommendItem) {
         List<Product> list = new ArrayList<Product>();
         BasicDBList productList = recommendItem.getProductList();
+        if(productList == null) {
+            return null;
+        }
         list = getProduct(mongoClient, productList);
-
+        return list;
+    }
+    
+    public static List<Product> sortRecommendProducts(List<Product> list) {
         java.util.Collections.sort(list, new Comparator<Object>() {
 
             @Override
@@ -111,6 +117,7 @@ public class RecommendItemManager {
         if (existProductList == null) {
             existProductList = new BasicDBList();
             recommendItem.put(DBConstants.F_RECOMMENDLIST, existProductList);
+            recommendItem.put(DBConstants.F_RECOMMEND_COUNT, 0);
         }
 
         boolean found = false;
@@ -129,6 +136,7 @@ public class RecommendItemManager {
 
         if (!found) {
             addRecommendProduct(existProductList, product);
+            recommendItem.setRecommendCount(recommendItem.getRecommendCount() + 1);
         }
 
         return true;
