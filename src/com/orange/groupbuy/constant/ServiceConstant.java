@@ -58,6 +58,7 @@ public class ServiceConstant  {
     public static final String METHOD_GETALLCATEGORY = "gac";
     public static final String METHOD_GETSHOPPINGCATEGORY = "gsc";
     public static final String METHOD_GETUSERSHOPPINGITEMLIST = "gusil";
+    public static final String METHOD_COUNTSHOPPINGITEMPRODUCTS = "csip";
 
 	
 	// internal usage
