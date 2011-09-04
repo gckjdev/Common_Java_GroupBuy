@@ -373,7 +373,7 @@ public class DBConstants {
     // public static final String F_SUB_CATEGORY_NAME = "subcate_n";
     // public static final String F_SUB_CATEGORY_ID = "subcate_id";
     // public static final String F_KEYWORD = "keys";
-    // { { "cate_n":"美食1", "subcate" : [ { "subcate_id": 1, "subcate_n":"湘菜", "keys":["湘菜",湖南菜"] ] },
+    // { { "cate_n":"美食1", "subcate" : [ { "subcate_id": 1, "subcate_n":"湘菜", "keys":["湘菜",湖南�?] ] },
     //   { "cate_n":"美食2", "subcate" : [ { "subcate_id": 2, "subcate_n":"西餐", "keys":["浪漫西餐", "法式大餐"] ] },
     // }       
     
