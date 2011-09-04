@@ -56,6 +56,7 @@ public class ServiceConstant  {
     public static final String METHOD_WRITEPRODUCTCOMMENT = "wpc";
     public static final String METHOD_GETPRODUCTCOMMENTS = "gpc";
     public static final String METHOD_GETALLCATEGORY = "gac";
+    public static final String METHOD_GETSHOPPINGCATEGORY = "gsc";
 
 	
 	// internal usage
@@ -212,7 +213,10 @@ public class ServiceConstant  {
 	public static final String METHOD_FINDPRODUCTSGROUPBYCATEGORY = "fgc";	
 	public static final String METHOD_FINDPRODUCTS = "fp";
 	public static final String METHOD_FINDPRODUCTBYSCORE = "fps";
-	public static final String METHOD_FINDPRODUCTBYSHOPPINGLIST = "fpsl";
+	public static final String METHOD_FINDPRODUCTBYSHOPPINGITEM = "fpsi";
+	public static final String METHOD_COUNTSHOPPINGITEMPRODUCTS = "csip";
+
+	
 	
 	//response parameters
 	public static final String PARA_LOC = "loc";
@@ -239,7 +243,7 @@ public class ServiceConstant  {
 	
 	public static final String PARA_ITEMID = "ii";
 	public static final String PARA_CATEGORY_NAME = "na";
-	public static final String PARA_SUB_CATEGORY_NAME = "scn";
+	public static final String PARA_SUB_CATEGORY = "sc";
 	public static final String PARA_CATEGORY_ID = "ci";
 	public static final String PARA_PRODUCT = "p";
 	public static final String PARA_EXPIRE_DATE = "e_date";
@@ -249,6 +253,10 @@ public class ServiceConstant  {
 	
 	public static final String VERIFICATION = "1";
     public static final String PARA_COMMENT_CONTENT = "comc";
+    
+    public static final String PARA_SUB_CATEGORY_ID = "sid";
+    public static final String PARA_SUB_CATEGORY_NAME = "sn";
+    public static final String PARA_SUB_CATEGORY_KEYS = "keys";
     
     
 }
