@@ -247,6 +247,7 @@ public class ServiceConstant  {
 	public static final String PARA_CATEGORY_ID = "ci";
 	public static final String PARA_PRODUCT = "p";
 	public static final String PARA_EXPIRE_DATE = "e_date";
+	public static final String PARA_MATCH_ITEM_COUNT = "mic";
 
 	public static final String PARA_ACTION_NAME = "an";
 	public static final String PARA_ACTION_VALUE = "av";
@@ -255,7 +256,7 @@ public class ServiceConstant  {
     public static final String PARA_COMMENT_CONTENT = "comc";
     
     public static final String PARA_SUB_CATEGORY_ID = "sid";
-    public static final String PARA_SUB_CATEGORY_NAME = "sn";
+    public static final String PARA_SUB_CATEGORY_NAME = "scn";
     public static final String PARA_SUB_CATEGORY_KEYS = "keys";
     
     
