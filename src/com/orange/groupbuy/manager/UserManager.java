@@ -378,8 +378,10 @@ public class UserManager extends CommonManager{
             if(obj != null) {
                 String itemId = obj.getString(DBConstants.F_ITEM_ID);
                 RecommendItem item = RecommendItemManager.findRecommendItem(mongoClient, userId, itemId);
-                int count = item.getRecommendCount();
-                map.put(itemId, count);
+                if (item != null) {
+                    int count = item.getRecommendCount();
+                    map.put(itemId, count);
+                }
             }
 	    }
 	    return map;
