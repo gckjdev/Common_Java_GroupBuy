@@ -57,6 +57,7 @@ public class ServiceConstant  {
     public static final String METHOD_GETPRODUCTCOMMENTS = "gpc";
     public static final String METHOD_GETALLCATEGORY = "gac";
     public static final String METHOD_GETSHOPPINGCATEGORY = "gsc";
+    public static final String METHOD_GETUSERSHOPPINGITEMLIST = "gusil";
 
 	
 	// internal usage
@@ -214,6 +215,7 @@ public class ServiceConstant  {
 	public static final String METHOD_FINDPRODUCTS = "fp";
 	public static final String METHOD_FINDPRODUCTBYSCORE = "fps";
 	public static final String METHOD_FINDPRODUCTBYSHOPPINGITEM = "fpsi";
+
 	
 	//response parameters
 	public static final String PARA_LOC = "loc";
@@ -254,6 +256,9 @@ public class ServiceConstant  {
     public static final String PARA_SUB_CATEGORY_ID = "sid";
     public static final String PARA_SUB_CATEGORY_NAME = "sn";
     public static final String PARA_SUB_CATEGORY_KEYS = "keys";
+    
+    
+
     
     
 }
