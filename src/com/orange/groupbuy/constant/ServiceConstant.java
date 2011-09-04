@@ -214,6 +214,9 @@ public class ServiceConstant  {
 	public static final String METHOD_FINDPRODUCTS = "fp";
 	public static final String METHOD_FINDPRODUCTBYSCORE = "fps";
 	public static final String METHOD_FINDPRODUCTBYSHOPPINGITEM = "fpsi";
+	public static final String METHOD_COUNTSHOPPINGITEMPRODUCTS = "csip";
+
+	
 	
 	//response parameters
 	public static final String PARA_LOC = "loc";

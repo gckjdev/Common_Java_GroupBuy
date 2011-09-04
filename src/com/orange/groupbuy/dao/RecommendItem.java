@@ -20,6 +20,14 @@ public class RecommendItem extends CommonData {
         return (BasicDBList) dbObject.get(DBConstants.F_RECOMMENDLIST);
     }
 
+    public void setRecommendCount(int cnt) {
+        this.getDbObject().put(DBConstants.F_RECOMMEND_COUNT,cnt);
+    }
+    
+    public int getRecommendCount() {
+        return this.getInt(DBConstants.F_RECOMMEND_COUNT);
+    }
+    
     public void setRecommendDate(Date date) {
         this.getDbObject().put(DBConstants.F_RECOMMEND_DATE, date);
     }
