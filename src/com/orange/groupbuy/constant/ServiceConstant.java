@@ -252,14 +252,17 @@ public class ServiceConstant  {
 	public static final String PARA_ACTION_NAME = "an";
 	public static final String PARA_ACTION_VALUE = "av";
 	
-	public static final String VERIFICATION = "1";
     public static final String PARA_COMMENT_CONTENT = "comc";
     
     public static final String PARA_SUB_CATEGORY_ID = "sid";
     public static final String PARA_SUB_CATEGORY_NAME = "scn";
     public static final String PARA_SUB_CATEGORY_KEYS = "keys";
+    public static final String PARA_ITEMID_ARRAY = "iia";
+    public static final String PARA_REQUIRE_MATCH = "rm";
     
-    
+    public static final String VERIFICATION = "1";
+    public static final String NEED_REQURIE_MATCH = "1";
+
 
     
     
