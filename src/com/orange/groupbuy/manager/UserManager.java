@@ -325,7 +325,7 @@ public class UserManager extends CommonManager {
         RecommendItemManager.deleteRecommendProductList(mongoClient, userId, itemId);
         return true;
     }
-
+    
     public static boolean deleteUserShoppingItem(MongoDBClient mongoClient, String userId, String itemId) {
 
         if (itemId == null || userId == null)
@@ -334,28 +334,12 @@ public class UserManager extends CommonManager {
         BasicDBObject query = new BasicDBObject();
         ObjectId id = new ObjectId(userId);
         query.put(DBConstants.F_USERID, id);
-        String queryKeyForItem = getItemArrayKey();
-        query.put(queryKeyForItem, itemId);
-
-        BasicDBObject update = new BasicDBObject();
-        BasicDBObject unsetValue = new BasicDBObject();
-        String unsetKey = getItemArrayResultKey();
-        unsetValue.put(unsetKey, 1); // remove the key found
-        update.put("$unset", unsetValue);
-        mongoClient.updateAll(DBConstants.T_USER, query, update);
-
-        // pull null
-        BasicDBObject query2 = new BasicDBObject();
-        query2.put(DBConstants.F_USERID, id);
-
-        BasicDBObject update2 = new BasicDBObject();
-        BasicDBObject pullValue = new BasicDBObject();
-        pullValue.put(DBConstants.F_SHOPPING_LIST, null);
-        update2.put("$pull", pullValue);
-        mongoClient.updateAll(DBConstants.T_USER, query2, update2);
-
-        //delete joint recommend item
+        
+        mongoClient.pullArrayKey(DBConstants.T_USER, query, DBConstants.F_SHOPPING_LIST, DBConstants.F_ITEM_ID, itemId);
+        
+      //delete joint recommend item
         RecommendItemManager.deleteRecommendItem(mongoClient, userId, itemId);
+
         return true;
     }
 
