@@ -126,7 +126,7 @@ public class RecommendItemManager {
                 }
             }
             
-            String keywords = generateKeyword(city, cate, subcate, keyword);
+            String keywords = generateKeyword(cate, subcate, keyword);
 
             log.info("---------starting matching for userid =" + userId +" itemId" + itemIdArray[i]);
             
@@ -163,19 +163,29 @@ public class RecommendItemManager {
 
     }
     
-    private static String generateKeyword(String city, String cate, String subcate, String kw) {
+    private static final String SUB_CATEGORY_BOOST = "2";
+    private static final String KEYWORD_BOOST = "4";
+    
+    private static String generateKeyword(String cate, String subcate, String kw) {
         String keywords = "";
-        if (!StringUtil.isEmpty(city)) {
-            keywords = city;
-        }
         if (!StringUtil.isEmpty(cate)) {
             keywords = keywords.concat(" ").concat(cate);
         }
         if (!StringUtil.isEmpty(subcate)) {
-            keywords = keywords.concat(" ").concat(subcate);
+            String[] list = subcate.split(" ");
+            if (list != null && list.length > 0){
+                for (int i=0; i<list.length; i++){
+                    keywords = keywords.concat(" ").concat(list[i]).concat("^").concat(SUB_CATEGORY_BOOST);
+                }
+            }
         }
         if (!StringUtil.isEmpty(kw)) {
-            keywords = keywords.concat(" ").concat(kw);
+            String[] list = kw.split(" ");
+            if (list != null && list.length > 0){
+                for (int i=0; i<list.length; i++){
+                    keywords = keywords.concat(" ").concat(list[i]).concat("^").concat(KEYWORD_BOOST);
+                }
+            }
         }
 
         return keywords.trim();
