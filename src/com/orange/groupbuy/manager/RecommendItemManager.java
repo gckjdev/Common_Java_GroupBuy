@@ -102,7 +102,6 @@ public class RecommendItemManager {
         return mongoClient.removeOne(DBConstants.T_RECOMMEND, query);
     }
     
-    
     public static void matchShoppingItem(MongoDBClient mongoClient, String userId, String[] itemIdArray) {
 
         User user = UserManager.findUserByUserId(mongoClient, userId);
@@ -118,23 +117,20 @@ public class RecommendItemManager {
             Double maxPrice = (Double) item.get(DBConstants.F_MAX_PRICE);
             Date expireDate = (Date) item.get(DBConstants.F_EXPIRE_DATE);
 
-            if (expireDate != null) {
-                Date now = new Date();
-                if (now.after(expireDate)) {
-                    log.info("user = " + user.getUserId() + ", itemId = " + itemIdArray[i] + ",  expireDate = " + expireDate);
-                    return;
-                }
+            if(isExpire(expireDate)) {
+                log.info("user = " + user.getUserId() + ", itemId = " + itemIdArray[i] + ",  expireDate = " + expireDate);
+                continue;
             }
             
             String keywords = generateKeyword(cate, subcate, keyword);
 
-            log.info("---------starting matching for userid =" + userId +" itemId" + itemIdArray[i]);
+            log.info("starting matching for userid =" + userId +" itemId" + itemIdArray[i]);
             
             List<Product> productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city,
                     null, false, keywords, maxPrice, 0, 25);
 
             if (productList == null || productList.size() <= 0) {
-                log.info("---------No product match to recommend for user=" + userId + ", itemId = " + itemIdArray[i]);
+                log.info("No product match to recommend for user=" + userId + ", itemId = " + itemIdArray[i]);
                 continue;
             }
             // create recommend item
@@ -189,6 +185,14 @@ public class RecommendItemManager {
         }
 
         return keywords.trim();
+    }
+    
+    private static boolean isExpire(Date expireDate) {
+        Date now = new Date();
+        if (now.after(expireDate)) {
+            return true;
+        }
+        return false;
     }
 
     public static List<Product> getRecommendProducts(MongoDBClient mongoClient, RecommendItem recommendItem) {
