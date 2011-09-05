@@ -29,7 +29,6 @@ public class DBConstants {
 	
 	public static final String F_PUSH_MESSAGE_TRYCOUNT = "try_cnt";
 	public static final String F_PUSH_MESSAGE_STATUS = "p_status";
-	public static final String F_PUSH_MESSAGE_EMAIL = "email";
 	public static final String F_PUSH_MESSAGE_START_DATE = "s_date";
 	public static final String F_PUSH_MESSAGE_FINISH_DATE = "f_date";
 	public static final String F_PUSH_MESSAGE_ERROR_CODE = "err_code";
@@ -38,6 +37,7 @@ public class DBConstants {
     public static final String F_PUSH_MESSAGE_BODY = "p_body";
     public static final String F_PUSH_MESSAGE_IPHONE = "p_iphone";
     public static final String F_PUSH_MESSAGE_ANDROID = "p_android";
+    public static final String F_PUSH_MESSAGE_WEIBO = "p_weibo";
     
     public static final String F_RECOMMEND_STATUS = "r_status";
     public static final String F_RECOMMEND_COUNT = "r_count";
@@ -348,7 +348,7 @@ public class DBConstants {
 	public static final String F_SHOPPING_LIST = "s_list";
 	public static final String F_ITEM_ID = "item_id";
 
-    public static final float MIN_SCORE_TO_RECOMMEND = 0.2f;
+    public static final float MIN_SCORE_TO_RECOMMEND = 0.1f;
 
     public static final String F_UP = "up";
     public static final String F_DOWN = "down";

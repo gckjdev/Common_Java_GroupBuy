@@ -7,6 +7,15 @@ import com.orange.groupbuy.constant.DBConstants;
 public class PushMessage extends CommonData {
 
 
+
+
+    @Override
+    public String toString() {
+        return "PushMessage [getPushType()=" + getPushType() + ", getPushSubject()=" + getPushSubject()
+                + ", getPushBody()=" + getPushBody() + ", getPushIphone()=" + getPushIphone() + ", getPushAndroid()="
+                + getPushAndroid() + "]";
+    }
+
     public PushMessage(final DBObject dbObject) {
         super(dbObject);
     }
