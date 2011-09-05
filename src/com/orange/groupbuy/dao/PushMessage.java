@@ -55,12 +55,21 @@ public class PushMessage extends CommonData {
         return this.getString(DBConstants.F_PRODUCTID);
     }
 
-    public void setTryCount() {
-        this.getInt(DBConstants.F_PUSH_MESSAGE_TRYCOUNT);
+    public void incTryCount() {
+        int currentTryCount = getTryCount();
+        dbObject.put(DBConstants.F_PUSH_MESSAGE_TRYCOUNT, ++currentTryCount);
     }
 
     public int getTryCount() {
         return this.getInt(DBConstants.F_PUSH_MESSAGE_TRYCOUNT);
+    }
+
+    public void setStatus(int status) {
+        dbObject.put(DBConstants.F_PUSH_MESSAGE_STATUS, status);
+    }
+
+    public void setReason(int reason) {
+        dbObject.put(DBConstants.F_PUSH_MESSAGE_REASON, reason);
     }
 
 }

@@ -38,6 +38,8 @@ public class DBConstants {
     public static final String F_PUSH_MESSAGE_BODY = "p_body";
     public static final String F_PUSH_MESSAGE_IPHONE = "p_iphone";
     public static final String F_PUSH_MESSAGE_ANDROID = "p_android";
+    public static final String F_PUSH_MESSAGE_REASON = "reason";
+
     
     public static final String F_RECOMMEND_STATUS = "r_status";
     public static final String F_RECOMMEND_COUNT = "r_count";
@@ -59,14 +61,19 @@ public class DBConstants {
     public static final int C_PUSH_MESSAGE_STATUS_CLOSE = 2;
     public static final int C_PUSH_MESSAGE_STATUS_FAILURE = 3;
     
-    public static final int C_PUSH_MESSAGE_TRY_COUNT_LIMIT = 3;
+    public static final int C_PUSH_MESSAGE_TRY_COUNT_LIMIT = 100;
+    public static final int C_PUSH_DAILY_LIMIT = 5;
+
+    // failure reason
+    public static final int C_PUSH_MESSAGE_FAIL_REACH_USER_LIMIT = 1001;
     
     public static final int C_RECOMMEND_STATUS_NOT_RUNNING = 0;
     public static final int C_RECOMMEND_STATUS_RUNNING = 1;
     public static final int C_RECOMMEND_STATUS_COLSE = 2;
     public static final int C_RECOMMEND_STATUS_FAILURE = 3;
     
-    public static final int C_PUSH_DAILY_LIMIT = 5;
+    
+    
     
     public static final int C_ITEM_NOT_SENT = 0;
     public static final int C_ITEM_SENT = 1;
@@ -361,6 +368,8 @@ public class DBConstants {
     public static final String F_COMMENT_CONTENT = "content";
 
     public static final String F_SUB_CATEGORY = "subcate";
+
+
 
     // category manager
     // public static final String F_CATEGORY_NAME = "cate_n";
