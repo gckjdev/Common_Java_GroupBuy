@@ -71,5 +71,9 @@ public class PushMessage extends CommonData {
     public int getTryCount() {
         return this.getInt(DBConstants.F_PUSH_MESSAGE_TRYCOUNT);
     }
+    
+    public String getImage() {
+        return this.getString(DBConstants.F_PUSH_MESSAGE_IMAGE);
+    }
 
 }

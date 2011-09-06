@@ -140,6 +140,7 @@ public class PushMessageManager {
         obj.put(DBConstants.F_FOREIGN_USER_ID, userId);
         obj.put(DBConstants.F_PUSH_MESSAGE_SUBJECT, emailTitle);
         obj.put(DBConstants.F_PUSH_MESSAGE_BODY, emailMessage);
+        obj.put(DBConstants.F_PUSH_MESSAGE_IMAGE, product.getImage());
         
         
         obj.put(DBConstants.F_PUSH_MESSAGE_TYPE, DBConstants.C_PUSH_TYPE_EMAIL);
@@ -210,9 +211,18 @@ public class PushMessageManager {
         String loc = product.getLoc();
         builder.append("【").append(product.getSiteName()).append("】 ").
                 append(product.getTitle());
-        String image = "<img src="+imageUrl+"width=\"60\" height=\"45\" border=\"0\">";
+        
+        String contactUrl = "<br> 点击了解详细内容：<br><a href='"    
+                + loc + "'>"+ loc + "</a><br>" ;
+        
+        
+        String image = "<br><img src="+imageUrl+"width=\"60\" height=\"45\" border=\"0\">";
         String message = builder.toString();
-            return message+"\n\n详细点击"+loc+"\n"+image;
+        String   html   = 
+                " <IMG   SRC="+imageUrl+"   width=80%   height=60%> <br> "+ 
+                " <b>   end   of   jpg </b> ";
+
+            return message+contactUrl+imageUrl;
 // TODO Auto-generated method stub
     }
 

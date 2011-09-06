@@ -38,6 +38,7 @@ public class DBConstants {
     public static final String F_PUSH_MESSAGE_IPHONE = "p_iphone";
     public static final String F_PUSH_MESSAGE_ANDROID = "p_android";
     public static final String F_PUSH_MESSAGE_WEIBO = "p_weibo";
+    public static final String F_PUSH_MESSAGE_IMAGE = "p_image";
     
     public static final String F_RECOMMEND_STATUS = "r_status";
     public static final String F_RECOMMEND_COUNT = "r_count";
