@@ -81,6 +81,11 @@ public class Product extends CommonData {
         }
     }
 	
+	public void calcAndSetTopScore(int bought, Date startDate) {
+        double topScore = calcTopScore_2(bought, startDate);
+        put(DBConstants.F_TOP_SCORE, topScore);
+    }
+	
 	private double logFuntion(int n, int bought) {
 	    if (n<0 || bought<0)
 	        return 0.0;
@@ -89,10 +94,7 @@ public class Product extends CommonData {
         return base;  
     }
 
-    public void calcAndSetTopScore(int bought, Date startDate) {
-	    double topScore = calcTopScore_2(bought, startDate);
-	    put(DBConstants.F_TOP_SCORE, topScore);
-	}
+    
     
 
     /**
