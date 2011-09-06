@@ -56,6 +56,9 @@ public class ServiceConstant  {
     public static final String METHOD_WRITEPRODUCTCOMMENT = "wpc";
     public static final String METHOD_GETPRODUCTCOMMENTS = "gpc";
     public static final String METHOD_GETALLCATEGORY = "gac";
+    public static final String METHOD_GETSHOPPINGCATEGORY = "gsc";
+    public static final String METHOD_GETUSERSHOPPINGITEMLIST = "gusil";
+    public static final String METHOD_COUNTSHOPPINGITEMPRODUCTS = "csip";
 
 	
 	// internal usage
@@ -212,7 +215,8 @@ public class ServiceConstant  {
 	public static final String METHOD_FINDPRODUCTSGROUPBYCATEGORY = "fgc";	
 	public static final String METHOD_FINDPRODUCTS = "fp";
 	public static final String METHOD_FINDPRODUCTBYSCORE = "fps";
-	public static final String METHOD_FINDPRODUCTBYSHOPPINGLIST = "fpsl";
+	public static final String METHOD_FINDPRODUCTBYSHOPPINGITEM = "fpsi";
+
 	
 	//response parameters
 	public static final String PARA_LOC = "loc";
@@ -239,16 +243,27 @@ public class ServiceConstant  {
 	
 	public static final String PARA_ITEMID = "ii";
 	public static final String PARA_CATEGORY_NAME = "na";
-	public static final String PARA_SUB_CATEGORY_NAME = "scn";
+	public static final String PARA_SUB_CATEGORY = "sc";
 	public static final String PARA_CATEGORY_ID = "ci";
 	public static final String PARA_PRODUCT = "p";
 	public static final String PARA_EXPIRE_DATE = "e_date";
+	public static final String PARA_MATCH_ITEM_COUNT = "mic";
 
 	public static final String PARA_ACTION_NAME = "an";
 	public static final String PARA_ACTION_VALUE = "av";
 	
-	public static final String VERIFICATION = "1";
     public static final String PARA_COMMENT_CONTENT = "comc";
+    
+    public static final String PARA_SUB_CATEGORY_ID = "sid";
+    public static final String PARA_SUB_CATEGORY_NAME = "scn";
+    public static final String PARA_SUB_CATEGORY_KEYS = "keys";
+    public static final String PARA_ITEMID_ARRAY = "iia";
+    public static final String PARA_REQUIRE_MATCH = "rm";
+    
+    public static final String VERIFICATION = "1";
+    public static final String NEED_REQURIE_MATCH = "1";
+
+
     
     
 }

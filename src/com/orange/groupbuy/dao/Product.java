@@ -73,10 +73,14 @@ public class Product extends CommonData {
 	    final double T = 24 * 60 * 60 * 1000;
 	    final int N = 2;
         long time = startDate.getTime();
-        if (bought >= 0) {
+        if (bought > 0) {
             double score = logFuntion(N, bought) +  ((double)time / (T));
             return score;
-        } else {
+        } else if (bought == 0){
+            double score =  (double)time / (T);
+            return score;
+        } 
+        else {
             return 0;
         }
     }

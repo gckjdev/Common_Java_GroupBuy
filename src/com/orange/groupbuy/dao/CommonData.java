@@ -64,24 +64,31 @@ public class CommonData {
 	}
 	
 	public int getInt(String key){
-		Integer value = (Integer)dbObject.get(key);
-		if (value != null)
-			return value.intValue();
-		else {
-			return 0;
-		}
+	    Object obj = dbObject.get(key);
+	    if (obj == null) {
+	        return 0;
+	    }
+	    else if (obj instanceof Integer){
+	        return ((Integer)obj).intValue();
+	    }
+	    else if (obj instanceof Double){
+	        return ((Double)obj).intValue();
+	    }
+	    else {
+	        return 0;
+	    }
 	}
 	
 	public double getDouble(String key){
-		Double value = (Double)dbObject.get(key);
-		if (value == null)
-		    return 0.0f;
-		
-		return value.doubleValue();		
+        Double value = (Double)dbObject.get(key);
+        if (value == null)
+            return 0.0f;
+
+        return value.doubleValue();
 	}
 	
 	public float getFloat(String key){
-	    Float value = (Float)dbObject.get(key);
+	    Double value = (Double)dbObject.get(key);
         if (value == null)
             return 0.0f;
 

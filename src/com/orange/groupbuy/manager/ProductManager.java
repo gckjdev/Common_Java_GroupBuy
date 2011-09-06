@@ -129,6 +129,8 @@ public class ProductManager extends CommonManager {
 			doc.addField(DBConstants.F_CATEGORY, category, 1.0f);
 			double price = product.getPrice();
 			doc.addField(DBConstants.F_PRICE, price, 1.0f);
+			long bought = product.getBought();
+			doc.addField(DBConstants.F_BOUGHT, bought, 1.0f);
 
 			String description = product.getDescription();
 			String detail = product.getDetail();
@@ -147,6 +149,7 @@ public class ProductManager extends CommonManager {
 			// TODO how to change the weight 
 			if (addressList != null && addressList.size() > 0)
 				doc.addField(DBConstants.F_ADDRESS, addressList, 0.2f);
+
 			if (tagList != null && tagList.size() > 0)
 				doc.addField(DBConstants.F_TAG, tagList, 1.0f);
 			
@@ -696,7 +699,7 @@ public class ProductManager extends CommonManager {
 
 		if (price != null) {
 		    String priceString = String.valueOf(price.doubleValue());
-		    addRangeIntoFilterQuery(query, DBConstants.F_PRICE, null, priceString);
+		    addRangeIntoFilterQuery(query, DBConstants.F_PRICE, "-100.0", priceString);
 		}
 		
 		query.set("fl", "score, id, price");
@@ -733,7 +736,7 @@ public class ProductManager extends CommonManager {
 				
 				productScoreMap.put(objectId, productScore);
 				
-				log.debug("<searchProductBySolr> result doc="+ resultDoc.toString());
+				log.info("<searchProductBySolr> result doc="+ resultDoc.toString());
 			}
 			log.info("<searchProductBySolr> search done, result size = " + resultList.size());
 

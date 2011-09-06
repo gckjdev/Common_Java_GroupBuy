@@ -7,6 +7,15 @@ import com.orange.groupbuy.constant.DBConstants;
 public class PushMessage extends CommonData {
 
 
+
+
+    @Override
+    public String toString() {
+        return "PushMessage [getPushType()=" + getPushType() + ", getPushSubject()=" + getPushSubject()
+                + ", getPushBody()=" + getPushBody() + ", getPushIphone()=" + getPushIphone() + ", getPushAndroid()="
+                + getPushAndroid() + "]";
+    }
+
     public PushMessage(final DBObject dbObject) {
         super(dbObject);
     }
@@ -19,8 +28,8 @@ public class PushMessage extends CommonData {
         return this.getString(DBConstants.F_DEVICETOKEN);
     }
 
-    public final String getPushType() {
-        return this.getString(DBConstants.F_PUSH_MESSAGE_TYPE);
+    public final int getPushType() {
+        return this.getInt(DBConstants.F_PUSH_MESSAGE_TYPE);
     }
 
 
@@ -55,12 +64,29 @@ public class PushMessage extends CommonData {
         return this.getString(DBConstants.F_PRODUCTID);
     }
 
-    public void setTryCount() {
-        this.getInt(DBConstants.F_PUSH_MESSAGE_TRYCOUNT);
+    public void incTryCount() {
+        int currentTryCount = getTryCount();
+        dbObject.put(DBConstants.F_PUSH_MESSAGE_TRYCOUNT, ++currentTryCount);
     }
 
     public int getTryCount() {
         return this.getInt(DBConstants.F_PUSH_MESSAGE_TRYCOUNT);
+    }
+    
+    public String getImage() {
+        return this.getString(DBConstants.F_PUSH_MESSAGE_IMAGE);
+    }
+
+    public void setStatus(int status) {
+        dbObject.put(DBConstants.F_PUSH_MESSAGE_STATUS, status);
+    }
+
+    public void setReason(int reason) {
+        dbObject.put(DBConstants.F_PUSH_MESSAGE_REASON, reason);
+    }
+
+    public String getItemId() {
+        return (String)dbObject.get(DBConstants.F_ITEM_ID);
     }
 
 }
