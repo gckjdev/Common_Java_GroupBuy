@@ -88,6 +88,10 @@ db.task.insert({"status":0, "site_id":"fentuan", "url":"http://www.fentuan.com/a
 // 点评 hao123
 db.task.insert({"status":0, "site_id":"dianping", "url":"http://t.dianping.com/api.xml"})
 
+//最淘hao123
+db.task.insert({"status":0, "site_id":"zuitao", "url":"http://www.zuitao.com/api/hao123.php"})
+
+
 // 搜索预置关键字表
 db.app.insert({"app_id":"GROUPBUY","version":"0.6","app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8","keys":[{"name":"月饼", "query":"月饼 中秋"},{"name":"抽奖秒杀", "query":"0元 抽奖 秒杀 零元 免费"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券"},{"name":"低价酒店", "query":"酒店 大床房 双人房 单人房 豪华房 商务酒店 公寓"}]})
 
@@ -116,11 +120,13 @@ db.product.ensureIndex({"gps":1})
 db.address.ensureIndex({"addr":1})
 
 //recommend的索引表 table recommend index;
-db.recommend.ensureIndex({"item_id":1,"user_id":1})
+db.recommend.ensureIndex({"item_id":1})
+db.recommend.ensureIndex({"user_id":1})
+db.recommend.ensureIndex({"re_list":1)
+
 
 //push_message的索引表 table push_message index
-db.push_message.ensureIndex({"":,})
-
-
-
-
+db.push_message.ensureIndex({"item_id":1})
+db.push_message.ensureIndex({"p_id":1})
+db.push_message.ensureIndex({"try_cnt":1,"p_status":1})
+db.push_message.ensureIndex({"user_id":1})
