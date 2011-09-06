@@ -115,5 +115,12 @@ db.product.ensureIndex({"city":1,"loc":1})
 db.product.ensureIndex({"gps":1})
 db.address.ensureIndex({"addr":1})
 
+//recommend的索引表 table recommend index;
+db.recommend.ensureIndex({"item_id":1,"user_id":1})
+
+//push_message的索引表 table push_message index
+db.push_message.ensureIndex({"":,})
+
+
 
 
