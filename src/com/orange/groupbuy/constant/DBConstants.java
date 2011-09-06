@@ -348,7 +348,7 @@ public class DBConstants {
 	public static final String F_SHOPPING_LIST = "s_list";
 	public static final String F_ITEM_ID = "item_id";
 
-    public static final float MIN_SCORE_TO_RECOMMEND = 0.2f;
+    public static final float MIN_SCORE_TO_RECOMMEND = 0.1f;
 
     public static final String F_UP = "up";
     public static final String F_DOWN = "down";
