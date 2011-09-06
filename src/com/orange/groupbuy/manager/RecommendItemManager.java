@@ -232,6 +232,8 @@ public class RecommendItemManager {
                 }
             }
         }
+        
+        log.info("search keyword is "+keywords);
 
         return keywords.trim();
     }
