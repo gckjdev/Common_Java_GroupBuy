@@ -129,8 +129,8 @@ public class PushMessageManager {
 
     public static void savePushMessage(final MongoDBClient mongoClient, Product product, User user, RecommendItem item) {
 
-        saveIphonePushMessage(mongoClient,product,user);
-        saveEmailPushMessage(mongoClient,product,user);
+        saveIphonePushMessage(mongoClient,product,user, item);
+        // saveEmailPushMessage(mongoClient,product,user);
     }
 
     private static void saveEmailPushMessage(MongoDBClient mongoClient, Product product, User user) {
@@ -165,7 +165,7 @@ public class PushMessageManager {
     }
 
 
-    public static void saveIphonePushMessage(final MongoDBClient mongoClient, Product product, User user) {
+    public static void saveIphonePushMessage(final MongoDBClient mongoClient, Product product, User user, RecommendItem item) {
 
         String userId = user.getUserId();
         BasicDBObject query = new BasicDBObject();
