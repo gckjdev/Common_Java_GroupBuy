@@ -116,7 +116,8 @@ db.product.ensureIndex({"gps":1})
 db.address.ensureIndex({"addr":1})
 
 //recommend的索引表 table recommend index;
-db.recommend.ensureIndex({"item_id":1,"user_id":1})
+db.recommend.ensureIndex({"item_id":1})
+db.recommend.ensureIndex({"user_id":1})
 db.recommend.ensureIndex({"re_list":1)
 
 
