@@ -212,7 +212,8 @@ public class RecommendItemManager {
     public static String generateKeyword(String cate, String subcate, String kw) {
 
         String keywords = "";
-        if (!StringUtil.isEmpty(cate)) {
+        if (!StringUtil.isEmpty(cate) && StringUtil.isEmpty(subcate) && StringUtil.isEmpty(kw)) {
+            // only when sub category and keyword both are empty, use category for search
             keywords = keywords.concat(" ").concat(cate);
         }
         if (!StringUtil.isEmpty(subcate)) {
