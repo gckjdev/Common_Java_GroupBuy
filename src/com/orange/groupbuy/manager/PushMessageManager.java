@@ -64,10 +64,10 @@ public class PushMessageManager {
         BasicDBObject update = new BasicDBObject();
         BasicDBList values = new BasicDBList();
 
-        BasicDBObject query_trycount = new BasicDBObject();
-        query_trycount.put(DBConstants.F_PUSH_MESSAGE_TRYCOUNT, new BasicDBObject("$lt", DBConstants.C_PUSH_MESSAGE_TRY_COUNT_LIMIT));
-        query_trycount.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE);
-        values.add(query_trycount);
+        BasicDBObject pushQuery = new BasicDBObject();
+        pushQuery.put(DBConstants.F_PUSH_MESSAGE_TRYCOUNT, new BasicDBObject("$lt", DBConstants.C_PUSH_MESSAGE_TRY_COUNT_LIMIT));
+        pushQuery.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE);
+        values.add(pushQuery);
         values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, null));
         values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING));
 
@@ -77,7 +77,7 @@ public class PushMessageManager {
         updateValue.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_RUNNING);
         update.put("$set", updateValue);
         
-        log.info("<findMessageForPush> query="+query.toString()+", update="+update.toString());
+        log.debug("<findMessageForPush> query="+query.toString()+", update="+update.toString());
         DBObject obj =  mongoClient.findAndModifyNew(DBConstants.T_PUSH_MESSAGE, query, update);
 
         if (obj != null) {
@@ -86,14 +86,21 @@ public class PushMessageManager {
             if (UserManager.checkPushCount(mongoClient, user)) {
                 return message;
             } else {
-                obj.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING);
-                mongoClient.save(DBConstants.T_PUSH_MESSAGE, obj);
-                log.info("<findMessageForPush> Push message exceed daily limit of user="+user.getUserId());
+                int userPushCounter = user.getPushCount();
+                failPushMessage(mongoClient, message, DBConstants.C_PUSH_MESSAGE_FAIL_REACH_USER_LIMIT);
+                log.info("<findMessageForPush> push message exceed daily limit of user="+user.getUserId() + ", push count = "+userPushCounter);
                 return null;
             }
         }
         return null;
     }
+
+    private static void failPushMessage(MongoDBClient mongoClient, PushMessage message, int reason) {
+        message.setStatus(DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE);
+        message.setReason(reason);
+        mongoClient.save(DBConstants.T_PUSH_MESSAGE, message.getDbObject());
+    }
+
 
     public static User findAndModifyUserByMessage(MongoDBClient mongoClient, PushMessage message) {
         String userId = message.getUserId();
@@ -121,6 +128,44 @@ public class PushMessageManager {
 
     public static void savePushMessage(final MongoDBClient mongoClient, Product product, User user) {
 
+        saveIphonePushMessage(mongoClient,product,user);
+        saveEmailPushMessage(mongoClient,product,user);
+    }
+
+    private static void saveEmailPushMessage(MongoDBClient mongoClient, Product product, User user) {
+        
+        int titlelen = 60;
+        String userId = user.getUserId();
+        BasicDBObject query = new BasicDBObject();
+        query.put(DBConstants.F_FOREIGN_USER_ID, userId);
+        query.put(DBConstants.F_PRODUCTID, product.getId());
+        
+        String emailMessage = buildMessageForEmail(product,user);
+        String emailTitle = emailMessage.substring(0, titlelen)+"...";
+        BasicDBObject obj = new BasicDBObject();
+        obj.put(DBConstants.F_PRODUCTID, product.getId());
+        obj.put(DBConstants.F_FOREIGN_USER_ID, userId);
+        obj.put(DBConstants.F_PUSH_MESSAGE_SUBJECT, emailTitle);
+        obj.put(DBConstants.F_PUSH_MESSAGE_BODY, emailMessage);
+        obj.put(DBConstants.F_PUSH_MESSAGE_IMAGE, product.getImage());
+        
+        
+        obj.put(DBConstants.F_PUSH_MESSAGE_TYPE, DBConstants.C_PUSH_TYPE_EMAIL);
+        obj.put(DBConstants.F_START_DATE, new Date());
+
+        BasicDBObject update = new BasicDBObject();
+        update.put("$set", obj);
+
+        log.debug("update push, query=" + query.toString() + ", value=" + update.toString());
+
+        mongoClient.updateOrInsert(DBConstants.T_PUSH_MESSAGE, query, update);
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    public static void saveIphonePushMessage(final MongoDBClient mongoClient, Product product, User user) {
+
         String userId = user.getUserId();
         BasicDBObject query = new BasicDBObject();
         query.put(DBConstants.F_FOREIGN_USER_ID, userId);
@@ -130,12 +175,19 @@ public class PushMessageManager {
 //        obj.put(DBConstants.F_PUSH_MESSAGE_BODY, builder.toString());
 
         String iPhoneMessage = buildMessageForIPhone(product, user);
+        //String emailMessage = buildMessageForEmail(product,user);
+        //String androidMessage = buildMessageForAndroid(product,user);
+        //String weiboMessage = buildMessageForWeibo(product,user);
 
         BasicDBObject obj = new BasicDBObject();
         obj.put(DBConstants.F_DEVICETOKEN, user.getDeviceToken());
         obj.put(DBConstants.F_PRODUCTID, product.getId());
         obj.put(DBConstants.F_FOREIGN_USER_ID, userId);
         obj.put(DBConstants.F_PUSH_MESSAGE_IPHONE, iPhoneMessage);
+        //obj.put(DBConstants.F_PUSH_MESSAGE_ANDROID, androidMessage);
+        //obj.put(DBConstants.F_PUSH_MESSAGE_EMAIL, emailMessage);
+        //obj.put(DBConstants.F_PUSH_MESSAGE_WEIBO, weiboMessage);
+        
         obj.put(DBConstants.F_PUSH_MESSAGE_TYPE, DBConstants.C_PUSH_TYPE_IPHONE);
         obj.put(DBConstants.F_START_DATE, new Date());
 
@@ -146,6 +198,41 @@ public class PushMessageManager {
 
         mongoClient.updateOrInsert(DBConstants.T_PUSH_MESSAGE, query, update);
     }
+    private static String buildMessageForWeibo(Product product, User user) {
+        
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    private static String buildMessageForAndroid(Product product, User user) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    private static String buildMessageForEmail(Product product, User user) {
+        
+        StringBuilder builder = new StringBuilder();
+        String imageUrl = product.getImage();
+        String loc = product.getLoc();
+        builder.append("【").append(product.getSiteName()).append("】 ").
+                append(product.getTitle());
+        
+        String contactUrl = "<br> 点击了解详细内容：<br><a href='"    
+                + loc + "'>"+ loc + "</a><br>" ;
+        
+        
+        String image = "<br><img src="+imageUrl+"width=\"60\" height=\"45\" border=\"0\">";
+        String message = builder.toString();
+        String   html   = 
+                " <IMG   SRC="+imageUrl+"   width=80%   height=60%> <br> "+ 
+                " <b>   end   of   jpg </b> ";
+
+            return message+contactUrl+imageUrl;
+// TODO Auto-generated method stub
+    }
+
 
     private static String buildMessageForIPhone(Product product, User user) {
         StringBuilder builder = new StringBuilder();
@@ -175,11 +262,13 @@ public class PushMessageManager {
         mongoClient.save(DBConstants.T_PUSH_MESSAGE, pushMessage.getDbObject());
     }
 
-    public static void pushMessageFailure(final MongoDBClient mongoClient, final PushMessage pushMessage) {
-        pushMessage.put(DBConstants.F_PUSH_MESSAGE_STATUS, Integer.valueOf(DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE));
-        pushMessage.put(DBConstants.F_PUSH_MESSAGE_TRYCOUNT, pushMessage.getTryCount() + 1);
+    public static void pushMessageFailure(final MongoDBClient mongoClient, final PushMessage pushMessage, int reason) {
+        pushMessage.incTryCount();
+        pushMessage.setStatus(DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE);
+        pushMessage.setReason(reason);
         mongoClient.save(DBConstants.T_PUSH_MESSAGE, pushMessage.getDbObject());
 
+        // TODO Benson, refactor the code below by using one update instruction
         User user = findUserByMessage(mongoClient, pushMessage);
         if (user != null) {
             user.setPushCount(user.getPushCount() - 1);

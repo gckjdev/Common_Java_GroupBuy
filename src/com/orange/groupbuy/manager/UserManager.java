@@ -298,7 +298,7 @@ public class UserManager extends CommonManager {
     }
 
     public static boolean updateUserShoppingItem(MongoDBClient mongoClient, String userId, String itemId,
-            String categoryName, String city, String subCategoryName, String keywords, double maxPrice,
+            String categoryName, String subCategoryName, String keywords, String city, double maxPrice,
             double minRebate, Date expireDate) {
 
         BasicDBObject item = createItemForUpdate(itemId, categoryName, subCategoryName, keywords, city, maxPrice,
