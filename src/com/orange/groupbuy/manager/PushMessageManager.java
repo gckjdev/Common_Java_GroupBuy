@@ -160,8 +160,6 @@ public class PushMessageManager {
         log.debug("update push, query=" + query.toString() + ", value=" + update.toString());
 
         mongoClient.updateOrInsert(DBConstants.T_PUSH_MESSAGE, query, update);
-        // TODO Auto-generated method stub
-        
     }
 
 
