@@ -17,7 +17,7 @@ public class RecommendItem extends CommonData {
     }
 
     public BasicDBList getProductList() {
-        return (BasicDBList) dbObject.get(DBConstants.F_RECOMMENDLIST);
+        return (BasicDBList) dbObject.get(DBConstants.F_RECOMMEND_LIST);
     }
 
     public void setRecommendCount(int cnt) {

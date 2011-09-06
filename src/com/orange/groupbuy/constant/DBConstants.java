@@ -37,8 +37,13 @@ public class DBConstants {
     public static final String F_PUSH_MESSAGE_BODY = "p_body";
     public static final String F_PUSH_MESSAGE_IPHONE = "p_iphone";
     public static final String F_PUSH_MESSAGE_ANDROID = "p_android";
+
     public static final String F_PUSH_MESSAGE_WEIBO = "p_weibo";
     public static final String F_PUSH_MESSAGE_IMAGE = "p_image";
+
+    public static final String F_PUSH_MESSAGE_REASON = "reason";
+
+
     
     public static final String F_RECOMMEND_STATUS = "r_status";
     public static final String F_RECOMMEND_COUNT = "r_count";
@@ -60,14 +65,19 @@ public class DBConstants {
     public static final int C_PUSH_MESSAGE_STATUS_CLOSE = 2;
     public static final int C_PUSH_MESSAGE_STATUS_FAILURE = 3;
     
-    public static final int C_PUSH_MESSAGE_TRY_COUNT_LIMIT = 3;
+    public static final int C_PUSH_MESSAGE_TRY_COUNT_LIMIT = 100;
+    public static final int C_PUSH_DAILY_LIMIT = 5;
+
+    // failure reason
+    public static final int C_PUSH_MESSAGE_FAIL_REACH_USER_LIMIT = 1001;
     
     public static final int C_RECOMMEND_STATUS_NOT_RUNNING = 0;
     public static final int C_RECOMMEND_STATUS_RUNNING = 1;
     public static final int C_RECOMMEND_STATUS_COLSE = 2;
     public static final int C_RECOMMEND_STATUS_FAILURE = 3;
     
-    public static final int C_PUSH_DAILY_LIMIT = 5;
+    
+    
     
     public static final int C_ITEM_NOT_SENT = 0;
     public static final int C_ITEM_SENT = 1;
@@ -307,7 +317,7 @@ public class DBConstants {
 	public static final String F_PRIORITY = "pri";
 	public static final String F_MERCHANT_END_DATE = "me_date";
 	public static final String F_SCORE = "score";
-	public static final String F_RECOMMENDLIST = "re_list";
+	public static final String F_RECOMMEND_LIST = "re_list";
 	public static final String F_ITEM_SENT_STATUS = "status";
 	public static final String F_TOP_SCORE = "topscore";
 
@@ -363,6 +373,8 @@ public class DBConstants {
 
     public static final String F_SUB_CATEGORY = "subcate";
 
+
+
     // category manager
     // public static final String F_CATEGORY_NAME = "cate_n";
     // public static final String F_KEYWORD = "keys";
@@ -374,7 +386,7 @@ public class DBConstants {
     // public static final String F_SUB_CATEGORY_NAME = "subcate_n";
     // public static final String F_SUB_CATEGORY_ID = "subcate_id";
     // public static final String F_KEYWORD = "keys";
-    // { { "cate_n":"美食1", "subcate" : [ { "subcate_id": 1, "subcate_n":"湘菜", "keys":["湘菜",湖南�?] ] },
+    // { { "cate_n":"美食1", "subcate" : [ { "subcate_id": 1, "subcate_n":"湘菜", "keys":["湘菜",湖南�?] ] },
     //   { "cate_n":"美食2", "subcate" : [ { "subcate_id": 2, "subcate_n":"西餐", "keys":["浪漫西餐", "法式大餐"] ] },
     // }       
     
