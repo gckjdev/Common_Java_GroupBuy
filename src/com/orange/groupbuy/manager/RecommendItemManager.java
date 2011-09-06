@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.cassandra.cli.CliParser.newColumnFamily_return;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.util.log.Log;
 
@@ -170,13 +171,26 @@ public class RecommendItemManager {
         }
     }
 
-    public static void deleteExpiredProduct(MongoDBClient mongoClient, String itemId, String pid) {
+    public static void deleteExpiredProduct(MongoDBClient mongoClient, String itemId) {
 
         BasicDBObject query = new BasicDBObject();
         query.put(DBConstants.F_ITEM_ID, itemId);
-        mongoClient.pullArrayKey(DBConstants.T_RECOMMEND, query, DBConstants.F_RECOMMEND_LIST, DBConstants.F_PRODUCTID,
-                pid);
-        mongoClient.inc(DBConstants.T_RECOMMEND, DBConstants.F_ITEM_ID, itemId, DBConstants.F_RECOMMEND_COUNT, -1);
+        
+        BasicDBObject update = new BasicDBObject();
+        BasicDBObject pullValue = new BasicDBObject();
+        BasicDBObject pull = new BasicDBObject();
+        
+        pullValue.put(DBConstants.F_END_DATE, new BasicDBObject("$lt", new Date()));
+        pull.put(DBConstants.F_RECOMMEND_LIST, pullValue);
+        update.put("$pull", pull);
+        
+        BasicDBObject inc = new BasicDBObject();
+        inc.put(DBConstants.F_RECOMMEND_COUNT, -1);
+        update.put("$inc", inc);
+        
+        log.info("query=" + query + "update= " + update);
+        mongoClient.updateAll(DBConstants.T_RECOMMEND, query, update);
+     
     }
 
     public static boolean isProductExpired(Product product) {
@@ -186,7 +200,7 @@ public class RecommendItemManager {
         if (e_date == null) {
             return false;
         }
-        if (e_date.after(now)) {
+        if (e_date.before(now)) {
             return true;
         }
         return false;
@@ -323,10 +337,38 @@ public class RecommendItemManager {
         item.put(DBConstants.F_PRODUCTID, product.getStringObjectId());
         item.put(DBConstants.F_SCORE, product.getScore());
         item.put(DBConstants.F_START_DATE, product.getStartDate());
-        item.put(DBConstants.F_END_DATE, product.getStartDate());
+        item.put(DBConstants.F_END_DATE, product.getEndDate());
         item.put(DBConstants.F_ITEM_SENT_STATUS, DBConstants.C_ITEM_NOT_SENT);
 
         existProductList.add(item);
+    }
+
+    public static void cleanExpireProduct(MongoDBClient mongoClient, RecommendItem recommendItem) {
+        
+        BasicDBList productList = recommendItem.getProductList();
+        if (productList == null || productList.size() == 0)
+            return;
+        
+        List<BasicDBObject> deleteList = new ArrayList<BasicDBObject>();
+        Iterator<?> iter = productList.iterator();
+        while (iter.hasNext()){
+            BasicDBObject product = (BasicDBObject)iter.next();
+            Date endDate = (Date)product.get(DBConstants.F_END_DATE);
+            if (endDate != null && endDate.before(new Date())){
+                // remove this product
+                log.info("clean expired product " + product.toString() + 
+                        " for item " + recommendItem.getItemId());
+                deleteList.add(product);
+            }
+        }
+        
+        if (deleteList.size() == 0)
+            return;
+        
+        productList.removeAll(deleteList);
+        recommendItem.decRecommendCount(deleteList.size());
+        
+        mongoClient.save(DBConstants.T_RECOMMEND, recommendItem.getDbObject());
     }
 
 }
