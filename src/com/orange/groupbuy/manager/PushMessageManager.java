@@ -130,10 +130,10 @@ public class PushMessageManager {
     public static void savePushMessage(final MongoDBClient mongoClient, Product product, User user, RecommendItem item) {
 
         saveIphonePushMessage(mongoClient,product,user, item);
-        // saveEmailPushMessage(mongoClient,product,user);
+        // saveEmailPushMessage(mongoClient,product,user, item);
     }
 
-    private static void saveEmailPushMessage(MongoDBClient mongoClient, Product product, User user) {
+    private static void saveEmailPushMessage(MongoDBClient mongoClient, Product product, User user, RecommendItem item) {
         
         int titlelen = 60;
         String userId = user.getUserId();
@@ -150,7 +150,7 @@ public class PushMessageManager {
         obj.put(DBConstants.F_PUSH_MESSAGE_BODY, emailMessage);
         obj.put(DBConstants.F_PUSH_MESSAGE_IMAGE, product.getImage());
         
-        
+        obj.put(DBConstants.F_ITEM_ID, item.getItemId());
         obj.put(DBConstants.F_PUSH_MESSAGE_TYPE, DBConstants.C_PUSH_TYPE_EMAIL);
         obj.put(DBConstants.F_START_DATE, new Date());
 
