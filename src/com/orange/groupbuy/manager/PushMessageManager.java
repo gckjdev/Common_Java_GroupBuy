@@ -267,7 +267,7 @@ public class PushMessageManager {
         pushMessage.setStatus(DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE);
         pushMessage.setReason(reason);
         mongoClient.save(DBConstants.T_PUSH_MESSAGE, pushMessage.getDbObject());
-        
+
         String userId = pushMessage.getUserId();
         mongoClient.inc(DBConstants.T_USER, DBConstants.F_USERID, new ObjectId(userId), DBConstants.F_PUSH_COUNT, -1);
     }
