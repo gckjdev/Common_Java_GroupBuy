@@ -297,10 +297,6 @@ public class UserManager extends CommonManager {
         return DBConstants.F_SHOPPING_LIST.concat(".").concat(DBConstants.F_ITEM_ID);
     }
 
-    private static String getItemArrayResultKey() {
-        return DBConstants.F_SHOPPING_LIST.concat(".$");
-    }
-
     public static boolean updateUserShoppingItem(MongoDBClient mongoClient, String userId, String itemId,
             String categoryName, String city, String subCategoryName, String keywords, double maxPrice,
             double minRebate, Date expireDate) {
@@ -325,7 +321,7 @@ public class UserManager extends CommonManager {
         RecommendItemManager.deleteRecommendProductList(mongoClient, userId, itemId);
         return true;
     }
-    
+
     public static boolean deleteUserShoppingItem(MongoDBClient mongoClient, String userId, String itemId) {
 
         if (itemId == null || userId == null)
