@@ -51,7 +51,6 @@ public class Product extends CommonData {
 		
 		double topScore = calcTopScore_2(bought, startDate);
 		put(DBConstants.F_TOP_SCORE, topScore);
-		System.out.println("<Product> topscore="+topScore+",title="+title);
 		
 		return true;
 	}
