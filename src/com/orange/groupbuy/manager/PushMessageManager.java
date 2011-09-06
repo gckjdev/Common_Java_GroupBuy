@@ -15,6 +15,7 @@ import com.orange.common.utils.DateUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.PushMessage;
+import com.orange.groupbuy.dao.RecommendItem;
 import com.orange.groupbuy.dao.User;
 
 /**
@@ -126,7 +127,7 @@ public class PushMessageManager {
         return null;
     }
 
-    public static void savePushMessage(final MongoDBClient mongoClient, Product product, User user) {
+    public static void savePushMessage(final MongoDBClient mongoClient, Product product, User user, RecommendItem item) {
 
         String userId = user.getUserId();
         BasicDBObject query = new BasicDBObject();
@@ -145,6 +146,7 @@ public class PushMessageManager {
         obj.put(DBConstants.F_PUSH_MESSAGE_IPHONE, iPhoneMessage);
         obj.put(DBConstants.F_PUSH_MESSAGE_TYPE, DBConstants.C_PUSH_TYPE_IPHONE);
         obj.put(DBConstants.F_START_DATE, new Date());
+        obj.put(DBConstants.F_ITEM_ID, item.getItemId());
 
         BasicDBObject update = new BasicDBObject();
         update.put("$set", obj);
@@ -177,8 +179,9 @@ public class PushMessageManager {
      * @param mongoClient the mongo client
      * @param pushMessage the push message
      */
-    public static void pushMessageClose(final MongoDBClient mongoClient, final PushMessage pushMessage) {
-        pushMessage.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_CLOSE);
+    public static void pushMessageClose(final MongoDBClient mongoClient, final PushMessage pushMessage, int reason) {        
+        pushMessage.setReason(reason);
+        pushMessage.setStatus(DBConstants.C_PUSH_MESSAGE_STATUS_CLOSE);
         mongoClient.save(DBConstants.T_PUSH_MESSAGE, pushMessage.getDbObject());
     }
 

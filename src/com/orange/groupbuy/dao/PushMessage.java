@@ -72,4 +72,8 @@ public class PushMessage extends CommonData {
         dbObject.put(DBConstants.F_PUSH_MESSAGE_REASON, reason);
     }
 
+    public String getItemId() {
+        return (String)dbObject.get(DBConstants.F_ITEM_ID);
+    }
+
 }

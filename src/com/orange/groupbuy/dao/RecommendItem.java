@@ -94,4 +94,8 @@ public class RecommendItem extends CommonData {
 
     }
 
+    public String getItemId() {
+        return (String)dbObject.get(DBConstants.F_ITEM_ID);
+    }
+
 }

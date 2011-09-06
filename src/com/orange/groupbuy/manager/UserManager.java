@@ -496,7 +496,7 @@ public class UserManager extends CommonManager {
         }
     }
 
-    public static void resetAllRunningMessage(final MongoDBClient mongoClient) {
+    public static void resetRecommendationStatus(final MongoDBClient mongoClient) {
         BasicDBObject query = new BasicDBObject();
         BasicDBObject update = new BasicDBObject();
 

@@ -162,7 +162,7 @@ public class RecommendItemManager {
     private static final String SUB_CATEGORY_BOOST = "2";
     private static final String KEYWORD_BOOST = "4";
     
-    private static String generateKeyword(String cate, String subcate, String kw) {
+    public static String generateKeyword(String cate, String subcate, String kw) {
         String keywords = "";
         if (!StringUtil.isEmpty(cate)) {
             keywords = keywords.concat(" ").concat(cate);
@@ -187,7 +187,10 @@ public class RecommendItemManager {
         return keywords.trim();
     }
     
-    private static boolean isExpire(Date expireDate) {
+    public static boolean isExpire(Date expireDate) {
+        if (expireDate == null)
+            return false;
+        
         Date now = new Date();
         if (now.after(expireDate)) {
             return true;

@@ -135,6 +135,8 @@ public class ErrorCode extends CommonErrorCode {
 	static public final int ERROR_UPLOAD_FILE 				= 90006;
 	public static final int ERROR_CREATE_THUNMB_FILEPATH 	= 90007;
 	public static final int ERROR_CREATE_THUNMB_FILE 		= 90008;
+    public static final int ERROR_GENERAL_EXCEPTION         = 90009;
+
 
 
 
