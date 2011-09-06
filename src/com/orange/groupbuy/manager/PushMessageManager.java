@@ -267,13 +267,9 @@ public class PushMessageManager {
         pushMessage.setStatus(DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE);
         pushMessage.setReason(reason);
         mongoClient.save(DBConstants.T_PUSH_MESSAGE, pushMessage.getDbObject());
-
-        // TODO Benson, refactor the code below by using one update instruction
-        User user = findUserByMessage(mongoClient, pushMessage);
-        if (user != null) {
-            user.setPushCount(user.getPushCount() - 1);
-            mongoClient.save(DBConstants.T_USER, user.getDbObject());
-        }
+        
+        String userId = pushMessage.getUserId();
+        mongoClient.inc(DBConstants.T_USER, DBConstants.F_USERID, new ObjectId(userId), DBConstants.F_PUSH_COUNT, -1);
     }
 
     public static User findUserByMessage(final MongoDBClient mongoClient, final PushMessage pushMessage) {
