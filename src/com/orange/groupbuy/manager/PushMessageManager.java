@@ -129,6 +129,44 @@ public class PushMessageManager {
 
     public static void savePushMessage(final MongoDBClient mongoClient, Product product, User user, RecommendItem item) {
 
+        saveIphonePushMessage(mongoClient,product,user);
+        saveEmailPushMessage(mongoClient,product,user);
+    }
+
+    private static void saveEmailPushMessage(MongoDBClient mongoClient, Product product, User user) {
+        
+        int titlelen = 60;
+        String userId = user.getUserId();
+        BasicDBObject query = new BasicDBObject();
+        query.put(DBConstants.F_FOREIGN_USER_ID, userId);
+        query.put(DBConstants.F_PRODUCTID, product.getId());
+        
+        String emailMessage = buildMessageForEmail(product,user);
+        String emailTitle = emailMessage.substring(0, titlelen)+"...";
+        BasicDBObject obj = new BasicDBObject();
+        obj.put(DBConstants.F_PRODUCTID, product.getId());
+        obj.put(DBConstants.F_FOREIGN_USER_ID, userId);
+        obj.put(DBConstants.F_PUSH_MESSAGE_SUBJECT, emailTitle);
+        obj.put(DBConstants.F_PUSH_MESSAGE_BODY, emailMessage);
+        obj.put(DBConstants.F_PUSH_MESSAGE_IMAGE, product.getImage());
+        
+        
+        obj.put(DBConstants.F_PUSH_MESSAGE_TYPE, DBConstants.C_PUSH_TYPE_EMAIL);
+        obj.put(DBConstants.F_START_DATE, new Date());
+
+        BasicDBObject update = new BasicDBObject();
+        update.put("$set", obj);
+
+        log.debug("update push, query=" + query.toString() + ", value=" + update.toString());
+
+        mongoClient.updateOrInsert(DBConstants.T_PUSH_MESSAGE, query, update);
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    public static void saveIphonePushMessage(final MongoDBClient mongoClient, Product product, User user) {
+
         String userId = user.getUserId();
         BasicDBObject query = new BasicDBObject();
         query.put(DBConstants.F_FOREIGN_USER_ID, userId);
@@ -138,12 +176,19 @@ public class PushMessageManager {
 //        obj.put(DBConstants.F_PUSH_MESSAGE_BODY, builder.toString());
 
         String iPhoneMessage = buildMessageForIPhone(product, user);
+        //String emailMessage = buildMessageForEmail(product,user);
+        //String androidMessage = buildMessageForAndroid(product,user);
+        //String weiboMessage = buildMessageForWeibo(product,user);
 
         BasicDBObject obj = new BasicDBObject();
         obj.put(DBConstants.F_DEVICETOKEN, user.getDeviceToken());
         obj.put(DBConstants.F_PRODUCTID, product.getId());
         obj.put(DBConstants.F_FOREIGN_USER_ID, userId);
         obj.put(DBConstants.F_PUSH_MESSAGE_IPHONE, iPhoneMessage);
+        //obj.put(DBConstants.F_PUSH_MESSAGE_ANDROID, androidMessage);
+        //obj.put(DBConstants.F_PUSH_MESSAGE_EMAIL, emailMessage);
+        //obj.put(DBConstants.F_PUSH_MESSAGE_WEIBO, weiboMessage);
+        
         obj.put(DBConstants.F_PUSH_MESSAGE_TYPE, DBConstants.C_PUSH_TYPE_IPHONE);
         obj.put(DBConstants.F_START_DATE, new Date());
         obj.put(DBConstants.F_ITEM_ID, item.getItemId());
@@ -155,6 +200,41 @@ public class PushMessageManager {
 
         mongoClient.updateOrInsert(DBConstants.T_PUSH_MESSAGE, query, update);
     }
+    private static String buildMessageForWeibo(Product product, User user) {
+        
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    private static String buildMessageForAndroid(Product product, User user) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    private static String buildMessageForEmail(Product product, User user) {
+        
+        StringBuilder builder = new StringBuilder();
+        String imageUrl = product.getImage();
+        String loc = product.getLoc();
+        builder.append("【").append(product.getSiteName()).append("】 ").
+                append(product.getTitle());
+        
+        String contactUrl = "<br> 点击了解详细内容：<br><a href='"    
+                + loc + "'>"+ loc + "</a><br>" ;
+        
+        
+        String image = "<br><img src="+imageUrl+"width=\"60\" height=\"45\" border=\"0\">";
+        String message = builder.toString();
+        String   html   = 
+                " <IMG   SRC="+imageUrl+"   width=80%   height=60%> <br> "+ 
+                " <b>   end   of   jpg </b> ";
+
+            return message+contactUrl+imageUrl;
+// TODO Auto-generated method stub
+    }
+
 
     private static String buildMessageForIPhone(Product product, User user) {
         StringBuilder builder = new StringBuilder();
@@ -191,12 +271,8 @@ public class PushMessageManager {
         pushMessage.setReason(reason);
         mongoClient.save(DBConstants.T_PUSH_MESSAGE, pushMessage.getDbObject());
 
-        // TODO Benson, refactor the code below by using one update instruction
-        User user = findUserByMessage(mongoClient, pushMessage);
-        if (user != null) {
-            user.setPushCount(user.getPushCount() - 1);
-            mongoClient.save(DBConstants.T_USER, user.getDbObject());
-        }
+        String userId = pushMessage.getUserId();
+        mongoClient.inc(DBConstants.T_USER, DBConstants.F_USERID, new ObjectId(userId), DBConstants.F_PUSH_COUNT, -1);
     }
 
     public static User findUserByMessage(final MongoDBClient mongoClient, final PushMessage pushMessage) {

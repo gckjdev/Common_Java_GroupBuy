@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.bson.types.ObjectId;
 import org.eclipse.jetty.util.log.Log;
 
 import com.mongodb.BasicDBList;
@@ -23,8 +22,10 @@ import com.orange.groupbuy.dao.RecommendItem;
 import com.orange.groupbuy.dao.User;
 
 public class RecommendItemManager {
-    
+
     public static final Logger log = Logger.getLogger(RecommendItemManager.class.getName());
+
+    public static final int MAX_RECOMMEND_COUNT = 25;
 
     public static RecommendItem findAndUpsertRecommendItem(MongoDBClient mongoClient, String userId, String itemId) {
 
@@ -42,8 +43,7 @@ public class RecommendItemManager {
         DBObject obj = mongoClient.findAndModifyInsert(DBConstants.T_RECOMMEND, query, update);
         if (obj == null) {
             return null;
-        }
-        else {
+        } else {
             return new RecommendItem(obj);
         }
     }
@@ -58,12 +58,19 @@ public class RecommendItemManager {
         if (obj == null) {
             Log.info("No recommend item found for userId=" + userId + ", itemId=" + itemId);
             return null;
-        }
-        else {
+        } else {
             return new RecommendItem(obj);
         }
     }
-    
+
+    private static String getItemArrayKey() {
+        return DBConstants.F_RECOMMEND_LIST.concat(".").concat(DBConstants.F_END_DATE);
+    }
+
+    private static String getItemArrayResultKey() {
+        return DBConstants.F_RECOMMEND_LIST.concat(".$");
+    }
+
     public static boolean deleteRecommendProductList(MongoDBClient mongoClient, String userId, String itemId) {
 
         BasicDBObject query = new BasicDBObject();
@@ -75,11 +82,11 @@ public class RecommendItemManager {
         BasicDBObject updateValue = new BasicDBObject();
         unsetValue.put(DBConstants.F_RECOMMEND_LIST, 1); // remove the key found
         update.put("$unset", unsetValue);
-        updateValue.put(DBConstants.F_RECOMMEND_COUNT, 0); 
+        updateValue.put(DBConstants.F_RECOMMEND_COUNT, 0);
         update.put("$set", updateValue);
         mongoClient.updateAll(DBConstants.T_RECOMMEND, query, update);
-        log.info("query = " + query +" update=" + update);
-        
+        log.info("query = " + query + " update=" + update);
+
         // pull null
         BasicDBObject pullquery = new BasicDBObject();
         pullquery.put(DBConstants.F_USERID, userId);
@@ -90,95 +97,122 @@ public class RecommendItemManager {
         pullupdate.put("$pull", pullValue);
         mongoClient.updateAll(DBConstants.T_RECOMMEND, pullquery, pullupdate);
 
-        log.info("query = " + pullquery +" update=" + pullupdate);
+        log.info("query = " + pullquery + " update=" + pullupdate);
         return true;
     }
-    
+
     public static boolean deleteRecommendItem(MongoDBClient mongoClient, String userId, String itemId) {
         BasicDBObject query = new BasicDBObject();
         query.put(DBConstants.F_FOREIGN_USER_ID, userId);
         query.put(DBConstants.F_ITEM_ID, itemId);
-        
+
         return mongoClient.removeOne(DBConstants.T_RECOMMEND, query);
     }
-    
+
     public static void matchShoppingItem(MongoDBClient mongoClient, String userId, String[] itemIdArray) {
 
         User user = UserManager.findUserByUserId(mongoClient, userId);
+        try {
 
-        for (int i = 0; i < itemIdArray.length; i++) {
-            
-            BasicDBObject item = UserManager.findUserShoppingItem(mongoClient, user, itemIdArray[i]);
-            
-            String city = item.getString(DBConstants.F_CITY);
-            String cate = item.getString(DBConstants.F_CATEGORY_NAME);
-            String subcate = item.getString(DBConstants.F_SUB_CATEGORY_NAME);
-            String keyword = item.getString(DBConstants.F_KEYWORD);
-            Double maxPrice = (Double) item.get(DBConstants.F_MAX_PRICE);
-            Date expireDate = (Date) item.get(DBConstants.F_EXPIRE_DATE);
+            for (int i = 0; i < itemIdArray.length; i++) {
 
-            if(isExpire(expireDate)) {
-                log.info("user = " + user.getUserId() + ", itemId = " + itemIdArray[i] + ",  expireDate = " + expireDate);
-                continue;
-            }
-            
-            String keywords = generateKeyword(cate, subcate, keyword);
+                BasicDBObject item = UserManager.findUserShoppingItem(mongoClient, user, itemIdArray[i]);
 
-            log.info("starting matching for userid =" + userId +" itemId" + itemIdArray[i]);
-            
-            List<Product> productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient, city,
-                    null, false, keywords, maxPrice, 0, 25);
+                String city = item.getString(DBConstants.F_CITY);
+                String cate = item.getString(DBConstants.F_CATEGORY_NAME);
+                String subcate = item.getString(DBConstants.F_SUB_CATEGORY_NAME);
+                String keyword = item.getString(DBConstants.F_KEYWORD);
+                Double maxPrice = (Double) item.get(DBConstants.F_MAX_PRICE);
+                Date expireDate = (Date) item.get(DBConstants.F_EXPIRE_DATE);
 
-            if (productList == null || productList.size() <= 0) {
-                log.info("No product match to recommend for user=" + userId + ", itemId = " + itemIdArray[i]);
-                continue;
-            }
-            // create recommend item
-            RecommendItem recommendItem = findAndUpsertRecommendItem(mongoClient, user.getUserId(), itemIdArray[i]);
+                if (isExpire(expireDate)) {
+                    log.info("user = " + user.getUserId() + ", itemId = " + itemIdArray[i] + ",  expireDate = "
+                            + expireDate);
+                    continue;
+                }
 
-            boolean hasChange = false;
-            int addCount = 0;
-            for (Product product : productList) {
+                String keywords = generateKeyword(cate, subcate, keyword);
 
-                if (RecommendItemManager.addOrUpdateProduct(recommendItem, product)) {
-                    log.info("add or update product (" + product.getId() + "), score = " + product.getScore()
-                            + " into recommend item = " + itemIdArray[i]);
+                log.info("starting matching for userid =" + userId + " itemId" + itemIdArray[i]);
 
-                    hasChange = true;
-                    addCount++;
+                List<Product> productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient,
+                        city, null, false, keywords, maxPrice, 0, MAX_RECOMMEND_COUNT);
+
+                if (productList == null || productList.size() <= 0) {
+                    log.info("No product match to recommend for user=" + userId + ", itemId = " + itemIdArray[i]);
+                    continue;
+                }
+                // create recommend item
+                RecommendItem recommendItem = findAndUpsertRecommendItem(mongoClient, user.getUserId(), itemIdArray[i]);
+
+                boolean hasChange = false;
+                int addCount = 0;
+                for (Product product : productList) {
+
+                    if (RecommendItemManager.addOrUpdateProduct(recommendItem, product)) {
+                        log.info("add or update product (" + product.getId() + "), score = " + product.getScore()
+                                + " into recommend item = " + itemIdArray[i]);
+
+                        hasChange = true;
+                        addCount++;
+                    }
+                }
+
+                log.info(productList.size() + " product found, " + addCount + " are added/updated for user=" + userId
+                        + ", itemId = " + itemIdArray[i]);
+
+                if (hasChange) {
+                    mongoClient.save(DBConstants.T_RECOMMEND, recommendItem.getDbObject());
                 }
             }
-
-            log.info(productList.size() + " product found, " + addCount + " are added/updated for user=" + userId
-                    + ", itemId = " + itemIdArray[i]);
-
-            if (hasChange) {
-                mongoClient.save(DBConstants.T_RECOMMEND, recommendItem.getDbObject());
-            }
+        } catch (Exception e) {
+            log.error("<RecommendItemManager> catch Exception while running. exception=" + e.getMessage(), e);
         }
-
     }
-    
+
+    public static void deleteExpiredProduct(MongoDBClient mongoClient, String itemId, String pid) {
+
+        BasicDBObject query = new BasicDBObject();
+        query.put(DBConstants.F_ITEM_ID, itemId);
+        mongoClient.pullArrayKey(DBConstants.T_RECOMMEND, query, DBConstants.F_RECOMMEND_LIST, DBConstants.F_PRODUCTID,
+                pid);
+        mongoClient.inc(DBConstants.T_RECOMMEND, DBConstants.F_ITEM_ID, itemId, DBConstants.F_RECOMMEND_COUNT, -1);
+    }
+
+    public static boolean isProductExpired(Product product) {
+        Date e_date = product.getEndDate();
+        Date now = new Date();
+
+        if (e_date == null) {
+            return false;
+        }
+        if (e_date.after(now)) {
+            return true;
+        }
+        return false;
+    }
+
     private static final String SUB_CATEGORY_BOOST = "2";
     private static final String KEYWORD_BOOST = "4";
     
     public static String generateKeyword(String cate, String subcate, String kw) {
+
         String keywords = "";
         if (!StringUtil.isEmpty(cate)) {
             keywords = keywords.concat(" ").concat(cate);
         }
         if (!StringUtil.isEmpty(subcate)) {
             String[] list = subcate.split(" ");
-            if (list != null && list.length > 0){
-                for (int i=0; i<list.length; i++){
+            if (list != null && list.length > 0) {
+                for (int i = 0; i < list.length; i++) {
                     keywords = keywords.concat(" ").concat(list[i]).concat("^").concat(SUB_CATEGORY_BOOST);
                 }
             }
         }
         if (!StringUtil.isEmpty(kw)) {
             String[] list = kw.split(" ");
-            if (list != null && list.length > 0){
-                for (int i=0; i<list.length; i++){
+            if (list != null && list.length > 0) {
+                for (int i = 0; i < list.length; i++) {
                     keywords = keywords.concat(" ").concat(list[i]).concat("^").concat(KEYWORD_BOOST);
                 }
             }
@@ -186,11 +220,11 @@ public class RecommendItemManager {
 
         return keywords.trim();
     }
-    
+
     public static boolean isExpire(Date expireDate) {
         if (expireDate == null)
             return false;
-        
+
         Date now = new Date();
         if (now.after(expireDate)) {
             return true;
@@ -201,13 +235,13 @@ public class RecommendItemManager {
     public static List<Product> getRecommendProducts(MongoDBClient mongoClient, RecommendItem recommendItem) {
         List<Product> list = new ArrayList<Product>();
         BasicDBList productList = recommendItem.getProductList();
-        if(productList == null) {
+        if (productList == null) {
             return null;
         }
         list = getProduct(mongoClient, productList);
         return list;
     }
-    
+
     public static List<Product> sortRecommendProducts(List<Product> list) {
         java.util.Collections.sort(list, new Comparator<Object>() {
 
