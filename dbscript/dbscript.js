@@ -1,4 +1,5 @@
 
+
 // old apiURL
 
 // 美团 tuan800
@@ -122,7 +123,7 @@ db.address.ensureIndex({"addr":1})
 //recommend的索引表 table recommend index;
 db.recommend.ensureIndex({"item_id":1})
 db.recommend.ensureIndex({"user_id":1})
-db.recommend.ensureIndex({"re_list":1)
+db.recommend.ensureIndex({"re_list":1})
 
 
 //push_message的索引表 table push_message index
