@@ -92,6 +92,23 @@ db.task.insert({"status":0, "site_id":"dianping", "url":"http://t.dianping.com/a
 //最淘hao123
 db.task.insert({"status":0, "site_id":"zuitao", "url":"http://www.zuitao.com/api/hao123.php"})
 
+//天机88hao123
+db.task.insert({"status":0, "site_id":"tgbaba", "url":"http://www.tgbaba.net/tuan/hao123.php"})
+
+//钱库hao123
+db.task.insert({"status":0, "site_id":"checkoo", "url":"http://api.checkoo.com/api/checkoo"})
+
+//秀团
+db.task.insert({"status":0, "site_id":"xiutuan", "url":"http://www.xiutuan.com/api/xiutuan_api/tuan800.xml"})
+
+//5151团
+db.task.insert({"status":0, "site_id":"5151tuan", "url":"http://5151tuan.com/Misc/API/t800.aspx"})
+
+//51泡泡
+db.task.insert({"status":0, "site_id":"5151popo", "url":"http://5151popo.com/Misc/API/t800.aspx"})
+
+//米奇
+db.task.insert({"status":0, "site_id":"miqi", "url":"http://www.miqi.cn/xml/apis/lab.api.tuan800.xml"})
 
 // 搜索预置关键字表
 db.app.insert({"app_id":"GROUPBUY","version":"0.6","app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8","push_key" : "_qpnbGaXSUGyPF167SNxMw", "push_master_secret" : "HsFsYNg4RbqbGOwTc0LcUQ", "push_secret" : "rdkeij-YSY6nCrUSEoEr9A", "keys":[{"name":"月饼", "query":"月饼 中秋"},{"name":"抽奖秒杀", "query":"抽奖 秒杀"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券 现金券"},{"name":"低价酒店", "query":"酒店 大床房 双人房 单人房 豪华房 商务酒店 公寓"}]})
