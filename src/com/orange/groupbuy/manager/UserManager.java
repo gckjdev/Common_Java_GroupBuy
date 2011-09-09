@@ -212,8 +212,10 @@ public class UserManager extends CommonManager {
         return true;
     }
 
-    private static BasicDBObject createItemForAdd(String itemId, String categoryName, String subCategoryName,
-            String keywords, String city, double maxPrice, double minRebate, Date expireDate) {
+    private static BasicDBObject createItemForAdd(String itemId, String appId, 
+            String categoryName, String subCategoryName,
+            String keywords, String city, double maxPrice, 
+            double minRebate, Date expireDate) {
 
         if (StringUtil.isEmpty(itemId))
             return null;
@@ -235,6 +237,7 @@ public class UserManager extends CommonManager {
         if (minRebate >= 0.0f)
             item.put(DBConstants.F_MIN_REBATE, minRebate);
 
+        item.put(DBConstants.F_APPID, appId);
         item.put(DBConstants.F_EXPIRE_DATE, expireDate);
 
         return item;
@@ -271,10 +274,12 @@ public class UserManager extends CommonManager {
     }
 
     public static boolean addUserShoppingItem(MongoDBClient mongoClient, String userId, String itemId,
-            String categoryName, String subCategoryName, String keywords, String city, double maxPrice,
+            String appId, String categoryName, String subCategoryName, 
+            String keywords, String city, double maxPrice,
             double minRebate, Date expireDate) {
 
-        BasicDBObject item = createItemForAdd(itemId, categoryName, subCategoryName, keywords, city, maxPrice,
+        BasicDBObject item = createItemForAdd(itemId, appId, categoryName, subCategoryName, 
+                keywords, city, maxPrice,
                 minRebate, expireDate);
         if (item == null)
             return false;

@@ -107,4 +107,8 @@ public class RecommendItem extends CommonData {
         dbObject.put(DBConstants.F_RECOMMEND_COUNT, newCount);
     }
 
+    public String getAppId() {
+        return (String)dbObject.get(DBConstants.F_APPID);
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.orange.groupbuy.dao;
 
+import java.util.Date;
+
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.groupbuy.constant.DBConstants;
@@ -64,9 +66,10 @@ public class PushMessage extends CommonData {
         return this.getString(DBConstants.F_PRODUCTID);
     }
 
-    public void incTryCount() {
+    public int incTryCount() {
         int currentTryCount = getTryCount();
         dbObject.put(DBConstants.F_PUSH_MESSAGE_TRYCOUNT, ++currentTryCount);
+        return currentTryCount;
     }
 
     public int getTryCount() {
@@ -87,6 +90,14 @@ public class PushMessage extends CommonData {
 
     public String getItemId() {
         return (String)dbObject.get(DBConstants.F_ITEM_ID);
+    }
+
+    public void setScheduleDate(Date date) {
+        dbObject.put(DBConstants.F_PUSH_MESSAGE_SCHEDULE_DATE, date);
+    }
+
+    public String getAppId() {
+        return (String)dbObject.get(DBConstants.F_APPID);
     }
 
 }

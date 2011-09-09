@@ -94,7 +94,7 @@ db.task.insert({"status":0, "site_id":"zuitao", "url":"http://www.zuitao.com/api
 
 
 // 搜索预置关键字表
-db.app.insert({"app_id":"GROUPBUY","version":"0.6","app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8","keys":[{"name":"月饼", "query":"月饼 中秋"},{"name":"抽奖秒杀", "query":"0元 抽奖 秒杀 零元 免费"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券"},{"name":"低价酒店", "query":"酒店 大床房 双人房 单人房 豪华房 商务酒店 公寓"}]})
+db.app.insert({"app_id":"GROUPBUY","version":"0.6","app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8","push_key" : "_qpnbGaXSUGyPF167SNxMw", "push_master_secret" : "HsFsYNg4RbqbGOwTc0LcUQ", "push_secret" : "rdkeij-YSY6nCrUSEoEr9A", "keys":[{"name":"月饼", "query":"月饼 中秋"},{"name":"抽奖秒杀", "query":"0元 抽奖 秒杀 零元 免费"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券 现金券"},{"name":"低价酒店", "query":"酒店 大床房 双人房 单人房 豪华房 商务酒店 公寓"}]})
 
 // 旧关键字：{"name":"旅游", "query":"旅游 国旅 日游 双人游 自由行 纯玩 之旅 港澳游 休闲游 豪华行程"} ,
 
@@ -121,13 +121,12 @@ db.product.ensureIndex({"gps":1})
 db.address.ensureIndex({"addr":1})
 
 //recommend的索引表 table recommend index;
-db.recommend.ensureIndex({"item_id":1})
-db.recommend.ensureIndex({"user_id":1})
+db.recommend.ensureIndex({"user_id":1, "item_id":1})
 db.recommend.ensureIndex({"re_list":1})
 
 
 //push_message的索引表 table push_message index
 db.push_message.ensureIndex({"item_id":1})
 db.push_message.ensureIndex({"p_id":1})
-db.push_message.ensureIndex({"try_cnt":1,"p_status":1})
+db.push_message.ensureIndex({"p_status":1})
 db.push_message.ensureIndex({"user_id":1})

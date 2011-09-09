@@ -120,7 +120,8 @@ public class ErrorCode extends CommonErrorCode {
 
 	//App Error
 	public static final int ERROR_APP_UPDATE_NOT_FOUND 		= 60001;
-	
+    public static final int ERROR_APP_NOT_FOUND             = 60002;
+    public static final int ERROR_APP_EMPTY_PUSH_INFO       = 60003;
 	
 	// DB Error
 	static public final int ERROR_DATABASE_SAVE             = 80001;
@@ -136,6 +137,8 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_CREATE_THUNMB_FILEPATH 	= 90007;
 	public static final int ERROR_CREATE_THUNMB_FILE 		= 90008;
     public static final int ERROR_GENERAL_EXCEPTION         = 90009;
+
+
 
 
 

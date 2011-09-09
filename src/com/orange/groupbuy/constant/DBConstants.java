@@ -29,6 +29,7 @@ public class DBConstants {
 	
 	public static final String F_PUSH_MESSAGE_TRYCOUNT = "try_cnt";
 	public static final String F_PUSH_MESSAGE_STATUS = "p_status";
+    public static final String F_PUSH_MESSAGE_SCHEDULE_DATE = "sc_date";
 	public static final String F_PUSH_MESSAGE_START_DATE = "s_date";
 	public static final String F_PUSH_MESSAGE_FINISH_DATE = "f_date";
 	public static final String F_PUSH_MESSAGE_ERROR_CODE = "err_code";
@@ -373,6 +374,11 @@ public class DBConstants {
     public static final String F_COMMENT_CONTENT = "content";
 
     public static final String F_SUB_CATEGORY = "subcate";
+
+    public static final String F_PUSH_APP_KEY = "push_key";
+    public static final String F_PUSH_APP_SECRET = "push_secret";
+    public static final String F_PUSH_APP_MASTER_SECRET = "push_master_secret";
+
 
 
 
