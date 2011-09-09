@@ -126,6 +126,7 @@ public class RecommendItemManager {
                 String keyword = item.getString(DBConstants.F_KEYWORD);
                 Double maxPrice = (Double) item.get(DBConstants.F_MAX_PRICE);
                 Date expireDate = (Date) item.get(DBConstants.F_EXPIRE_DATE);
+                String appId = item.getString(DBConstants.F_APPID);
 
                 if (isExpire(expireDate)) {
                     log.info("user = " + user.getUserId() + ", itemId = " + itemIdArray[i] + ",  expireDate = "
@@ -145,7 +146,7 @@ public class RecommendItemManager {
                     continue;
                 }
                 // create recommend item
-                RecommendItem recommendItem = findAndUpsertRecommendItem(mongoClient, user.getUserId(), itemIdArray[i]);
+                RecommendItem recommendItem = findAndUpsertRecommendItem(mongoClient, user.getUserId(), itemIdArray[i], appId);
 
                 boolean hasChange = false;
                 int addCount = 0;
