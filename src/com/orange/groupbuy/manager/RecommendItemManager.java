@@ -28,7 +28,7 @@ public class RecommendItemManager {
 
     public static final int MAX_RECOMMEND_COUNT = 25;
 
-    public static RecommendItem findAndUpsertRecommendItem(MongoDBClient mongoClient, String userId, String itemId) {
+    public static RecommendItem findAndUpsertRecommendItem(MongoDBClient mongoClient, String userId, String itemId, String appId) {
 
         BasicDBObject query = new BasicDBObject();
         query.put(DBConstants.F_FOREIGN_USER_ID, userId);
@@ -37,6 +37,7 @@ public class RecommendItemManager {
         BasicDBObject updateValue = new BasicDBObject();
         updateValue.put(DBConstants.F_FOREIGN_USER_ID, userId);
         updateValue.put(DBConstants.F_ITEM_ID, itemId);
+        updateValue.put(DBConstants.F_APPID, appId);
 
         BasicDBObject update = new BasicDBObject();
         update.put("$set", updateValue);
