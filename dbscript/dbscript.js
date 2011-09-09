@@ -93,10 +93,10 @@ db.task.insert({"status":0, "site_id":"dianping", "url":"http://t.dianping.com/a
 db.task.insert({"status":0, "site_id":"zuitao", "url":"http://www.zuitao.com/api/hao123.php"})
 
 //天机88hao123
-db.task.insert({"status":0, "site_id":"tgbaba", "url":"http://www.tgbaba.net/tuan/hao123.php"})
+db.task.insert({"status":0, "site_id":"tianji88", "url":"http://www.tgbaba.net/tuan/hao123.php"})
 
 //钱库hao123
-db.task.insert({"status":0, "site_id":"checkoo", "url":"http://api.checkoo.com/api/checkoo"})
+db.task.insert({"status":0, "site_id":"qianku", "url":"http://api.checkoo.com/api/checkoo"})
 
 //秀团
 db.task.insert({"status":0, "site_id":"xiutuan", "url":"http://www.xiutuan.com/api/xiutuan_api/tuan800.xml"})
@@ -105,7 +105,7 @@ db.task.insert({"status":0, "site_id":"xiutuan", "url":"http://www.xiutuan.com/a
 db.task.insert({"status":0, "site_id":"5151tuan", "url":"http://5151tuan.com/Misc/API/t800.aspx"})
 
 //51泡泡
-db.task.insert({"status":0, "site_id":"5151popo", "url":"http://5151popo.com/Misc/API/t800.aspx"})
+db.task.insert({"status":0, "site_id":"5151paopao", "url":"http://5151popo.com/Misc/API/t800.aspx"})
 
 //米奇
 db.task.insert({"status":0, "site_id":"miqi", "url":"http://www.miqi.cn/xml/apis/lab.api.tuan800.xml"})

@@ -139,11 +139,11 @@ public class DBConstants {
 	public static final String C_SITE_ZTUAN = "ztuan";
 	public static final String C_SITE_FENTUAN = "fentuan";
     public static final String C_SITE_ZUITAO = "zuitao";
-    public static final String C_SITE_TGBABA = "tgbaba";
-    public static final String C_SITE_CHECKOO = "checkoo";
+    public static final String C_SITE_TGBABA = "tianji88";
+    public static final String C_SITE_CHECKOO = "qianku";
     public static final String C_SITE_XIUTUAN = "xiutuan";
     public static final String C_SITE_5151TUAN = "5151tuan";
-    public static final String C_SITE_5151POPO = "5151popo";
+    public static final String C_SITE_5151POPO = "5151paopao";
     public static final String C_SITE_MIQI = "miqi";
 
 
