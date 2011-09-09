@@ -338,7 +338,7 @@ public class UserManager extends CommonManager {
         
         mongoClient.pullArrayKey(DBConstants.T_USER, query, DBConstants.F_SHOPPING_LIST, DBConstants.F_ITEM_ID, itemId);
         
-      //delete joint recommend item
+        //delete joint recommend item
         RecommendItemManager.deleteRecommendItem(mongoClient, userId, itemId);
 
         return true;
