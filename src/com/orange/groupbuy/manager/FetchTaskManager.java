@@ -1,5 +1,6 @@
 package com.orange.groupbuy.manager;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
@@ -75,5 +76,29 @@ public class FetchTaskManager extends CommonManager{
 
 		mongoClient.save(DBConstants.T_FETCH_TASK, task);		
 	}
+
+    public static void activateAllFinishTask(MongoDBClient mongoClient) {
+        BasicDBObject query = new BasicDBObject();
+        BasicDBObject update = new BasicDBObject();
+        
+        // construct query
+        BasicDBList values = new BasicDBList();
+        values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_TASK_STATUS_CLOSE));
+        values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_TASK_STATUS_FAIL_MAX_RETRY));
+        values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_TASK_STATUS_FAILURE));
+        query.put("$or", values);
+
+        // update to not running status
+        BasicDBObject updateValue = new BasicDBObject();
+        updateValue.put(DBConstants.F_TASK_STATUS, DBConstants.C_TASK_STATUS_NOT_RUNNING);
+        updateValue.put(DBConstants.F_TASK_FILE_PATH, null);
+        updateValue.put(DBConstants.F_TASK_RETRY_TIMES, 0);
+        update.put("$set", updateValue);
+        
+        mongoClient.updateAll(DBConstants.T_FETCH_TASK, query, update);        
+        
+        log.info("<activateAllFinishTask> query = " + query.toString() + 
+                ", value = " + update.toString());
+    }
 
 }
