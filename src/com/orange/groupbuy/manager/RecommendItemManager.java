@@ -295,7 +295,7 @@ public class RecommendItemManager {
             String productId = obj.getString(DBConstants.F_PRODUCTID);
             Product product = ProductManager.findProductById(mongoClient, productId);
 
-            if (!(product.getEndDate().before(DateUtil.getGMT8Date()))) {
+            if (product.getEndDate().after(new Date())) {
                 productList.add(product);
             }
         }

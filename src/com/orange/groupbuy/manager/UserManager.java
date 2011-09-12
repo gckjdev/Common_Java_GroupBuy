@@ -17,11 +17,13 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.common.urbanairship.RegisterService;
+import com.orange.common.utils.DateUtil;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.PushNotificationConstants;
 import com.orange.groupbuy.dao.Gps;
 import com.orange.groupbuy.dao.Product;
+import com.orange.groupbuy.dao.PushMessage;
 import com.orange.groupbuy.dao.RecommendItem;
 import com.orange.groupbuy.dao.User;
 
@@ -430,33 +432,59 @@ public class UserManager extends CommonManager {
         user.setPushCount(user.getPushCount() + 1);
     }
 
+    public static User findPushableUser(MongoDBClient mongoClient, String userId) {
+
+        BasicDBObject query = new BasicDBObject();
+        query.put(DBConstants.F_USERID, new ObjectId(userId));        
+        query.put(DBConstants.F_PUSH_COUNT, new BasicDBObject("$lte", DBConstants.C_PUSH_DAILY_LIMIT));
+
+        BasicDBObject update = new BasicDBObject();
+
+        // increase push counter
+        BasicDBObject incValue = new BasicDBObject();
+        incValue.put(DBConstants.F_PUSH_COUNT, 1);
+        update.put("$inc", incValue);
+
+        // update push date
+        BasicDBObject updateValue = new BasicDBObject();
+        updateValue.put(DBConstants.F_PUSH_DATE, new Date());
+        update.put("$set", updateValue);
+
+        DBObject obj = mongoClient.findAndModifyNew(DBConstants.T_USER, query, update);
+        if (obj != null) {
+            log.info("<findPushableUser> user found, query = " + query.toString() + ", update = " + update.toString());
+            return new User(obj);
+        }
+        else {
+            log.info("<findPushableUser> user not found, query = " + query.toString() + ", update = " + update.toString());
+            return null;
+        }
+    }
+
+    
     public static boolean checkPushCount(MongoDBClient mongoClient, User user) {
 
-        TimeZone timeZone = TimeZone.getTimeZone("GMT+0800");
+        TimeZone timeZone = TimeZone.getTimeZone(DateUtil.CHINA_TIMEZONE);
         Calendar now = Calendar.getInstance(timeZone);
         now.setTime(new Date());
+        
         Calendar lastPushCalendar = Calendar.getInstance(timeZone);
         Date lastPushDate = user.getPushDate();
-
         if (lastPushDate == null) {
             return true;
         }
-
         lastPushCalendar.setTime(lastPushDate);
 
         int pushCount = user.getPushCount();
 
         if (pushCount > DBConstants.C_PUSH_DAILY_LIMIT) {
-            if (now.get(Calendar.DAY_OF_MONTH) > lastPushCalendar.get(Calendar.DAY_OF_MONTH)) {
-                user.setPushCount(0);
-                mongoClient.save(DBConstants.T_USER, user.getDbObject());
-            } else {
-                user.setPushCount(pushCount - 1);
-                mongoClient.save(DBConstants.T_USER, user.getDbObject());
-                return false;
-            }
+            user.setPushCount(pushCount - 1);
+            mongoClient.save(DBConstants.T_USER, user.getDbObject());
+            return false;
         }
-        return true;
+        else {
+            return true;
+        }
     }
 
     public static void recommendClose(final MongoDBClient mongoClient, final User user) {
@@ -511,5 +539,18 @@ public class UserManager extends CommonManager {
 
         mongoClient.updateAll(DBConstants.T_USER, query, update);
 
+    }
+
+    public static void resetPushCounter(MongoDBClient mongoClient) {
+        BasicDBObject query = new BasicDBObject();
+        BasicDBObject update = new BasicDBObject();
+
+        BasicDBObject updateValue = new BasicDBObject();
+        updateValue.put(DBConstants.F_PUSH_COUNT, 0);
+        updateValue.put(DBConstants.F_PUSH_DATE, null);
+        update.put("$set", updateValue);
+        
+        log.info("<resetPushCounter> query = " + query.toString() + ", value="+update.toString());
+        mongoClient.updateAll(DBConstants.T_USER, query, update);        
     }
 }

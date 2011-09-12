@@ -87,13 +87,12 @@ public class PushMessageManager {
 
         if (obj != null) {
             PushMessage message =  new PushMessage(obj);
-            User user = findAndModifyUserByMessage(mongoClient, message);
-            if (UserManager.checkPushCount(mongoClient, user)) {
+            User user = UserManager.findPushableUser(mongoClient, message.getUserId());
+            if (user != null) {
                 return message;
             } else {
-                int userPushCounter = user.getPushCount();
-                failPushMessage(mongoClient, message, DBConstants.C_PUSH_MESSAGE_FAIL_REACH_USER_LIMIT);
-                log.info("<findMessageForPush> push message exceed daily limit of user="+user.getUserId() + ", push count = "+userPushCounter);
+                pushMessageFailure(mongoClient, message, DBConstants.C_PUSH_MESSAGE_FAIL_REACH_USER_LIMIT);
+                log.warn("<findMessageForPush> push message exceed daily limit of user=" + message.getUserId());
                 return null;
             }
         }
@@ -114,12 +113,13 @@ public class PushMessageManager {
         query.put(DBConstants.F_USERID, new ObjectId(userId));
 
         BasicDBObject update = new BasicDBObject();
+        
         BasicDBObject incValue = new BasicDBObject();
         incValue.put(DBConstants.F_PUSH_COUNT, 1);
         update.put("$inc", incValue);
 
         BasicDBObject updateValue = new BasicDBObject();
-        updateValue.put(DBConstants.F_PUSH_DATE, DateUtil.getGMT8Date());
+        updateValue.put(DBConstants.F_PUSH_DATE, new Date());
         update.put("$set", updateValue);
 
         DBObject obj = mongoClient.findAndModifyNew(DBConstants.T_USER, query, update);
