@@ -181,10 +181,10 @@ public class ProductManager extends CommonManager {
 		BasicDBObject query = new BasicDBObject();
 		query.put(DBConstants.F_LOC, productURL);
 		
-		if (!city.equals(DBConstants.V_NATIONWIDE)){
+		if (!city.equals(DBConstants.C_NATIONWIDE)){
 			List<String> cityList = new ArrayList<String>();
 			cityList.add(city);
-			cityList.add(DBConstants.V_NATIONWIDE);
+			cityList.add(DBConstants.C_NATIONWIDE);
 			BasicDBObject in = new BasicDBObject();
 			in.put("$in", cityList);
 			query.put(DBConstants.F_CITY, in);
@@ -219,8 +219,8 @@ public class ProductManager extends CommonManager {
 		if (city != null && city.trim().length() > 0) {
 			cityList = new ArrayList<String>();
 			cityList.add(city);
-			if (!city.equals(DBConstants.V_NATIONWIDE)) {
-				cityList.add(DBConstants.V_NATIONWIDE);
+			if (!city.equals(DBConstants.C_NATIONWIDE)) {
+				cityList.add(DBConstants.C_NATIONWIDE);
 			}
 		}
 		DBCursor cursor = mongoClient.findByFieldInValues(
@@ -236,8 +236,8 @@ public class ProductManager extends CommonManager {
 		if (city != null && city.length() > 0) {
 			List<String> cityList = new ArrayList<String>();
 			cityList.add(city);
-			if (!city.equals(DBConstants.V_NATIONWIDE)) {
-				cityList.add(DBConstants.V_NATIONWIDE);
+			if (!city.equals(DBConstants.C_NATIONWIDE)) {
+				cityList.add(DBConstants.C_NATIONWIDE);
 			}
 
 			DBObject in = new BasicDBObject();
@@ -576,8 +576,8 @@ public class ProductManager extends CommonManager {
 		if (city != null && city.trim().length() > 0) {
 			cityList = new ArrayList<Object>();
 			cityList.add(city);
-			if (!city.equals(DBConstants.V_NATIONWIDE)) {
-				cityList.add(DBConstants.V_NATIONWIDE);
+			if (!city.equals(DBConstants.C_NATIONWIDE)) {
+				cityList.add(DBConstants.C_NATIONWIDE);
 			}
 		}
 
@@ -671,8 +671,14 @@ public class ProductManager extends CommonManager {
 			return null;
 		query.setQuery(keyword);
 
-		if (city != null && !city.isEmpty())
-			query.setFilterQueries(DBConstants.F_CITY + ":" + city);
+		if (city != null && !city.isEmpty()) {
+		    if (city.equalsIgnoreCase(DBConstants.C_NATIONWIDE)) {
+		        addOrIntoFilterQuery(query, DBConstants.F_CITY, city);
+		    }
+		    else {
+                addOrIntoFilterQuery(query, DBConstants.F_CITY, city, DBConstants.C_NATIONWIDE);		        
+		    }
+		}
 		
 		long dateLong = new Date().getTime();
 		String dateString = String.valueOf(dateLong);
@@ -889,5 +895,15 @@ public class ProductManager extends CommonManager {
         solrQuery.addFilterQuery(query);    
     }
     
+    private static void addOrIntoFilterQuery(SolrQuery solrQuery, String field, String... values) {
+        if (solrQuery == null || values == null || values.length == 0) 
+            return;
+
+        List<String> list = new ArrayList<String>();
+        for (int i=0; i<values.length; i++)
+            list.add(values[i]);
+            
+        addOrIntoFilterQuery(solrQuery, field, list);
+    }
     
 }

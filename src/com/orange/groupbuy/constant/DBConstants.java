@@ -333,7 +333,7 @@ public class DBConstants {
 	public static final String F_KEYWORD = "keys";
 	public static final String F_PRODUCTID = "p_id";
 	
-	public static final String V_NATIONWIDE = "全国";
+	public static final String C_NATIONWIDE = "全国";
 
 	public static final String F_ID = "_id";
 	public static final String F_INDEX_ID = "id";
