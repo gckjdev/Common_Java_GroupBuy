@@ -83,9 +83,9 @@ public class FetchTaskManager extends CommonManager{
         
         // construct query
         BasicDBList values = new BasicDBList();
-        values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_TASK_STATUS_CLOSE));
-        values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_TASK_STATUS_FAIL_MAX_RETRY));
-        values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_TASK_STATUS_FAILURE));
+        values.add(new BasicDBObject(DBConstants.F_TASK_STATUS, DBConstants.C_TASK_STATUS_CLOSE));
+        values.add(new BasicDBObject(DBConstants.F_TASK_STATUS, DBConstants.C_TASK_STATUS_FAIL_MAX_RETRY));
+        values.add(new BasicDBObject(DBConstants.F_TASK_STATUS, DBConstants.C_TASK_STATUS_FAILURE));
         query.put("$or", values);
 
         // update to not running status

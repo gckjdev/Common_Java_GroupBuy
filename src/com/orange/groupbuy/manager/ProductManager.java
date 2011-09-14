@@ -51,7 +51,7 @@ public class ProductManager extends CommonManager {
 		// String city = product.getCity();
 		// if (isProductExist(mongoClient, loc, city))
 		// return false;
-		product.calculateRebate();
+		product.calculateRebate();		
 		boolean result = mongoClient.insert(DBConstants.T_PRODUCT,
 				product.getDbObject());
 		if (!result)

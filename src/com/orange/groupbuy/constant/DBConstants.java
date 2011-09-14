@@ -164,6 +164,7 @@ public class DBConstants {
 	
 
 	public static final String F_CREATE_DATE = "c_date";
+    public static final String F_MODIFY_DATE = "m_date";
 
 	public static final String F_FOREIGN_USER_ID = "user_id";
 	
@@ -384,6 +385,7 @@ public class DBConstants {
     public static final String F_PUSH_APP_KEY = "push_key";
     public static final String F_PUSH_APP_SECRET = "push_secret";
     public static final String F_PUSH_APP_MASTER_SECRET = "push_master_secret";
+
 
 
 

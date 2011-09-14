@@ -52,6 +52,10 @@ public class Product extends CommonData {
 		double topScore = calcTopScore_2(bought, startDate);
 		put(DBConstants.F_TOP_SCORE, topScore);
 		
+		Date currentDate = new Date();
+		put(DBConstants.F_CREATE_DATE, currentDate);
+		put(DBConstants.F_MODIFY_DATE, currentDate);
+		
 		return true;
 	}
 
@@ -451,5 +455,9 @@ public class Product extends CommonData {
 
     public double getTopScore() {
         return this.getDouble(DBConstants.F_TOP_SCORE);
+    }
+
+    public void updateModifyDate() {
+        dbObject.put(DBConstants.F_MODIFY_DATE, new Date());
     }
 }
