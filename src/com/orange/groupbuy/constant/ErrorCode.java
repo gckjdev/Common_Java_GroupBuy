@@ -94,6 +94,8 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_PASSWORD_NOT_MATCH        = 20010;
 	public static final int ERROR_EMAIL_NOT_VALID        	= 20011;
     public static final int ERROR_DEVICE_TOKEN_NULL         = 20012;
+    public static final int ERROR_USER_EMAIL_NOT_FOUND      = 20013;
+
 
 
 	// User Shopping Item Error
@@ -137,6 +139,7 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_CREATE_THUNMB_FILEPATH 	= 90007;
 	public static final int ERROR_CREATE_THUNMB_FILE 		= 90008;
     public static final int ERROR_GENERAL_EXCEPTION         = 90009;
+
 
 
 

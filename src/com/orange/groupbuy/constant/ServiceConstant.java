@@ -60,6 +60,7 @@ public class ServiceConstant  {
     public static final String METHOD_GETUSERSHOPPINGITEMLIST = "gusil";
     public static final String METHOD_COUNTSHOPPINGITEMPRODUCTS = "csip";
 
+    public static final String METHOD_REGISTEREMAIL = "re";
 	
 	// internal usage
 	public static final String METHOD_DELETESOLRINDEX = "deletesolr";
@@ -260,10 +261,16 @@ public class ServiceConstant  {
     public static final String PARA_ITEMID_ARRAY = "iia";
     public static final String PARA_REQUIRE_MATCH = "rm";
     
+    public static final String PARA_REGISTER_TYPE = "rt";
+
     public static final String VERIFICATION = "1";
     public static final String NEED_REQURIE_MATCH = "1";
 
 
+    public static final int REGISTER_TYPE_EMAIL     = 1;
+    public static final int REGISTER_TYPE_SINA      = 2;
+    public static final int REGISTER_TYPE_QQ        = 3;
+    public static final int REGISTER_TYPE_RENREN    = 4;
     
     
 }
