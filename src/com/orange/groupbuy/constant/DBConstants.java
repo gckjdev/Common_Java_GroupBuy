@@ -94,14 +94,26 @@ public class DBConstants {
 	public static final int C_CATEGORY_SHOPPING = 4;
 	public static final int C_CATEGORY_KEEPFIT = 5;
 	public static final int C_CATEGORY_LIFE = 6;
+    public static final int C_CATEGORY_FILM = 7;
+    public static final int C_CATEGORY_COUPON = 8;
+    public static final int C_CATEGORY_TRAVEL = 9;
+    public static final int C_CATEGORY_HOTEL = 10;
+    public static final int C_CATEGORY_PHOTO = 11;
+
 	
 	public static final String C_CATEGORY_NAME_UNKNOWN = "综合";
 	public static final String C_CATEGORY_NAME_EAT = "美食";
-	public static final String C_CATEGORY_NAME_FUN = "娱乐";
-	public static final String C_CATEGORY_NAME_FACE = "美容";
+	public static final String C_CATEGORY_NAME_FUN = "休闲";
+	public static final String C_CATEGORY_NAME_FACE = "丽人";
 	public static final String C_CATEGORY_NAME_SHOPPING = "网购";
 	public static final String C_CATEGORY_NAME_KEEPFIT = "运动";
 	public static final String C_CATEGORY_NAME_LIFE = "生活";
+    public static final String C_CATEGORY_NAME_FILM = "电影票";
+    public static final String C_CATEGORY_NAME_COUPON = "代金券";
+    public static final String C_CATEGORY_NAME_TRAVEL = "旅游";
+    public static final String C_CATEGORY_NAME_HOTEL = "酒店";
+    public static final String C_CATEGORY_NAME_PHOTO = "写真";
+
 	
 	public static final int SORT_BY_START_DATE = 0;
 	public static final int SORT_BY_PRICE = 1;
@@ -385,6 +397,7 @@ public class DBConstants {
     public static final String F_PUSH_APP_KEY = "push_key";
     public static final String F_PUSH_APP_SECRET = "push_secret";
     public static final String F_PUSH_APP_MASTER_SECRET = "push_master_secret";
+
 
 
 
