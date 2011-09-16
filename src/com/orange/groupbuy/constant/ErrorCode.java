@@ -79,8 +79,11 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_PARAMETER_VERIFICATION_EMPTY 		= 10069;
 	public static final int ERROR_PARAMETER_ITEMID_EMPTY 			= 10070;
 	public static final int ERROR_PARAMETER_ITEMID_NULL 			= 10071;
-	public static final int ERROR_PARAMETER_SNSID_EMPTY              = 10072;
+	public static final int ERROR_PARAMETER_SNSID_EMPTY             = 10072;
 	public static final int ERROR_PARAMETER_SNSID_NULL              = 10073;
+	public static final int ERROR_PARAMETER_REGISTER_TYPE_EMPTY     = 10074;
+	public static final int ERROR_PARAMETER_REGISTER_TYPE_NULL      = 10075;
+	public static final int ERROR_PARAMETER_UNKNOWN_REGISTER_TYPE   = 10076;
 
 	
 	// User Errors
@@ -97,7 +100,7 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_EMAIL_NOT_VALID        	= 20011;
     public static final int ERROR_DEVICE_TOKEN_NULL         = 20012;
     public static final int ERROR_USER_EMAIL_NOT_FOUND      = 20013;
-    public static final int ERROR_SNS_ID_EXIST              = 2014;
+    public static final int ERROR_SNS_ID_EXIST              = 20014;
 
 
 
@@ -142,6 +145,10 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_CREATE_THUNMB_FILEPATH 	= 90007;
 	public static final int ERROR_CREATE_THUNMB_FILE 		= 90008;
     public static final int ERROR_GENERAL_EXCEPTION         = 90009;
+
+    
+
+   
 
 
 

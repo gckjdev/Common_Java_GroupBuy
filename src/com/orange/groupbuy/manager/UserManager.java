@@ -21,6 +21,7 @@ import com.orange.common.utils.DateUtil;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.PushNotificationConstants;
+import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.Gps;
 import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.PushMessage;
@@ -557,8 +558,6 @@ public class UserManager extends CommonManager {
     public static void bindUserByEmail(MongoDBClient mongoClient, String appId, User user, String email,
             String password, boolean needVerification) {
      
-        user.put(DBConstants.F_APPID, appId);
-        user.put(DBConstants.F_CREATE_SOURCE_ID, appId);
         user.put(DBConstants.F_EMAIL, email);
         user.put(DBConstants.F_PASSWORD, password);
         user.put(DBConstants.F_VERIFYCODE, StringUtil.randomUUID());
@@ -587,4 +586,93 @@ public class UserManager extends CommonManager {
 
         return mongoClient.findOne(DBConstants.T_USER, DBConstants.F_QQID, snsId);
     }
+
+    public static void bindUserBySnsId(MongoDBClient mongoClient, User user, String snsId,
+            String nickName, String avatar, String accessToken, String accessTokenSecret, String province, String city,
+            String location, String gender, String birthday, String domain, int registerType) {
+        
+        user.put(DBConstants.F_CREATE_DATE, new Date());
+        
+        if(avatar != null)
+        user.put(DBConstants.F_AVATAR, avatar);
+        if(province != null)
+        user.put(DBConstants.F_PROVINCE, province);
+        if(city != null)
+        user.put(DBConstants.F_CITY, city);
+        if(location != null)
+        user.put(DBConstants.F_LOCATION,location);
+        if(gender != null)
+        user.put(DBConstants.F_GENDER, gender);
+        if(birthday != null)
+        user.put(DBConstants.F_BIRTHDAY, birthday);
+
+        
+        switch(registerType){
+        case ServiceConstant.REGISTER_TYPE_SINA:
+            user.put(DBConstants.F_SINAID, snsId);
+            user.put(DBConstants.F_SINA_NICKNAME, nickName);
+            user.put(DBConstants.F_SINA_DOMAIN, domain);
+            user.put(DBConstants.F_SINA_ACCESS_TOKEN,accessToken);
+            user.put(DBConstants.F_SINA_ACCESS_TOKEN_SECRET,accessTokenSecret);
+            break;
+        case ServiceConstant.REGISTER_TYPE_QQ:
+            user.put(DBConstants.F_QQID, snsId);
+            user.put(DBConstants.F_QQ_NICKNAME, nickName);
+            user.put(DBConstants.F_QQ_DOMAIN, domain);
+            user.put(DBConstants.F_QQ_ACCESS_TOKEN,accessToken);
+            user.put(DBConstants.F_QQ_ACCESS_TOKEN_SECRET,accessTokenSecret);            
+            break;
+            default:
+                break;                
+        }
+        
+        UserManager.save(mongoClient, user);
+        
+    }
+
+    public static BasicDBObject createUserBySnsId(MongoDBClient mongoClient, String appId, String snsId,
+            String nickName, String avatar, String accessToken, String accessTokenSecret, String province, String city,
+            String location, String gender, String birthday, String domain, int registerType)
+    {
+        BasicDBObject user = new BasicDBObject();
+        user.put(DBConstants.F_APPID, appId);
+        user.put(DBConstants.F_CREATE_SOURCE_ID, appId);
+        user.put(DBConstants.F_CREATE_DATE, new Date()); // DateUtil.currentDate());
+        
+        user.put(DBConstants.F_AVATAR, avatar);
+        user.put(DBConstants.F_PROVINCE, province);
+        user.put(DBConstants.F_CITY, city);
+        user.put(DBConstants.F_LOCATION,location);
+        user.put(DBConstants.F_GENDER, gender);
+        user.put(DBConstants.F_BIRTHDAY, birthday);
+        
+        switch(registerType){
+        case ServiceConstant.REGISTER_TYPE_SINA:
+            user.put(DBConstants.F_SINAID, snsId);
+            user.put(DBConstants.F_SINA_NICKNAME, nickName);
+            user.put(DBConstants.F_SINA_DOMAIN, domain);
+            user.put(DBConstants.F_SINA_ACCESS_TOKEN,accessToken);
+            user.put(DBConstants.F_SINA_ACCESS_TOKEN_SECRET,accessTokenSecret);
+            break;
+        case ServiceConstant.REGISTER_TYPE_QQ:
+            user.put(DBConstants.F_QQID, snsId);
+            user.put(DBConstants.F_QQ_NICKNAME, nickName);
+            user.put(DBConstants.F_QQ_DOMAIN, domain);
+            user.put(DBConstants.F_QQ_ACCESS_TOKEN,accessToken);
+            user.put(DBConstants.F_QQ_ACCESS_TOKEN_SECRET,accessTokenSecret);            
+            break;
+            default:
+                return null;                
+        }      
+
+        boolean result = mongoClient.insert(DBConstants.T_USER, user);
+        if (result)
+            return user;
+        else
+            return null;
+
+        // TODO Auto-generated method stub
+        
+    }
+
 }

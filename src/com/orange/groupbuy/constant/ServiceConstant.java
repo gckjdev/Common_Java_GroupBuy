@@ -274,4 +274,5 @@ public class ServiceConstant  {
     public static final int REGISTER_TYPE_RENREN    = 4;
     
     
+    
 }
