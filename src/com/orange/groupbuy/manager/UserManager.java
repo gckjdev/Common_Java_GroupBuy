@@ -553,4 +553,38 @@ public class UserManager extends CommonManager {
         log.info("<resetPushCounter> query = " + query.toString() + ", value="+update.toString());
         mongoClient.updateAll(DBConstants.T_USER, query, update);        
     }
+
+    public static void bindUserByEmail(MongoDBClient mongoClient, String appId, User user, String email,
+            String password, boolean needVerification) {
+     
+        user.put(DBConstants.F_APPID, appId);
+        user.put(DBConstants.F_CREATE_SOURCE_ID, appId);
+        user.put(DBConstants.F_EMAIL, email);
+        user.put(DBConstants.F_PASSWORD, password);
+        user.put(DBConstants.F_VERIFYCODE, StringUtil.randomUUID());
+        user.put(DBConstants.F_CREATE_DATE, new Date()); // DateUtil.currentDate());
+        if (needVerification)
+            user.put(DBConstants.F_STATUS, DBConstants.STATUS_TO_VERIFY);
+        else
+            user.put(DBConstants.F_STATUS, DBConstants.STATUS_NORMAL);
+        
+        UserManager.save(mongoClient, user);
+ 
+        
+    }
+
+    public static Object findUserBySinaId(MongoDBClient mongoClient, String snsId) {
+        if (mongoClient == null || snsId == null || snsId.length() <= 0)
+            return null;
+
+        return mongoClient.findOne(DBConstants.T_USER, DBConstants.F_SINAID, snsId);
+
+    }
+
+    public static Object findUserByTencentId(MongoDBClient mongoClient, String snsId) {
+        if (mongoClient == null || snsId == null || snsId.length() <= 0)
+            return null;
+
+        return mongoClient.findOne(DBConstants.T_USER, DBConstants.F_QQID, snsId);
+    }
 }

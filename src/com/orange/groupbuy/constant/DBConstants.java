@@ -183,6 +183,7 @@ public class DBConstants {
 	public static final String F_EMAIL = "email";
 	public static final String F_MOBILE = "mobile";
 	public static final String F_PASSWORD = "password";
+	public static final String F_VERIFICATION = "verification";
 	public static final String F_VERIFYCODE = "verify_code";
 	public static final String F_STATUS = "status";
 
