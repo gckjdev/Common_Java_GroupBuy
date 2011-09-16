@@ -117,7 +117,9 @@ db.app.insert({"app_id":"GROUPBUY","version":"0.6","app_url":"http://phobos.appl
 
 // 旧关键字：{"name":"旅游", "query":"旅游 国旅 日游 双人游 自由行 纯玩 之旅 港澳游 休闲游 豪华行程"} ,
 
+// db.app.insert({"app_id":"GROUPBUY","version":"0.6","app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8","push_key" : "l4TSt6QeReiJ18yBhiBwcw", "push_master_secret" : "6nBOqunCQau7muHT71egAw", "push_secret" : "d94JENX8S_a7GW9lDhEVPw", "keys":[{"name":"游戏币", "query":"游戏币"},{"name":"抽奖秒杀", "query":"抽奖 秒杀"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券 现金券"},{"name":"低价酒店", "query":"酒店 大床房 双人房 单人房 豪华房 商务酒店 公寓"}]})
 
+// db.app.insert({"app_id":"GROUPBUY","app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8","push_key" : "l4TSt6QeReiJ18yBhiBwcw", "push_master_secret" : "6nBOqunCQau7muHT71egAw", "push_secret" : "d94JENX8S_a7GW9lDhEVPw", "keys":[{"name":"游戏币", "query":"游戏币"},{"name":"抽奖秒杀", "query":"抽奖 秒杀"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券 现金券"},{"name":"低价酒店", "query":"酒店 大床房 双人房 单人房 豪华房 商务酒店 公寓"}]})
 
 // user的索引表 table product index;
 db.user.ensureIndex({"deviceId":1})
@@ -127,7 +129,7 @@ db.user.ensureIndex({"verify_code":1})
 // product的索引表 table product index;
 db.product.ensureIndex({"gps":"2d"})
 db.product.ensureIndex({"city":1,"cate":1,"e_date":1,"s_date":-1,"price":1})
-db.product.ensureIndex({"cate":1,"e_date":1,"s_date":-1,"price":1})
+db.product.ensureIndex({"cate":1,"e_date":1,"s_date":-1,"price":1,"topscore":-1})
 db.product.ensureIndex({"city":1,"loc":1})
 
 // keep the follwing three index for future usage
