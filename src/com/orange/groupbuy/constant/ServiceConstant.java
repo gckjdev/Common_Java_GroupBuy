@@ -59,6 +59,8 @@ public class ServiceConstant  {
     public static final String METHOD_GETSHOPPINGCATEGORY = "gsc";
     public static final String METHOD_GETUSERSHOPPINGITEMLIST = "gusil";
     public static final String METHOD_COUNTSHOPPINGITEMPRODUCTS = "csip";
+    public static final String METHOD_SEGMENTSERVICE = "segs";
+    public static final String METHOD_COMPAREPRODUCT_SERVICE = "cps";
 
     public static final String METHOD_REGISTEREMAIL = "re";
 	
@@ -177,6 +179,8 @@ public class ServiceConstant  {
 	
 	public static final String PARA_POST_ACTION_TYPE = "pat";
 	
+	public static final String PARA_COMPAREWORD = "cw";
+	
 	// response parameters
 
 	public static final String RET_MESSAGE = "msg";
@@ -208,6 +212,7 @@ public class ServiceConstant  {
 	public static final String PARA_KEYWORD = "kw";
 	public static final String PARA_START_PRICE = "sp";
 	public static final String PARA_END_PRICE = "ep";
+	public static final String PARA_SEGMENT = "sg";
 	
 	public static final String METHOD_FINDPRODUCTSWITHPRICE = "fpp";
 	public static final String METHOD_FINDPRODUCTSWITHREBATE = "fpd";

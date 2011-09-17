@@ -84,6 +84,11 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_PARAMETER_REGISTER_TYPE_EMPTY     = 10074;
 	public static final int ERROR_PARAMETER_REGISTER_TYPE_NULL      = 10075;
 	public static final int ERROR_PARAMETER_UNKNOWN_REGISTER_TYPE   = 10076;
+	public static final int ERROR_PARAMETER_SEGMENT_EMPTY           = 10077;
+	public static final int ERROR_PARAMETER_SEGMENT_NULL            = 10078;
+	public static final int ERROR_PARAMETER_COMPAREWORD_EMPTY       = 10079;
+	public static final int ERROR_PARAMETER_COMPAREWORD_NULL        = 10080;
+	
 
 	
 	// User Errors
