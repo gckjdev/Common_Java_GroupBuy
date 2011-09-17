@@ -69,7 +69,7 @@ public class ServiceConstant  {
 	public static final String METHOD_REGISTERDEVICE = "rd";
 	public static final String METHOD_GROUPBUY_DEVICELOGIN = "gdl";
 	public static final String METHOD_UPDATE_SUBSCRIPTION = "us";
-	public static final String METHOD_BIND_USER_SERVICE = "bus";
+	public static final String METHOD_BIND_USER_SERVICE = "bu";
 	
 	// request parameters
 

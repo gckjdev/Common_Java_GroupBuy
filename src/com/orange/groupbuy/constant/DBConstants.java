@@ -371,6 +371,7 @@ public class DBConstants {
 	public static final String F_COUNT = "cnt";
 
 	public static final String F_CATEGORY_NAME = "cate_n";
+    public static final String F_CATEGORY_ID = "cate_id";
 	public static final String F_SUB_CATEGORY_NAME = "subcate_n";
 	public static final String F_SUB_CATEGORY_ID = "subcate_id";
 	public static final String F_SUB_CATEGORY_KEYS = "keys";
@@ -398,6 +399,7 @@ public class DBConstants {
     public static final String F_PUSH_APP_KEY = "push_key";
     public static final String F_PUSH_APP_SECRET = "push_secret";
     public static final String F_PUSH_APP_MASTER_SECRET = "push_master_secret";
+
 
 
 

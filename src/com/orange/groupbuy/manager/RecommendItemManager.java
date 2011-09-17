@@ -119,6 +119,10 @@ public class RecommendItemManager {
             for (int i = 0; i < itemIdArray.length; i++) {
 
                 BasicDBObject item = UserManager.findUserShoppingItem(mongoClient, user, itemIdArray[i]);
+                if (item == null){
+                    log.warn("<matchShoppingItem> cannot find " + itemIdArray[i] + " for user " + userId);
+                    continue;
+                }
 
                 String city = item.getString(DBConstants.F_CITY);
                 String cate = item.getString(DBConstants.F_CATEGORY_NAME);
