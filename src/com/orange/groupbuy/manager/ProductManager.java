@@ -117,7 +117,7 @@ public class ProductManager extends CommonManager {
 
 			SolrInputDocument doc = new SolrInputDocument();
 			doc.addField(DBConstants.F_INDEX_ID, product.getId(), 1.0f);
-			doc.addField(DBConstants.F_TITLE, product.getTitle(), 1.0f);
+			doc.addField(DBConstants.F_TITLE, product.getTitle(), 2.0f);
 			doc.addField(DBConstants.F_CITY, product.getCity(), 1.0f);
 			Date startDate = product.getStartDate();
 			long startDateLong = startDate.getTime();
@@ -139,15 +139,17 @@ public class ProductManager extends CommonManager {
 			List<String> tagList = product.getTag();
 			String s_name = product.getSiteName();
 			if (description != null)
-				doc.addField(DBConstants.F_DESCRIPTION, description, 1.0f);
+				doc.addField(DBConstants.F_DESCRIPTION, description, 1.5f);
 			if (detail != null)
-				doc.addField(DBConstants.F_DETAIL, detail, 1.0f);
+				doc.addField(DBConstants.F_DETAIL, detail, 1.5f);
 			if (s_name != null)
 				doc.addField(DBConstants.F_SITE_NAME, s_name, 1.0f);
 			if (shopList != null && shopList.size() > 0)
 				doc.addField(DBConstants.F_SHOP, shopList, 1.0f);
+			// TODO how to change the weight 
 			if (addressList != null && addressList.size() > 0)
-				doc.addField(DBConstants.F_ADDRESS, addressList, 0.5f);
+				doc.addField(DBConstants.F_ADDRESS, addressList, 0.2f);
+
 			if (tagList != null && tagList.size() > 0)
 				doc.addField(DBConstants.F_TAG, tagList, 1.0f);
 			
