@@ -273,6 +273,7 @@ public class ServiceConstant  {
     public static final int REGISTER_TYPE_QQ        = 3;
     public static final int REGISTER_TYPE_RENREN    = 4;
     
+    public static final int PARA_PASSWORD_MIN_LENGTH  = 6;
     
     
 }
