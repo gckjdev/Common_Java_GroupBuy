@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.cassandra.cli.CliParser.newColumnFamily_return;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.util.log.Log;
 
@@ -27,7 +28,7 @@ public class RecommendItemManager {
 
     public static final int MAX_RECOMMEND_COUNT = 25;
 
-    public static RecommendItem findAndUpsertRecommendItem(MongoDBClient mongoClient, String userId, String itemId) {
+    public static RecommendItem findAndUpsertRecommendItem(MongoDBClient mongoClient, String userId, String itemId, String appId) {
 
         BasicDBObject query = new BasicDBObject();
         query.put(DBConstants.F_FOREIGN_USER_ID, userId);
@@ -36,6 +37,7 @@ public class RecommendItemManager {
         BasicDBObject updateValue = new BasicDBObject();
         updateValue.put(DBConstants.F_FOREIGN_USER_ID, userId);
         updateValue.put(DBConstants.F_ITEM_ID, itemId);
+        updateValue.put(DBConstants.F_APPID, appId);
 
         BasicDBObject update = new BasicDBObject();
         update.put("$set", updateValue);
@@ -124,6 +126,7 @@ public class RecommendItemManager {
                 String keyword = item.getString(DBConstants.F_KEYWORD);
                 Double maxPrice = (Double) item.get(DBConstants.F_MAX_PRICE);
                 Date expireDate = (Date) item.get(DBConstants.F_EXPIRE_DATE);
+                String appId = item.getString(DBConstants.F_APPID);
 
                 if (isExpire(expireDate)) {
                     log.info("user = " + user.getUserId() + ", itemId = " + itemIdArray[i] + ",  expireDate = "
@@ -143,7 +146,7 @@ public class RecommendItemManager {
                     continue;
                 }
                 // create recommend item
-                RecommendItem recommendItem = findAndUpsertRecommendItem(mongoClient, user.getUserId(), itemIdArray[i]);
+                RecommendItem recommendItem = findAndUpsertRecommendItem(mongoClient, user.getUserId(), itemIdArray[i], appId);
 
                 boolean hasChange = false;
                 int addCount = 0;
@@ -170,13 +173,26 @@ public class RecommendItemManager {
         }
     }
 
-    public static void deleteExpiredProduct(MongoDBClient mongoClient, String itemId, String pid) {
+    public static void deleteExpiredProduct(MongoDBClient mongoClient, String itemId) {
 
         BasicDBObject query = new BasicDBObject();
         query.put(DBConstants.F_ITEM_ID, itemId);
-        mongoClient.pullArrayKey(DBConstants.T_RECOMMEND, query, DBConstants.F_RECOMMEND_LIST, DBConstants.F_PRODUCTID,
-                pid);
-        mongoClient.inc(DBConstants.T_RECOMMEND, DBConstants.F_ITEM_ID, itemId, DBConstants.F_RECOMMEND_COUNT, -1);
+        
+        BasicDBObject update = new BasicDBObject();
+        BasicDBObject pullValue = new BasicDBObject();
+        BasicDBObject pull = new BasicDBObject();
+        
+        pullValue.put(DBConstants.F_END_DATE, new BasicDBObject("$lt", new Date()));
+        pull.put(DBConstants.F_RECOMMEND_LIST, pullValue);
+        update.put("$pull", pull);
+        
+        BasicDBObject inc = new BasicDBObject();
+        inc.put(DBConstants.F_RECOMMEND_COUNT, -1);
+        update.put("$inc", inc);
+        
+        log.info("query=" + query + "update= " + update);
+        mongoClient.updateAll(DBConstants.T_RECOMMEND, query, update);
+     
     }
 
     public static boolean isProductExpired(Product product) {
@@ -186,7 +202,7 @@ public class RecommendItemManager {
         if (e_date == null) {
             return false;
         }
-        if (e_date.after(now)) {
+        if (e_date.before(now)) {
             return true;
         }
         return false;
@@ -198,7 +214,8 @@ public class RecommendItemManager {
     public static String generateKeyword(String cate, String subcate, String kw) {
 
         String keywords = "";
-        if (!StringUtil.isEmpty(cate)) {
+        if (!StringUtil.isEmpty(cate) && StringUtil.isEmpty(subcate) && StringUtil.isEmpty(kw)) {
+            // only when sub category and keyword both are empty, use category for search
             keywords = keywords.concat(" ").concat(cate);
         }
         if (!StringUtil.isEmpty(subcate)) {
@@ -217,6 +234,8 @@ public class RecommendItemManager {
                 }
             }
         }
+        
+        log.info("search keyword is "+keywords);
 
         return keywords.trim();
     }
@@ -276,7 +295,7 @@ public class RecommendItemManager {
             String productId = obj.getString(DBConstants.F_PRODUCTID);
             Product product = ProductManager.findProductById(mongoClient, productId);
 
-            if (!(product.getEndDate().before(DateUtil.getGMT8Date()))) {
+            if (product.getEndDate().after(new Date())) {
                 productList.add(product);
             }
         }
@@ -323,10 +342,38 @@ public class RecommendItemManager {
         item.put(DBConstants.F_PRODUCTID, product.getStringObjectId());
         item.put(DBConstants.F_SCORE, product.getScore());
         item.put(DBConstants.F_START_DATE, product.getStartDate());
-        item.put(DBConstants.F_END_DATE, product.getStartDate());
+        item.put(DBConstants.F_END_DATE, product.getEndDate());
         item.put(DBConstants.F_ITEM_SENT_STATUS, DBConstants.C_ITEM_NOT_SENT);
 
         existProductList.add(item);
+    }
+
+    public static void cleanExpireProduct(MongoDBClient mongoClient, RecommendItem recommendItem) {
+        
+        BasicDBList productList = recommendItem.getProductList();
+        if (productList == null || productList.size() == 0)
+            return;
+        
+        List<BasicDBObject> deleteList = new ArrayList<BasicDBObject>();
+        Iterator<?> iter = productList.iterator();
+        while (iter.hasNext()){
+            BasicDBObject product = (BasicDBObject)iter.next();
+            Date endDate = (Date)product.get(DBConstants.F_END_DATE);
+            if (endDate != null && endDate.before(new Date())){
+                // remove this product
+                log.info("clean expired product " + product.toString() + 
+                        " for item " + recommendItem.getItemId());
+                deleteList.add(product);
+            }
+        }
+        
+        if (deleteList.size() == 0)
+            return;
+        
+        productList.removeAll(deleteList);
+        recommendItem.decRecommendCount(deleteList.size());
+        
+        mongoClient.save(DBConstants.T_RECOMMEND, recommendItem.getDbObject());
     }
 
 }

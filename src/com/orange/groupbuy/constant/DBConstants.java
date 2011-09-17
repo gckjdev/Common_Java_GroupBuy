@@ -29,6 +29,7 @@ public class DBConstants {
 	
 	public static final String F_PUSH_MESSAGE_TRYCOUNT = "try_cnt";
 	public static final String F_PUSH_MESSAGE_STATUS = "p_status";
+    public static final String F_PUSH_MESSAGE_SCHEDULE_DATE = "sc_date";
 	public static final String F_PUSH_MESSAGE_START_DATE = "s_date";
 	public static final String F_PUSH_MESSAGE_FINISH_DATE = "f_date";
 	public static final String F_PUSH_MESSAGE_ERROR_CODE = "err_code";
@@ -93,14 +94,26 @@ public class DBConstants {
 	public static final int C_CATEGORY_SHOPPING = 4;
 	public static final int C_CATEGORY_KEEPFIT = 5;
 	public static final int C_CATEGORY_LIFE = 6;
+    public static final int C_CATEGORY_FILM = 7;
+    public static final int C_CATEGORY_COUPON = 8;
+    public static final int C_CATEGORY_TRAVEL = 9;
+    public static final int C_CATEGORY_HOTEL = 10;
+    public static final int C_CATEGORY_PHOTO = 11;
+
 	
 	public static final String C_CATEGORY_NAME_UNKNOWN = "综合";
 	public static final String C_CATEGORY_NAME_EAT = "美食";
-	public static final String C_CATEGORY_NAME_FUN = "娱乐";
-	public static final String C_CATEGORY_NAME_FACE = "美容";
+	public static final String C_CATEGORY_NAME_FUN = "休闲";
+	public static final String C_CATEGORY_NAME_FACE = "丽人";
 	public static final String C_CATEGORY_NAME_SHOPPING = "网购";
 	public static final String C_CATEGORY_NAME_KEEPFIT = "运动";
 	public static final String C_CATEGORY_NAME_LIFE = "生活";
+    public static final String C_CATEGORY_NAME_FILM = "电影票";
+    public static final String C_CATEGORY_NAME_COUPON = "代金券";
+    public static final String C_CATEGORY_NAME_TRAVEL = "旅游";
+    public static final String C_CATEGORY_NAME_HOTEL = "酒店";
+    public static final String C_CATEGORY_NAME_PHOTO = "写真";
+
 	
 	public static final int SORT_BY_START_DATE = 0;
 	public static final int SORT_BY_PRICE = 1;
@@ -137,6 +150,13 @@ public class DBConstants {
 	public static final String C_SITE_LETAO = "letao";
 	public static final String C_SITE_ZTUAN = "ztuan";
 	public static final String C_SITE_FENTUAN = "fentuan";
+    public static final String C_SITE_ZUITAO = "zuitao";
+    public static final String C_SITE_TGBABA = "tianji88";
+    public static final String C_SITE_CHECKOO = "qianku";
+    public static final String C_SITE_XIUTUAN = "xiutuan";
+    public static final String C_SITE_5151TUAN = "5151tuan";
+    public static final String C_SITE_5151POPO = "5151paopao";
+    public static final String C_SITE_MIQI = "miqi";
 
 
 //	user("device_id","device_model","device_os","device_token","language",
@@ -156,12 +176,14 @@ public class DBConstants {
 	
 
 	public static final String F_CREATE_DATE = "c_date";
+    public static final String F_MODIFY_DATE = "m_date";
 
 	public static final String F_FOREIGN_USER_ID = "user_id";
 	
 	public static final String F_EMAIL = "email";
 	public static final String F_MOBILE = "mobile";
 	public static final String F_PASSWORD = "password";
+	public static final String F_VERIFICATION = "verification";
 	public static final String F_VERIFYCODE = "verify_code";
 	public static final String F_STATUS = "status";
 
@@ -325,7 +347,7 @@ public class DBConstants {
 	public static final String F_KEYWORD = "keys";
 	public static final String F_PRODUCTID = "p_id";
 	
-	public static final String V_NATIONWIDE = "全国";
+	public static final String C_NATIONWIDE = "全国";
 
 	public static final String F_ID = "_id";
 	public static final String F_INDEX_ID = "id";
@@ -359,7 +381,7 @@ public class DBConstants {
 	public static final String F_SHOPPING_LIST = "s_list";
 	public static final String F_ITEM_ID = "item_id";
 
-    public static final float MIN_SCORE_TO_RECOMMEND = 0.1f;
+    public static final float MIN_SCORE_TO_RECOMMEND = 0.04f;
 
     public static final String F_UP = "up";
     public static final String F_DOWN = "down";
@@ -372,6 +394,13 @@ public class DBConstants {
     public static final String F_COMMENT_CONTENT = "content";
 
     public static final String F_SUB_CATEGORY = "subcate";
+
+    public static final String F_PUSH_APP_KEY = "push_key";
+    public static final String F_PUSH_APP_SECRET = "push_secret";
+    public static final String F_PUSH_APP_MASTER_SECRET = "push_master_secret";
+
+
+
 
 
 
@@ -386,7 +415,7 @@ public class DBConstants {
     // public static final String F_SUB_CATEGORY_NAME = "subcate_n";
     // public static final String F_SUB_CATEGORY_ID = "subcate_id";
     // public static final String F_KEYWORD = "keys";
-    // { { "cate_n":"美食1", "subcate" : [ { "subcate_id": 1, "subcate_n":"湘菜", "keys":["湘菜",湖南�?] ] },
+    // { { "cate_n":"美食1", "subcate" : [ { "subcate_id": 1, "subcate_n":"湘菜", "keys":["湘菜",湖南�?] ] },
     //   { "cate_n":"美食2", "subcate" : [ { "subcate_id": 2, "subcate_n":"西餐", "keys":["浪漫西餐", "法式大餐"] ] },
     // }       
     

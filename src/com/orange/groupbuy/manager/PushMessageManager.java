@@ -38,10 +38,10 @@ public class PushMessageManager {
 
         BasicDBList values = new BasicDBList();
 
-        BasicDBObject query_trycount = new BasicDBObject();
-        query_trycount.put(DBConstants.F_PUSH_MESSAGE_TRYCOUNT, new BasicDBObject("$lt", DBConstants.C_PUSH_MESSAGE_TRY_COUNT_LIMIT));
-        query_trycount.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE);
-        values.add(query_trycount);
+//        BasicDBObject query_trycount = new BasicDBObject();
+//        query_trycount.put(DBConstants.F_PUSH_MESSAGE_TRYCOUNT, new BasicDBObject("$lt", DBConstants.C_PUSH_MESSAGE_TRY_COUNT_LIMIT));
+//        query_trycount.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE);
+//        values.add(query_trycount);
 
         values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, null));
         values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_RUNNING));
@@ -63,16 +63,20 @@ public class PushMessageManager {
 
         DBObject query = new BasicDBObject();
         BasicDBObject update = new BasicDBObject();
-        BasicDBList values = new BasicDBList();
+//        BasicDBList values = new BasicDBList();
 
-        BasicDBObject pushQuery = new BasicDBObject();
-        pushQuery.put(DBConstants.F_PUSH_MESSAGE_TRYCOUNT, new BasicDBObject("$lt", DBConstants.C_PUSH_MESSAGE_TRY_COUNT_LIMIT));
-        pushQuery.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE);
-        values.add(pushQuery);
-        values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, null));
-        values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING));
+//        BasicDBObject pushQuery = new BasicDBObject();
+//        pushQuery.put(DBConstants.F_PUSH_MESSAGE_TRYCOUNT, new BasicDBObject("$lt", DBConstants.C_PUSH_MESSAGE_TRY_COUNT_LIMIT));
+//        pushQuery.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_FAILURE);
+        
+//        values.add(pushQuery);
+//        values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, null));
+//        values.add(new BasicDBObject(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING));
 
-        query.put("$or", values);
+//        query.put("$or", values);
+        
+        query.put(DBConstants.F_PUSH_MESSAGE_SCHEDULE_DATE, new BasicDBObject("$lte", new Date()));
+        query.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING);
 
         BasicDBObject updateValue = new BasicDBObject();
         updateValue.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_RUNNING);
@@ -83,13 +87,12 @@ public class PushMessageManager {
 
         if (obj != null) {
             PushMessage message =  new PushMessage(obj);
-            User user = findAndModifyUserByMessage(mongoClient, message);
-            if (UserManager.checkPushCount(mongoClient, user)) {
+            User user = UserManager.findPushableUser(mongoClient, message.getUserId());
+            if (user != null) {
                 return message;
             } else {
-                int userPushCounter = user.getPushCount();
-                failPushMessage(mongoClient, message, DBConstants.C_PUSH_MESSAGE_FAIL_REACH_USER_LIMIT);
-                log.info("<findMessageForPush> push message exceed daily limit of user="+user.getUserId() + ", push count = "+userPushCounter);
+                pushMessageFailure(mongoClient, message, DBConstants.C_PUSH_MESSAGE_FAIL_REACH_USER_LIMIT);
+                log.warn("<findMessageForPush> push message exceed daily limit of user=" + message.getUserId());
                 return null;
             }
         }
@@ -110,12 +113,13 @@ public class PushMessageManager {
         query.put(DBConstants.F_USERID, new ObjectId(userId));
 
         BasicDBObject update = new BasicDBObject();
+        
         BasicDBObject incValue = new BasicDBObject();
         incValue.put(DBConstants.F_PUSH_COUNT, 1);
         update.put("$inc", incValue);
 
         BasicDBObject updateValue = new BasicDBObject();
-        updateValue.put(DBConstants.F_PUSH_DATE, DateUtil.getGMT8Date());
+        updateValue.put(DBConstants.F_PUSH_DATE, new Date());
         update.put("$set", updateValue);
 
         DBObject obj = mongoClient.findAndModifyNew(DBConstants.T_USER, query, update);
@@ -152,6 +156,8 @@ public class PushMessageManager {
         
         obj.put(DBConstants.F_ITEM_ID, item.getItemId());
         obj.put(DBConstants.F_PUSH_MESSAGE_TYPE, DBConstants.C_PUSH_TYPE_EMAIL);
+        obj.put(DBConstants.F_PUSH_MESSAGE_SCHEDULE_DATE, new Date());
+        obj.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING);
         obj.put(DBConstants.F_START_DATE, new Date());
 
         BasicDBObject update = new BasicDBObject();
@@ -160,8 +166,6 @@ public class PushMessageManager {
         log.debug("update push, query=" + query.toString() + ", value=" + update.toString());
 
         mongoClient.updateOrInsert(DBConstants.T_PUSH_MESSAGE, query, update);
-        // TODO Auto-generated method stub
-        
     }
 
 
@@ -171,9 +175,6 @@ public class PushMessageManager {
         BasicDBObject query = new BasicDBObject();
         query.put(DBConstants.F_FOREIGN_USER_ID, userId);
         query.put(DBConstants.F_PRODUCTID, product.getId());
-
-//        obj.put(DBConstants.F_PUSH_MESSAGE_SUBJECT, product.getTitle());
-//        obj.put(DBConstants.F_PUSH_MESSAGE_BODY, builder.toString());
 
         String iPhoneMessage = buildMessageForIPhone(product, user);
         //String emailMessage = buildMessageForEmail(product,user);
@@ -191,7 +192,10 @@ public class PushMessageManager {
         
         obj.put(DBConstants.F_PUSH_MESSAGE_TYPE, DBConstants.C_PUSH_TYPE_IPHONE);
         obj.put(DBConstants.F_START_DATE, new Date());
+        obj.put(DBConstants.F_PUSH_MESSAGE_SCHEDULE_DATE, new Date());
+        obj.put(DBConstants.F_PUSH_MESSAGE_STATUS, DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING);
         obj.put(DBConstants.F_ITEM_ID, item.getItemId());
+        obj.put(DBConstants.F_APPID, item.getAppId());
 
         BasicDBObject update = new BasicDBObject();
         update.put("$set", obj);
@@ -200,6 +204,7 @@ public class PushMessageManager {
 
         mongoClient.updateOrInsert(DBConstants.T_PUSH_MESSAGE, query, update);
     }
+    
     private static String buildMessageForWeibo(Product product, User user) {
         
         // TODO Auto-generated method stub
@@ -282,5 +287,26 @@ public class PushMessageManager {
             return new User(obj);
         }
         return null;
+    }
+
+
+    private static int RETRY_INTERVAL = 1000 * 60;  // 60 seconds
+    
+    public static void pushMessageRetry(MongoDBClient mongoClient, PushMessage pushMessage, int result) {
+        
+        if (pushMessage.incTryCount() > DBConstants.C_PUSH_MESSAGE_TRY_COUNT_LIMIT){
+            pushMessageClose(mongoClient, pushMessage, result);
+            return;
+        }
+
+        Date retryDate = new Date(System.currentTimeMillis() + RETRY_INTERVAL);
+        
+        pushMessage.setStatus(DBConstants.C_PUSH_MESSAGE_STATUS_NOT_RUNNING);
+        pushMessage.setScheduleDate(retryDate);
+        pushMessage.setReason(result);
+        mongoClient.save(DBConstants.T_PUSH_MESSAGE, pushMessage.getDbObject());
+
+        String userId = pushMessage.getUserId();
+        mongoClient.inc(DBConstants.T_USER, DBConstants.F_USERID, new ObjectId(userId), DBConstants.F_PUSH_COUNT, -1);
     }
 }

@@ -53,4 +53,16 @@ public class App extends CommonData {
 //		return getStringList(DBConstants.F_KEYWORD);
 	}
 
+    public String getPushAppKey() {
+        return (String)dbObject.get(DBConstants.F_PUSH_APP_KEY);
+    }
+
+    public String getPushAppSecret() {
+        return (String)dbObject.get(DBConstants.F_PUSH_APP_SECRET);
+    }
+
+    public String getPushAppMasterSecret() {
+        return (String)dbObject.get(DBConstants.F_PUSH_APP_MASTER_SECRET);
+    }
+    
 }

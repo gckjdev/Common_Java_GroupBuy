@@ -98,4 +98,17 @@ public class RecommendItem extends CommonData {
         return (String)dbObject.get(DBConstants.F_ITEM_ID);
     }
 
+    public void decRecommendCount(int decCount) {
+        int currentCount = getRecommendCount();
+        int newCount = 0;
+        if (currentCount - decCount > 0){
+            newCount = currentCount - decCount;
+        }
+        dbObject.put(DBConstants.F_RECOMMEND_COUNT, newCount);
+    }
+
+    public String getAppId() {
+        return (String)dbObject.get(DBConstants.F_APPID);
+    }
+
 }

@@ -17,11 +17,14 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.common.urbanairship.RegisterService;
+import com.orange.common.utils.DateUtil;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.constant.PushNotificationConstants;
+import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.Gps;
 import com.orange.groupbuy.dao.Product;
+import com.orange.groupbuy.dao.PushMessage;
 import com.orange.groupbuy.dao.RecommendItem;
 import com.orange.groupbuy.dao.User;
 
@@ -212,8 +215,10 @@ public class UserManager extends CommonManager {
         return true;
     }
 
-    private static BasicDBObject createItemForAdd(String itemId, String categoryName, String subCategoryName,
-            String keywords, String city, double maxPrice, double minRebate, Date expireDate) {
+    private static BasicDBObject createItemForAdd(String itemId, String appId, 
+            String categoryName, String subCategoryName,
+            String keywords, String city, double maxPrice, 
+            double minRebate, Date expireDate) {
 
         if (StringUtil.isEmpty(itemId))
             return null;
@@ -235,6 +240,7 @@ public class UserManager extends CommonManager {
         if (minRebate >= 0.0f)
             item.put(DBConstants.F_MIN_REBATE, minRebate);
 
+        item.put(DBConstants.F_APPID, appId);
         item.put(DBConstants.F_EXPIRE_DATE, expireDate);
 
         return item;
@@ -271,10 +277,12 @@ public class UserManager extends CommonManager {
     }
 
     public static boolean addUserShoppingItem(MongoDBClient mongoClient, String userId, String itemId,
-            String categoryName, String subCategoryName, String keywords, String city, double maxPrice,
+            String appId, String categoryName, String subCategoryName, 
+            String keywords, String city, double maxPrice,
             double minRebate, Date expireDate) {
 
-        BasicDBObject item = createItemForAdd(itemId, categoryName, subCategoryName, keywords, city, maxPrice,
+        BasicDBObject item = createItemForAdd(itemId, appId, categoryName, subCategoryName, 
+                keywords, city, maxPrice,
                 minRebate, expireDate);
         if (item == null)
             return false;
@@ -333,7 +341,7 @@ public class UserManager extends CommonManager {
         
         mongoClient.pullArrayKey(DBConstants.T_USER, query, DBConstants.F_SHOPPING_LIST, DBConstants.F_ITEM_ID, itemId);
         
-      //delete joint recommend item
+        //delete joint recommend item
         RecommendItemManager.deleteRecommendItem(mongoClient, userId, itemId);
 
         return true;
@@ -425,33 +433,59 @@ public class UserManager extends CommonManager {
         user.setPushCount(user.getPushCount() + 1);
     }
 
+    public static User findPushableUser(MongoDBClient mongoClient, String userId) {
+
+        BasicDBObject query = new BasicDBObject();
+        query.put(DBConstants.F_USERID, new ObjectId(userId));        
+        query.put(DBConstants.F_PUSH_COUNT, new BasicDBObject("$lte", DBConstants.C_PUSH_DAILY_LIMIT));
+
+        BasicDBObject update = new BasicDBObject();
+
+        // increase push counter
+        BasicDBObject incValue = new BasicDBObject();
+        incValue.put(DBConstants.F_PUSH_COUNT, 1);
+        update.put("$inc", incValue);
+
+        // update push date
+        BasicDBObject updateValue = new BasicDBObject();
+        updateValue.put(DBConstants.F_PUSH_DATE, new Date());
+        update.put("$set", updateValue);
+
+        DBObject obj = mongoClient.findAndModifyNew(DBConstants.T_USER, query, update);
+        if (obj != null) {
+            log.info("<findPushableUser> user found, query = " + query.toString() + ", update = " + update.toString());
+            return new User(obj);
+        }
+        else {
+            log.info("<findPushableUser> user not found, query = " + query.toString() + ", update = " + update.toString());
+            return null;
+        }
+    }
+
+    
     public static boolean checkPushCount(MongoDBClient mongoClient, User user) {
 
-        TimeZone timeZone = TimeZone.getTimeZone("GMT+0800");
+        TimeZone timeZone = TimeZone.getTimeZone(DateUtil.CHINA_TIMEZONE);
         Calendar now = Calendar.getInstance(timeZone);
         now.setTime(new Date());
+        
         Calendar lastPushCalendar = Calendar.getInstance(timeZone);
         Date lastPushDate = user.getPushDate();
-
         if (lastPushDate == null) {
             return true;
         }
-
         lastPushCalendar.setTime(lastPushDate);
 
         int pushCount = user.getPushCount();
 
         if (pushCount > DBConstants.C_PUSH_DAILY_LIMIT) {
-            if (now.get(Calendar.DAY_OF_MONTH) > lastPushCalendar.get(Calendar.DAY_OF_MONTH)) {
-                user.setPushCount(0);
-                mongoClient.save(DBConstants.T_USER, user.getDbObject());
-            } else {
-                user.setPushCount(pushCount - 1);
-                mongoClient.save(DBConstants.T_USER, user.getDbObject());
-                return false;
-            }
+            user.setPushCount(pushCount - 1);
+            mongoClient.save(DBConstants.T_USER, user.getDbObject());
+            return false;
         }
-        return true;
+        else {
+            return true;
+        }
     }
 
     public static void recommendClose(final MongoDBClient mongoClient, final User user) {
@@ -507,4 +541,138 @@ public class UserManager extends CommonManager {
         mongoClient.updateAll(DBConstants.T_USER, query, update);
 
     }
+
+    public static void resetPushCounter(MongoDBClient mongoClient) {
+        BasicDBObject query = new BasicDBObject();
+        BasicDBObject update = new BasicDBObject();
+
+        BasicDBObject updateValue = new BasicDBObject();
+        updateValue.put(DBConstants.F_PUSH_COUNT, 0);
+        updateValue.put(DBConstants.F_PUSH_DATE, null);
+        update.put("$set", updateValue);
+        
+        log.info("<resetPushCounter> query = " + query.toString() + ", value="+update.toString());
+        mongoClient.updateAll(DBConstants.T_USER, query, update);        
+    }
+
+    public static void bindUserByEmail(MongoDBClient mongoClient, String appId, User user, String email,
+            String password, boolean needVerification) {
+     
+        user.put(DBConstants.F_EMAIL, email);
+        user.put(DBConstants.F_PASSWORD, password);
+        user.put(DBConstants.F_VERIFYCODE, StringUtil.randomUUID());
+        user.put(DBConstants.F_CREATE_DATE, new Date()); // DateUtil.currentDate());
+        if (needVerification)
+            user.put(DBConstants.F_STATUS, DBConstants.STATUS_TO_VERIFY);
+        else
+            user.put(DBConstants.F_STATUS, DBConstants.STATUS_NORMAL);
+        
+        UserManager.save(mongoClient, user);
+ 
+        
+    }
+
+    public static Object findUserBySinaId(MongoDBClient mongoClient, String snsId) {
+        if (mongoClient == null || snsId == null || snsId.length() <= 0)
+            return null;
+
+        return mongoClient.findOne(DBConstants.T_USER, DBConstants.F_SINAID, snsId);
+
+    }
+
+    public static Object findUserByTencentId(MongoDBClient mongoClient, String snsId) {
+        if (mongoClient == null || snsId == null || snsId.length() <= 0)
+            return null;
+
+        return mongoClient.findOne(DBConstants.T_USER, DBConstants.F_QQID, snsId);
+    }
+
+    public static void bindUserBySnsId(MongoDBClient mongoClient, User user, String snsId,
+            String nickName, String avatar, String accessToken, String accessTokenSecret, String province, String city,
+            String location, String gender, String birthday, String domain, int registerType) {
+        
+        user.put(DBConstants.F_CREATE_DATE, new Date());
+        
+        if(avatar != null)
+        user.put(DBConstants.F_AVATAR, avatar);
+        if(province != null)
+        user.put(DBConstants.F_PROVINCE, province);
+        if(city != null)
+        user.put(DBConstants.F_CITY, city);
+        if(location != null)
+        user.put(DBConstants.F_LOCATION,location);
+        if(gender != null)
+        user.put(DBConstants.F_GENDER, gender);
+        if(birthday != null)
+        user.put(DBConstants.F_BIRTHDAY, birthday);
+
+        
+        switch(registerType){
+        case ServiceConstant.REGISTER_TYPE_SINA:
+            user.put(DBConstants.F_SINAID, snsId);
+            user.put(DBConstants.F_SINA_NICKNAME, nickName);
+            user.put(DBConstants.F_SINA_DOMAIN, domain);
+            user.put(DBConstants.F_SINA_ACCESS_TOKEN,accessToken);
+            user.put(DBConstants.F_SINA_ACCESS_TOKEN_SECRET,accessTokenSecret);
+            break;
+        case ServiceConstant.REGISTER_TYPE_QQ:
+            user.put(DBConstants.F_QQID, snsId);
+            user.put(DBConstants.F_QQ_NICKNAME, nickName);
+            user.put(DBConstants.F_QQ_DOMAIN, domain);
+            user.put(DBConstants.F_QQ_ACCESS_TOKEN,accessToken);
+            user.put(DBConstants.F_QQ_ACCESS_TOKEN_SECRET,accessTokenSecret);            
+            break;
+            default:
+                break;                
+        }
+        
+        UserManager.save(mongoClient, user);
+        
+    }
+
+    public static BasicDBObject createUserBySnsId(MongoDBClient mongoClient, String appId, String snsId,
+            String nickName, String avatar, String accessToken, String accessTokenSecret, String province, String city,
+            String location, String gender, String birthday, String domain, int registerType)
+    {
+        BasicDBObject user = new BasicDBObject();
+        user.put(DBConstants.F_APPID, appId);
+        user.put(DBConstants.F_CREATE_SOURCE_ID, appId);
+        user.put(DBConstants.F_CREATE_DATE, new Date()); // DateUtil.currentDate());
+        
+        user.put(DBConstants.F_AVATAR, avatar);
+        user.put(DBConstants.F_PROVINCE, province);
+        user.put(DBConstants.F_CITY, city);
+        user.put(DBConstants.F_LOCATION,location);
+        user.put(DBConstants.F_GENDER, gender);
+        user.put(DBConstants.F_BIRTHDAY, birthday);
+        
+        switch(registerType){
+        case ServiceConstant.REGISTER_TYPE_SINA:
+            user.put(DBConstants.F_SINAID, snsId);
+            user.put(DBConstants.F_SINA_NICKNAME, nickName);
+            user.put(DBConstants.F_SINA_DOMAIN, domain);
+            user.put(DBConstants.F_SINA_ACCESS_TOKEN,accessToken);
+            user.put(DBConstants.F_SINA_ACCESS_TOKEN_SECRET,accessTokenSecret);
+            break;
+        case ServiceConstant.REGISTER_TYPE_QQ:
+            user.put(DBConstants.F_QQID, snsId);
+            user.put(DBConstants.F_QQ_NICKNAME, nickName);
+            user.put(DBConstants.F_QQ_DOMAIN, domain);
+            user.put(DBConstants.F_QQ_ACCESS_TOKEN,accessToken);
+            user.put(DBConstants.F_QQ_ACCESS_TOKEN_SECRET,accessTokenSecret);            
+            break;
+            default:
+                return null;                
+        }      
+
+        boolean result = mongoClient.insert(DBConstants.T_USER, user);
+        if (result)
+            return user;
+        else
+            return null;
+
+        // TODO Auto-generated method stub
+        
+    }
+
 }
