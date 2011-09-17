@@ -101,6 +101,7 @@ public class ErrorCode extends CommonErrorCode {
     public static final int ERROR_DEVICE_TOKEN_NULL         = 20012;
     public static final int ERROR_USER_EMAIL_NOT_FOUND      = 20013;
     public static final int ERROR_SNS_ID_EXIST              = 20014;
+    public static final int ERROR_UPDATE_USER_INFO_FAILED   = 20015;
 
 
 
@@ -145,6 +146,10 @@ public class ErrorCode extends CommonErrorCode {
 	public static final int ERROR_CREATE_THUNMB_FILEPATH 	= 90007;
 	public static final int ERROR_CREATE_THUNMB_FILE 		= 90008;
     public static final int ERROR_GENERAL_EXCEPTION         = 90009;
+
+
+
+
 
     
 
