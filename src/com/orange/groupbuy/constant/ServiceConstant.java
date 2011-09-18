@@ -170,6 +170,7 @@ public class ServiceConstant  {
 
 	public static final String PARA_LONGTITUDE = "lo";
 	public static final String PARA_LATITUDE = "lat";
+	public static final String PAPA_RADIUS = "r";
 	public static final String PARA_MESSAGETEXT = "t";
 
 	public static final String PARA_VERSION = "v";
