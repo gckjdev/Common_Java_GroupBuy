@@ -374,6 +374,271 @@ public class ProductManager extends CommonManager {
         addFieldIntoOrder(orderBy, DBConstants.F_BOUGHT, sortAscending);
     }
 
+	public static List<Product> getAllProductsWithLocation1(
+			MongoDBClient mongoClient, String latitude, String longitude,
+			String startOffset, String maxCount) {
+
+		int count = getMaxcount(maxCount);
+		int offset = getOffset(startOffset);
+
+		double latitudeD = getLatitude(latitude);
+		double longitudeD = getLongitude(longitude);
+
+		DBCursor idCursor = mongoClient.findNearby(
+				DBConstants.T_IDX_PRODUCT_GPS, DBConstants.F_GPS, latitudeD,
+				longitudeD, offset, count);
+
+		if (idCursor == null || idCursor.size() < 1) {
+			return null;
+		}
+
+		List<Object> productIdList = new ArrayList<Object>();
+		while (idCursor.hasNext()) {
+			DBObject productObject = idCursor.next();
+			Object productId = productObject.get(DBConstants.F_PRODUCTID);
+			if (productId != null) {
+				productIdList.add(productId);
+			}
+		}
+
+		idCursor.close();
+
+		if (productIdList == null || productIdList.size() < 1) {
+			return null;
+		}
+
+		DBCursor productCursor = mongoClient.findByFieldInValues(
+				DBConstants.T_PRODUCT, DBConstants.F_ID, productIdList, offset,
+				count);
+
+		List<Product> productList = getProduct(productCursor);
+		productCursor.close();
+
+		if (productList == null || productList.size() < 1) {
+			return null;
+		}
+		return sortByProductId1(productIdList, productList);
+	}
+
+	private static List<Product> sortByProductId1(List<Object> productIdList,
+			List<Product> productList) {
+		Map<Object, Product> map = new HashMap<Object, Product>();
+		for (Product product : productList) {
+			map.put(product.getObjectId(), product);
+		}
+		List<Product> products = new ArrayList<Product>();
+		for (Object id : productIdList) {
+			if (map.containsKey(id)) {
+				products.add(map.get(id));
+				map.remove(id);
+			}
+		}
+		return products;
+	}
+
+	public static List<Product> getAllProductsByCategory1(
+			MongoDBClient mongoClient, String city, String category,
+			String startOffset, String maxCount) {
+
+		if (category == null)
+			return null;
+
+		List<String> list = new LinkedList<String>();
+		list.add(category);
+		return getAllProductsWithCategory(mongoClient, city, list, startOffset,
+				maxCount);
+	}
+	
+	public static Long getProductsNumberByCategory(MongoDBClient mongoClient, String category) {
+	    if (category == null)
+            return null;
+	    
+	    return mongoClient.count(DBConstants.T_PRODUCT, DBConstants.F_CATEGORY, category);
+	}
+
+	
+
+	public static List<Product> getAllProductsGroupByCategory(
+			MongoDBClient mongoClient, String city, String topCount) {
+
+		return null;
+	}
+
+	public static List<String> getAllCategoryNames() {
+		List<String> categoryList = new ArrayList<String>();
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_EAT));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_FACE));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_FUN));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_SHOPPING));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_KEEPFIT));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_LIFE));
+		categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_UNKNOWN));
+		return categoryList;
+	}
+
+	public static List<Product> searchProductBySolr() {
+		return null;
+	}
+
+	public static List<Product> searchProductByMongoDB(
+			MongoDBClient mongoClient, String city, List<Integer> categoryList,
+			boolean todayOnly, String[] keywordList, int startOffset,
+			int maxCount) {
+
+		DBObject query = new BasicDBObject();
+		DBObject orderBy = new BasicDBObject();
+
+		// set query
+		addCityIntoQuery(query, city);
+		addCategoryIntoQuery(query, categoryList);
+		addExpirationIntoQuery(query);
+		if (todayOnly) {
+			addTodayIntoQuery(query);
+		}
+
+		addKeywordIntoQuery(query, keywordList);
+
+		log.info("search product, query=" + query.toString());
+
+		DBCursor cursor = mongoClient.find(DBConstants.T_PRODUCT, query,
+				orderBy, startOffset, maxCount);
+		return getProduct(cursor);
+	}
+
+	public static List<Product> searchProductBySolr(SolrClient solrClient,
+			MongoDBClient mongoClient, String city, List<Integer> categoryList,
+			boolean todayOnly, String keyword, Double price, int startOffset, int maxCount) {
+
+		SolrQuery query = new SolrQuery();
+		if (keyword == null || keyword.isEmpty())
+			return null;
+		query.setQuery(keyword);
+
+		if (city != null && !city.isEmpty()) {
+		    if (city.equalsIgnoreCase(DBConstants.C_NATIONWIDE)) {
+		        addOrIntoFilterQuery(query, DBConstants.F_CITY, city);
+		    }
+		    else {
+                addOrIntoFilterQuery(query, DBConstants.F_CITY, city, DBConstants.C_NATIONWIDE);		        
+		    }
+		}
+		
+		long dateLong = new Date().getTime();
+		String dateString = String.valueOf(dateLong);
+		addRangeIntoFilterQuery(query, DBConstants.F_END_DATE, dateString, null);
+
+		if (todayOnly) {
+			Date todayDate = DateUtil.getDateOfToday();
+			// long dateInc = 3600 * 1000 * 24 * 0;
+			String todayDateString = String.valueOf(todayDate.getTime());
+			addRangeIntoFilterQuery(query, DBConstants.F_START_DATE, todayDateString, null);
+		}
+		
+		if (categoryList != null && categoryList.size() > 0) {
+			//"myField:(id1 OR id2 OR id3)"	
+		    addOrIntoFilterQuery(query, DBConstants.F_CATEGORY, categoryList);
+		}
+		
+		if (maxCount > 0)
+			query.setRows(maxCount);
+		if (startOffset >= 0)
+			query.setStart(startOffset);
+
+		if (price != null) {
+		    String priceString = String.valueOf(price.doubleValue());
+		    addRangeIntoFilterQuery(query, DBConstants.F_PRICE, "-100.0", priceString);
+		}
+		
+		query.set("fl", "score, id, price");
+		
+		log.info("<searchProductBySolr> query=" + query.toString());
+
+		CommonsHttpSolrServer server = SolrClient.getSolrServer();
+		QueryResponse rsp;
+		try {
+			rsp = server.query(query);
+			
+			if (rsp == null)
+				return null;
+
+			SolrDocumentList resultList = rsp.getResults();
+			if (resultList == null)
+				return null;
+
+			Iterator<SolrDocument> iter = resultList.iterator();
+			List<ObjectId> objectIdList = new ArrayList<ObjectId>();
+			Map <ObjectId,Float> productScoreMap = new HashMap<ObjectId,Float>();
+			while (iter.hasNext()) {
+				SolrDocument resultDoc = iter.next();
+				
+				String productId = (String) resultDoc
+						.getFieldValue(DBConstants.F_INDEX_ID);
+				Float productScore = (Float) resultDoc
+						.getFieldValue("score");
+//				String productTitle =  (String) resultDoc.getFieldValue(DBConstants.F_TITLE);			
+//				log.info("<search> id="+productId+",score="+productScore+",title="+productTitle);
+
+				ObjectId objectId = new ObjectId(productId);
+				objectIdList.add(objectId);
+				
+				productScoreMap.put(objectId, productScore);
+				
+				log.info("<searchProductBySolr> result doc="+ resultDoc.toString());
+			}
+			log.info("<searchProductBySolr> search done, result size = " + resultList.size());
+
+			if (objectIdList == null || objectIdList.size() == 0)
+				return null;
+			// convert to product
+			DBCursor dbCursor = mongoClient.findByIds(DBConstants.T_PRODUCT,
+					DBConstants.F_ID, objectIdList);
+			if (dbCursor == null)
+				return null;
+			List<Product> productList = getProduct(dbCursor);
+			List<Product> orderedProductList = new ArrayList<Product>();
+			int i;
+			int size = productList.size();
+			for (ObjectId objectId : objectIdList) {
+				i = 0;
+				Product product = productList.get(i);
+				Float score = productScoreMap.get(objectId);
+				
+				while (!product.getObjectId().equals(objectId)
+						&& (size > (++i))) {
+					product = productList.get(i);
+				}
+				if (i < size){
+				    product.setScore(score);
+				    orderedProductList.add(product);
+				}
+			}
+			
+			dbCursor.close();
+			return orderedProductList;
+
+		} catch (SolrServerException e) {
+			e.printStackTrace();
+			log.error("<searchProductBySolr> catch exception="+e.toString()+","+e.getMessage());
+			return null;
+		}
+	}
+	
+	public static List<Product> searchProductBySolr(SolrClient solrClient,
+            MongoDBClient mongoClient, String city, List<Integer> categoryList,
+            boolean todayOnly, String keyword, int startOffset, int maxCount) {
+	    
+	    List<Product> list = searchProductBySolr(solrClient, mongoClient, city, categoryList, todayOnly, keyword, null, startOffset, maxCount);
+	    return list;
+	}
+
+	public static void incActionCounter(MongoDBClient mongoClient,
+			String productId, String actionName, int actionValue) {
+
+	    ObjectId id = new ObjectId(productId);
+		mongoClient.inc(DBConstants.T_PRODUCT, DBConstants.F_ID, id,
+				actionName, actionValue);
+	}
+
     public static List<Product> getProducts(MongoDBClient mongoClient, String city, List<Integer> categoryList,
             boolean todayOnly, boolean gpsQuery, double latitude, double longitude, double maxDistance, int sortBy,
             int startOffset, int maxCount) {
@@ -517,7 +782,7 @@ public class ProductManager extends CommonManager {
         if (productList == null || productList.size() < 1) {
             return null;
         }
-        return sortByProductId(productIdList, productList);
+        return sortByProductId1(productIdList, productList);
     }
 
     private static List<Product> sortByProductId(List<Object> productIdList, List<Product> productList) {
@@ -594,48 +859,6 @@ public class ProductManager extends CommonManager {
         return categoryList;
     }
 
-    public static List<Product> getAllProductsGroupByCategory(MongoDBClient mongoClient, String city, String topCount) {
-
-        return null;
-    }
-
-    public static List<String> getAllCategoryNames() {
-        List<String> categoryList = new ArrayList<String>();
-        categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_EAT));
-        categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_FACE));
-        categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_FUN));
-        categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_SHOPPING));
-        categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_KEEPFIT));
-        categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_LIFE));
-        categoryList.add(String.valueOf(DBConstants.C_CATEGORY_NAME_UNKNOWN));
-        return categoryList;
-    }
-
-    public static List<Product> searchProductBySolr() {
-        return null;
-    }
-
-    public static List<Product> searchProductByMongoDB(MongoDBClient mongoClient, String city,
-            List<Integer> categoryList, boolean todayOnly, String[] keywordList, int startOffset, int maxCount) {
-
-        DBObject query = new BasicDBObject();
-        DBObject orderBy = new BasicDBObject();
-
-        // set query
-        addCityIntoQuery(query, city);
-        addCategoryIntoQuery(query, categoryList);
-        addExpirationIntoQuery(query);
-        if (todayOnly) {
-            addTodayIntoQuery(query);
-        }
-
-        addKeywordIntoQuery(query, keywordList);
-
-        log.info("search product, query=" + query.toString());
-
-        DBCursor cursor = mongoClient.find(DBConstants.T_PRODUCT, query, orderBy, startOffset, maxCount);
-        return getProduct(cursor);
-    }
 
     public static List<Product> searchProductBySolr(SolrClient solrClient, MongoDBClient mongoClient, String city,
             List<Integer> categoryList, boolean todayOnly, String keyword, Double price, Double lat, Double lng,
@@ -768,14 +991,6 @@ public class ProductManager extends CommonManager {
         return list;
     }
     
-   
-    
-
-    public static void incActionCounter(MongoDBClient mongoClient, String productId, String actionName, int actionValue) {
-
-        ObjectId id = new ObjectId(productId);
-        mongoClient.inc(DBConstants.T_PRODUCT, DBConstants.F_ID, id, actionName, actionValue);
-    }
 
     public static Product findProductById(MongoDBClient mongoClient, String productId) {
 

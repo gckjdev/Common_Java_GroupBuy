@@ -168,7 +168,7 @@ public class ServiceConstant  {
 
 	public static final String PARA_DATA = "dat";
 
-	public static final String PARA_LONGTITUDE = "lo";
+	public static final String PARA_LONGITUDE = "lo";
 	public static final String PARA_LATITUDE = "lat";
 	public static final String PAPA_RADIUS = "r";
 	public static final String PARA_MESSAGETEXT = "t";
@@ -256,6 +256,8 @@ public class ServiceConstant  {
 	public static final String PARA_PRODUCT = "p";
 	public static final String PARA_EXPIRE_DATE = "e_date";
 	public static final String PARA_MATCH_ITEM_COUNT = "mic";
+	
+	public static final String PARA_CATEGORY_PRODUCTS_NUM = "cpn";
 
 	public static final String PARA_ACTION_NAME = "an";
 	public static final String PARA_ACTION_VALUE = "av";
