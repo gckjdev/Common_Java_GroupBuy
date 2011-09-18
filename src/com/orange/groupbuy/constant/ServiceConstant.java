@@ -255,6 +255,8 @@ public class ServiceConstant  {
 	public static final String PARA_PRODUCT = "p";
 	public static final String PARA_EXPIRE_DATE = "e_date";
 	public static final String PARA_MATCH_ITEM_COUNT = "mic";
+	
+	public static final String PARA_CATEGORY_PRODUCTS_NUM = "cpn";
 
 	public static final String PARA_ACTION_NAME = "an";
 	public static final String PARA_ACTION_VALUE = "av";

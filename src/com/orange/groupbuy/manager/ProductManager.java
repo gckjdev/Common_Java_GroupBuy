@@ -566,6 +566,13 @@ public class ProductManager extends CommonManager {
 		return getAllProductsWithCategory(mongoClient, city, list, startOffset,
 				maxCount);
 	}
+	
+	public static Long getProductsNumberByCategory(MongoDBClient mongoClient, String category) {
+	    if (category == null)
+            return null;
+	    
+	    return mongoClient.count(DBConstants.T_PRODUCT, DBConstants.F_CATEGORY, category);
+	}
 
 	public static List<Product> getAllProductsWithCategory(
 			MongoDBClient mongoClient, String city, List<String> categoryList,
