@@ -168,7 +168,7 @@ public class ServiceConstant  {
 
 	public static final String PARA_DATA = "dat";
 
-	public static final String PARA_LONGTITUDE = "lo";
+	public static final String PARA_LONGITUDE = "lo";
 	public static final String PARA_LATITUDE = "lat";
 	public static final String PARA_MESSAGETEXT = "t";
 

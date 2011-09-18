@@ -218,7 +218,7 @@ public class UserManager extends CommonManager {
     private static BasicDBObject createItemForAdd(String itemId, String appId, 
             String categoryName, String subCategoryName,
             String keywords, String city, double maxPrice, 
-            double minRebate, Date expireDate) {
+            double minRebate, Date expireDate, String latitude, String longitude, String radius) {
 
         if (StringUtil.isEmpty(itemId))
             return null;
@@ -239,6 +239,11 @@ public class UserManager extends CommonManager {
             item.put(DBConstants.F_MAX_PRICE, maxPrice);
         if (minRebate >= 0.0f)
             item.put(DBConstants.F_MIN_REBATE, minRebate);
+        if(latitude != null && latitude.length()>0 && longitude != null && longitude.length()>0 && radius != null && radius.length()>0 ){
+            item.put(DBConstants.F_LATITUDE, latitude);
+            item.put(DBConstants.F_LONGITUDE, longitude);
+            item.put(DBConstants.F_RADIUS, radius);
+        }
 
         item.put(DBConstants.F_APPID, appId);
         item.put(DBConstants.F_EXPIRE_DATE, expireDate);
@@ -247,7 +252,7 @@ public class UserManager extends CommonManager {
     }
 
     private static BasicDBObject createItemForUpdate(String itemId, String categoryName, String subCategoryName,
-            String keywords, String city, double maxPrice, double minRebate, Date expireDate) {
+            String keywords, String city, double maxPrice, double minRebate, Date expireDate, String latitude, String longitude, String radius) {
 
         if (StringUtil.isEmpty(itemId))
             return null;
@@ -272,6 +277,17 @@ public class UserManager extends CommonManager {
             item.put(prefix.concat(DBConstants.F_MIN_REBATE), minRebate);
         else
             item.put(prefix.concat(DBConstants.F_MIN_REBATE), null);
+        
+        if(latitude != null && latitude.length()>0 && longitude != null && longitude.length()>0 && radius != null && radius.length()>0 ){
+            item.put(DBConstants.F_LATITUDE, latitude);
+            item.put(DBConstants.F_LONGITUDE, longitude);
+            item.put(DBConstants.F_RADIUS, radius);
+        }
+        else{
+            item.put(DBConstants.F_LATITUDE, null);
+            item.put(DBConstants.F_LONGITUDE, null);
+            item.put(DBConstants.F_RADIUS, null);
+        }
 
         return item;
     }
@@ -279,11 +295,11 @@ public class UserManager extends CommonManager {
     public static boolean addUserShoppingItem(MongoDBClient mongoClient, String userId, String itemId,
             String appId, String categoryName, String subCategoryName, 
             String keywords, String city, double maxPrice,
-            double minRebate, Date expireDate) {
+            double minRebate, Date expireDate, String latitude, String longitude, String radius) {
 
         BasicDBObject item = createItemForAdd(itemId, appId, categoryName, subCategoryName, 
                 keywords, city, maxPrice,
-                minRebate, expireDate);
+                minRebate, expireDate, latitude, longitude, radius);
         if (item == null)
             return false;
 
@@ -307,10 +323,10 @@ public class UserManager extends CommonManager {
 
     public static boolean updateUserShoppingItem(MongoDBClient mongoClient, String userId, String itemId,
             String categoryName, String subCategoryName, String keywords, String city, double maxPrice,
-            double minRebate, Date expireDate) {
+            double minRebate, Date expireDate, String latitude, String longitude, String radius) {
 
         BasicDBObject item = createItemForUpdate(itemId, categoryName, subCategoryName, keywords, city, maxPrice,
-                minRebate, expireDate);
+                minRebate, expireDate, latitude, longitude, radius);
         if (item == null)
             return false;
 
