@@ -593,17 +593,17 @@ public class UserManager extends CommonManager {
         
         user.put(DBConstants.F_CREATE_DATE, new Date());
         
-        if(avatar != null)
+        if(avatar != null && avatar.length()>0)
         user.put(DBConstants.F_AVATAR, avatar);
-        if(province != null)
+        if(province != null && province.length()>0)
         user.put(DBConstants.F_PROVINCE, province);
-        if(city != null)
+        if(city != null && city.length()>0)
         user.put(DBConstants.F_CITY, city);
-        if(location != null)
+        if(location != null && location.length()>0)
         user.put(DBConstants.F_LOCATION,location);
-        if(gender != null)
+        if(gender != null && gender.length()>0)
         user.put(DBConstants.F_GENDER, gender);
-        if(birthday != null)
+        if(birthday != null && birthday.length()>0)
         user.put(DBConstants.F_BIRTHDAY, birthday);
 
         
