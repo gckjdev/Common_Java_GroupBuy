@@ -163,16 +163,9 @@ public class ProductManager extends CommonManager {
 
 			server.add(docs);
 
-			if (commitNow)
-				server.commit();
-
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (SolrServerException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {
+		    log.error("<createSolrIndex> but catch exception = " + e.toString(), e);
+        }
 
 	}
 
