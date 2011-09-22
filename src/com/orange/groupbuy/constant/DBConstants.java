@@ -401,7 +401,8 @@ public class DBConstants {
     public static final String F_PUSH_APP_SECRET = "push_secret";
     public static final String F_PUSH_APP_MASTER_SECRET = "push_master_secret";
 
-
+    public static final String F_PUSH_APP_CERTIFICATE = "push_cert";
+    public static final String F_PUSH_APP_CERTIFICATE_PASSWORD = "push_cert_pwd";
 
 
 
