@@ -126,8 +126,8 @@ public class ProductManager extends CommonManager {
             doc.addField(DBConstants.F_BOUGHT, bought, 1.0f);
             // TODO
 
+            /* rem for deploy in server
             List<List<Double>> list = product.getGPS();
-
             if (list.size() > 0) {
                 for (int i = 0; i < list.size(); i++) {
                     Gps gps = Gps.fromObject(list.get(i));
@@ -138,6 +138,7 @@ public class ProductManager extends CommonManager {
                     }
                 }
             }
+            */
 
             String description = product.getDescription();
             String detail = product.getDetail();

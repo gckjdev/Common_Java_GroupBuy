@@ -59,8 +59,8 @@ public class ServiceConstant  {
     public static final String METHOD_GETSHOPPINGCATEGORY = "gsc";
     public static final String METHOD_GETUSERSHOPPINGITEMLIST = "gusil";
     public static final String METHOD_COUNTSHOPPINGITEMPRODUCTS = "csip";
-    public static final String METHOD_SEGMENTSERVICE = "segs";
-    public static final String METHOD_COMPAREPRODUCT_SERVICE = "cps";
+    public static final String METHOD_SEGMENTTEXT = "st";
+    public static final String METHOD_COMPAREPRODUCT = "comp";
 
     public static final String METHOD_REGISTEREMAIL = "re";
 	
