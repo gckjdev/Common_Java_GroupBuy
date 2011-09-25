@@ -448,10 +448,9 @@ public class ProductManager extends CommonManager {
 	    
 	    DBObject query = new BasicDBObject();
         query.put(DBConstants.F_CATEGORY, Integer.parseInt(category));
+        addExpirationIntoQuery(query);
         return mongoClient.count(DBConstants.T_PRODUCT, query);
-	}
-
-	
+	}	
 
 	public static List<Product> getAllProductsGroupByCategory(
 			MongoDBClient mongoClient, String city, String topCount) {
