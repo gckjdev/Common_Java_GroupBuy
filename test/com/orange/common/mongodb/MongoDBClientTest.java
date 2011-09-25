@@ -1,7 +1,5 @@
 package com.orange.common.mongodb;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.junit.AfterClass;
@@ -14,8 +12,6 @@ import org.junit.Test;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.orange.groupbuy.constant.DBConstants;
-import com.orange.groupbuy.dao.Product;
-import com.orange.groupbuy.manager.ProductManager;
 import com.orange.groupbuy.manager.UserManager;
 
 @Ignore
@@ -41,7 +37,28 @@ public class MongoDBClientTest {
 		seed = new Random();
 	}
 
-	@Test
+    @Test
+    public void testInitCategoryList() {
+        String tableName = "category";
+        String[] names = new String[] { "美食", "娱乐", "女人", "网购", "生活", "电影票", "代金券", "旅游", "酒店", "写真" };
+        int id = 1;
+        for (String name : names) {
+            DBObject docObject = createCategory(name, id);
+            mongoClient.save(tableName, docObject);
+            id++;
+        }
+        DBObject docObject = createCategory("其他", 0);
+        mongoClient.save(tableName, docObject);
+    }
+
+    private DBObject createCategory(String name, int id) {
+        DBObject docObject = new BasicDBObject();
+        docObject.put("cate_n", name);
+        docObject.put("cate_id", String.valueOf(id));
+        return docObject;
+    }
+
+    @Test
 	public void testCreateDeviceUser() {
 		String testDeviceId = String.format("device_id_%d", (long)(Math.random() * 1000));
 		BasicDBObject user = UserManager.createDeviceUser(mongoClient, "test_app", "iphone", testDeviceId, "iOS", "token", "zh_Hans", "CN");
@@ -120,7 +137,7 @@ public class MongoDBClientTest {
 //		List<Product> Result = ProductManager.getAllProductsWithCategory(mongoClient, null, null , "0", "100");
 //		//List<Product> Result = ProductManager.getAllProductWithLocation(mongoClient, "10", "10", "0", "4");
 //		// List<Product> Result =
-//		// ProductManager.getAllProductWithPrice(mongoClient, "广州", false, "0",
+    // // ProductManager.getAllProductWithPrice(mongoClient, "广州", false, "0",
 //		// "10");
 //		for (int i = 0; i < Result.size(); i++) {
 //			System.out.println(Result.get(i).toString());
