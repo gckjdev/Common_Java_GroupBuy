@@ -1,5 +1,7 @@
 package com.orange.groupbuy.manager;
 
+import java.util.Date;
+
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -9,7 +11,8 @@ import com.orange.groupbuy.constant.DBConstants;
 public class FetchTaskManager extends CommonManager{
 
 	
-	private static final int MAX_TASK_RETRY = 100;	// retry 100 times
+	private static final int MAX_TASK_RETRY = 100;	                        // retry 100 times
+    private static final long ACTIVATE_TIME_INTERVAL = 30 * 60 * 1000;      // 30 minutes
 
 	public static DBObject obtainOneTask(MongoDBClient mongoClient){
 		
@@ -87,6 +90,10 @@ public class FetchTaskManager extends CommonManager{
         values.add(new BasicDBObject(DBConstants.F_TASK_STATUS, DBConstants.C_TASK_STATUS_FAIL_MAX_RETRY));
         values.add(new BasicDBObject(DBConstants.F_TASK_STATUS, DBConstants.C_TASK_STATUS_FAILURE));
         query.put("$or", values);
+        
+        Date date = new Date(System.currentTimeMillis() - ACTIVATE_TIME_INTERVAL);
+        query.put(DBConstants.F_STAT.concat(".").concat(DBConstants.F_END_DATE), 
+                new BasicDBObject("$lte", date));
 
         // update to not running status
         BasicDBObject updateValue = new BasicDBObject();

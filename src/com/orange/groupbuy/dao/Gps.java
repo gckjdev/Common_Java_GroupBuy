@@ -53,4 +53,23 @@ public class Gps extends BasicDBObject{
 		put(DBConstants.F_LONGITUDE, longitude);
 	}
 
+    public static Gps fromObject(List<Double> list) {
+        if (list == null || list.size() < 2)
+            return null;
+        double lat = list.get(0);
+        double lng = list.get(1);
+        if (0.0 == lat || 0.0 == lng) 
+            return null;
+        if (lat < -90.0 || lat > 90.0)
+            return null;
+        if (lng < -180.0 || lng > 180.0)
+            return null;
+        
+        return new Gps(lat, lng);
+    }
+    
+    public String toString() {
+        return this.getLatitude() + "," + this.getLongitude();
+    }
+
 }

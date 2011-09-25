@@ -59,8 +59,8 @@ public class ServiceConstant  {
     public static final String METHOD_GETSHOPPINGCATEGORY = "gsc";
     public static final String METHOD_GETUSERSHOPPINGITEMLIST = "gusil";
     public static final String METHOD_COUNTSHOPPINGITEMPRODUCTS = "csip";
-    public static final String METHOD_SEGMENTSERVICE = "segs";
-    public static final String METHOD_COMPAREPRODUCT_SERVICE = "cps";
+    public static final String METHOD_SEGMENTTEXT = "st";
+    public static final String METHOD_COMPAREPRODUCT = "comp";
 
     public static final String METHOD_REGISTEREMAIL = "re";
 	
@@ -170,6 +170,7 @@ public class ServiceConstant  {
 
 	public static final String PARA_LONGITUDE = "lo";
 	public static final String PARA_LATITUDE = "lat";
+	public static final String PAPA_RADIUS = "r";
 	public static final String PARA_MESSAGETEXT = "t";
 
 	public static final String PARA_VERSION = "v";

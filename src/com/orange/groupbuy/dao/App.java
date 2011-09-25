@@ -65,4 +65,12 @@ public class App extends CommonData {
         return (String)dbObject.get(DBConstants.F_PUSH_APP_MASTER_SECRET);
     }
     
+    public String getCertificateFileName() {
+        return (String)dbObject.get(DBConstants.F_PUSH_APP_CERTIFICATE);
+    }
+    
+    public String getCertPassword() {
+        return (String)dbObject.get(DBConstants.F_PUSH_APP_CERTIFICATE_PASSWORD);
+    }
+    
 }
