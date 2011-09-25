@@ -571,7 +571,9 @@ public class ProductManager extends CommonManager {
 	    if (category == null)
             return null;
 	    
-	    return mongoClient.count(DBConstants.T_PRODUCT, DBConstants.F_CATEGORY, category);
+	    DBObject query = new BasicDBObject();
+        query.put(DBConstants.F_CATEGORY, Integer.parseInt(category));
+        return mongoClient.count(DBConstants.T_PRODUCT, query);
 	}
 
 	public static List<Product> getAllProductsWithCategory(
