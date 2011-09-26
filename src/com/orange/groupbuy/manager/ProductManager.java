@@ -990,7 +990,11 @@ public class ProductManager extends CommonManager {
     public static Product findProductById(MongoDBClient mongoClient, String productId) {
 
         ObjectId id = new ObjectId(productId);
-        return new Product(mongoClient.findOne(DBConstants.T_PRODUCT, DBConstants.F_ID, id));
+        DBObject dbObject = mongoClient.findOne(DBConstants.T_PRODUCT, DBConstants.F_ID, id);
+        if (dbObject == null)
+            return null;
+        
+        return new Product(dbObject);
     }
 
     public static void writeCommet(MongoDBClient mongoClient, String productId, String userId, String nickName,
