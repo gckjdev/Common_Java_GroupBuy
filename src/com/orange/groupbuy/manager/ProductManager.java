@@ -504,8 +504,10 @@ public class ProductManager extends CommonManager {
 			boolean todayOnly, String keyword, Double price, int startOffset, int maxCount) {
 
 		SolrQuery query = new SolrQuery();
-		if (keyword == null || keyword.isEmpty())
+		if (keyword == null || keyword.isEmpty()){
+		    log.warn("<searchProductBySolr> but keyword is null or empty");
 			return null;
+		}
 		query.setQuery(keyword);
 
 		if (city != null && !city.isEmpty()) {
@@ -538,7 +540,7 @@ public class ProductManager extends CommonManager {
 		if (startOffset >= 0)
 			query.setStart(startOffset);
 
-		if (price != null) {
+		if (price != null && price.doubleValue() > 0.0f) {
 		    String priceString = String.valueOf(price.doubleValue());
 		    addRangeIntoFilterQuery(query, DBConstants.F_PRICE, "-100.0", priceString);
 		}
@@ -577,7 +579,7 @@ public class ProductManager extends CommonManager {
 				
 				productScoreMap.put(objectId, productScore);
 				
-				log.info("<searchProductBySolr> result doc="+ resultDoc.toString());
+				log.debug("<searchProductBySolr> result doc="+ resultDoc.toString());
 			}
 			log.info("<searchProductBySolr> search done, result size = " + resultList.size());
 
@@ -611,8 +613,7 @@ public class ProductManager extends CommonManager {
 			return orderedProductList;
 
 		} catch (SolrServerException e) {
-			e.printStackTrace();
-			log.error("<searchProductBySolr> catch exception="+e.toString()+","+e.getMessage());
+			log.error("<searchProductBySolr> catch exception="+e.toString()+","+e.getMessage(), e);
 			return null;
 		}
 	}
