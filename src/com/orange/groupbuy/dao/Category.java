@@ -14,7 +14,7 @@ public class Category extends CommonData {
     }
 
     public String getCategoryId() {
-        return this.getString(DBConstants.F_CATEGORY_ID);
+        return this.getInt(DBConstants.F_CATEGORY_ID) + "";
     }
     
     

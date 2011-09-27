@@ -113,6 +113,11 @@ public class RecommendItemManager {
 
     public static void matchShoppingItem(MongoDBClient mongoClient, String userId, String[] itemIdArray) {
 
+        if (userId == null || itemIdArray == null){
+            log.error("matchShoppingItem but userId or itemIdArray is null");
+            return;
+        }
+        
         User user = UserManager.findUserByUserId(mongoClient, userId);
         try {
 

@@ -137,6 +137,7 @@ public class ErrorCode extends CommonErrorCode {
     public static final int ERROR_APP_NOT_FOUND             = 60002;
     public static final int ERROR_APP_EMPTY_PUSH_INFO       = 60003;
     public static final int ERROR_APP_CERT_NOT_FOUND        = 60004;
+    public static final int ERROR_APNS_NOT_FOUND             = 60005;
 
 	
 	// DB Error
