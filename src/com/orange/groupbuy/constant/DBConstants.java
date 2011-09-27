@@ -158,6 +158,7 @@ public class DBConstants {
     public static final String C_SITE_5151POPO = "5151paopao";
     public static final String C_SITE_MIQI = "miqi";
     public static final String C_SITE_COO8 = "coo8";
+    public static final String C_SITE_36TUAN = "36tuan";
 
 
 //	user("device_id","device_model","device_os","device_token","language",
