@@ -442,13 +442,14 @@ public class ProductManager extends CommonManager {
 				maxCount);
 	}
 	
-	public static Long getProductsNumberByCategory(MongoDBClient mongoClient, String category) {
+	public static Long getProductsNumberByCategory(MongoDBClient mongoClient, String category, String city) {
 	    if (category == null)
             return null;
 	    
 	    DBObject query = new BasicDBObject();
         query.put(DBConstants.F_CATEGORY, Integer.parseInt(category));
         addExpirationIntoQuery(query);
+        addCityIntoQuery(query, city);
         return mongoClient.count(DBConstants.T_PRODUCT, query);
 	}	
 
