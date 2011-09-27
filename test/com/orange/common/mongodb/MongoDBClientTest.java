@@ -14,7 +14,7 @@ import com.mongodb.DBObject;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.manager.UserManager;
 
-@Ignore
+//@Ignore
 public class MongoDBClientTest {
 
 	MongoDBClient mongoClient;
