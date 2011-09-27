@@ -22,7 +22,7 @@ public class CategoryManager extends CommonManager {
         List<Category> categoryList = new ArrayList<Category>();
         Iterator<?> iter = cursor.iterator();
         if( iter == null)
-                return null;
+            return null;
         while (iter.hasNext()){
             BasicDBObject obj = (BasicDBObject)iter.next();
             Category category = new Category(obj);
