@@ -11,7 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cassandra.thrift.Cassandra.set_keyspace_args;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
@@ -126,19 +125,24 @@ public class ProductManager extends CommonManager {
             doc.addField(DBConstants.F_BOUGHT, bought, 1.0f);
             // TODO
 
-            /* rem for deploy in server
+            //rem for deploy in server
+            int cnt = 1;
             List<List<Double>> list = product.getGPS();
             if (list.size() > 0) {
                 for (int i = 0; i < list.size(); i++) {
                     Gps gps = Gps.fromObject(list.get(i));
                     if (gps != null) {
                         String gpsString = gps.toString();
-                        String gpsField = DBConstants.F_GPS + i + "_p";
+                        String gpsField = DBConstants.F_GPS + "_" + cnt + "_p";
                         doc.addField(gpsField, gpsString);
+                        if (cnt == 1) {
+                            String gpsFieldSingal = DBConstants.F_GPS;
+                            doc.addField(gpsFieldSingal, gpsString);
+                        }
+                        cnt++;
                     }
                 }
             }
-            */
 
             String description = product.getDescription();
             String detail = product.getDetail();
