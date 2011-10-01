@@ -158,6 +158,7 @@ public class DBConstants {
     public static final String C_SITE_5151POPO = "5151paopao";
     public static final String C_SITE_MIQI = "miqi";
     public static final String C_SITE_COO8 = "coo8";
+    public static final String C_SITE_36TUAN = "36tuan";
 
 
 //	user("device_id","device_model","device_os","device_token","language",
@@ -401,8 +402,11 @@ public class DBConstants {
     public static final String F_PUSH_APP_SECRET = "push_secret";
     public static final String F_PUSH_APP_MASTER_SECRET = "push_master_secret";
 
-    public static final String F_PUSH_APP_CERTIFICATE = "push_cert";
-    public static final String F_PUSH_APP_CERTIFICATE_PASSWORD = "push_cert_pwd";
+    public static final String F_PUSH_APP_DEV_CERTIFICATE = "push_dev_cert";
+    public static final String F_PUSH_APP_DEV_CERTIFICATE_PASSWORD = "push_dev_cert_pwd";
+
+    public static final String F_PUSH_APP_PRODUCT_CERTIFICATE = "push_pro_cert";
+    public static final String F_PUSH_APP_PRODUCT_CERTIFICATE_PASSWORD = "push_pro_cert_pwd";
 
 
 

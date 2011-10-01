@@ -442,14 +442,16 @@ public class ProductManager extends CommonManager {
 				maxCount);
 	}
 	
-	public static Long getProductsNumberByCategory(MongoDBClient mongoClient, String category) {
+	public static Long getProductsNumberByCategory(MongoDBClient mongoClient, String category, String city) {
 	    if (category == null)
             return null;
 	    
-	    return mongoClient.count(DBConstants.T_PRODUCT, DBConstants.F_CATEGORY, category);
-	}
-
-	
+	    DBObject query = new BasicDBObject();
+        query.put(DBConstants.F_CATEGORY, Integer.parseInt(category));
+        addExpirationIntoQuery(query);
+        addCityIntoQuery(query, city);
+        return mongoClient.count(DBConstants.T_PRODUCT, query);
+	}	
 
 	public static List<Product> getAllProductsGroupByCategory(
 			MongoDBClient mongoClient, String city, String topCount) {
@@ -503,8 +505,10 @@ public class ProductManager extends CommonManager {
 			boolean todayOnly, String keyword, Double price, int startOffset, int maxCount) {
 
 		SolrQuery query = new SolrQuery();
-		if (keyword == null || keyword.isEmpty())
+		if (keyword == null || keyword.isEmpty()){
+		    log.warn("<searchProductBySolr> but keyword is null or empty");
 			return null;
+		}
 		query.setQuery(keyword);
 
 		if (city != null && !city.isEmpty()) {
@@ -537,7 +541,7 @@ public class ProductManager extends CommonManager {
 		if (startOffset >= 0)
 			query.setStart(startOffset);
 
-		if (price != null) {
+		if (price != null && price.doubleValue() > 0.0f) {
 		    String priceString = String.valueOf(price.doubleValue());
 		    addRangeIntoFilterQuery(query, DBConstants.F_PRICE, "-100.0", priceString);
 		}
@@ -576,7 +580,7 @@ public class ProductManager extends CommonManager {
 				
 				productScoreMap.put(objectId, productScore);
 				
-				log.info("<searchProductBySolr> result doc="+ resultDoc.toString());
+				log.debug("<searchProductBySolr> result doc="+ resultDoc.toString());
 			}
 			log.info("<searchProductBySolr> search done, result size = " + resultList.size());
 
@@ -610,8 +614,7 @@ public class ProductManager extends CommonManager {
 			return orderedProductList;
 
 		} catch (SolrServerException e) {
-			e.printStackTrace();
-			log.error("<searchProductBySolr> catch exception="+e.toString()+","+e.getMessage());
+			log.error("<searchProductBySolr> catch exception="+e.toString()+","+e.getMessage(), e);
 			return null;
 		}
 	}
@@ -988,7 +991,11 @@ public class ProductManager extends CommonManager {
     public static Product findProductById(MongoDBClient mongoClient, String productId) {
 
         ObjectId id = new ObjectId(productId);
-        return new Product(mongoClient.findOne(DBConstants.T_PRODUCT, DBConstants.F_ID, id));
+        DBObject dbObject = mongoClient.findOne(DBConstants.T_PRODUCT, DBConstants.F_ID, id);
+        if (dbObject == null)
+            return null;
+        
+        return new Product(dbObject);
     }
 
     public static void writeCommet(MongoDBClient mongoClient, String productId, String userId, String nickName,
