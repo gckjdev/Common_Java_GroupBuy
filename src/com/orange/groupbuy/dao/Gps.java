@@ -58,11 +58,12 @@ public class Gps extends BasicDBObject{
             return null;
         double lat = list.get(0);
         double lng = list.get(1);
-        if (0.0 == lat || 0.0 == lng) 
+        if (0 == lat || 0 == lng) 
             return null;
-        if (lat < -90.0 || lat > 90.0)
+        // range of china
+        if (lat < 4 || lat > 53)
             return null;
-        if (lng < -180.0 || lng > 180.0)
+        if (lng < 73 || lng > 136)
             return null;
         
         return new Gps(lat, lng);
