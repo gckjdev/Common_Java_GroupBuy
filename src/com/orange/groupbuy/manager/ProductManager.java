@@ -123,9 +123,7 @@ public class ProductManager extends CommonManager {
             doc.addField(DBConstants.F_PRICE, price, 1.0f);
             long bought = product.getBought();
             doc.addField(DBConstants.F_BOUGHT, bought, 1.0f);
-            // TODO
-
-            //rem for deploy in server
+            // TODO rem for deploy in server
             int cnt = 1;
             List<List<Double>> list = product.getGPS();
             if (list.size() > 0) {
@@ -135,10 +133,10 @@ public class ProductManager extends CommonManager {
                         String gpsString = gps.toString();
                         String gpsField = DBConstants.F_GPS + "_" + cnt + "_p";
                         doc.addField(gpsField, gpsString);
-                        if (cnt == 1) {
+                        /*if (cnt == 1) {
                             String gpsFieldSingal = DBConstants.F_GPS;
                             doc.addField(gpsFieldSingal, gpsString);
-                        }
+                        }*/
                         cnt++;
                     }
                 }
