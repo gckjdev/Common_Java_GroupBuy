@@ -189,7 +189,7 @@ public class DBConstants {
 	public static final String F_VERIFYCODE = "verify_code";
 	public static final String F_STATUS = "status";
 
-	public static final String F_NICKNAME = "nickName";
+	public static final String F_NICKNAME = "nick_name";
 	public static final String F_AVATAR = "avatar";
 	public static final String F_SINAID = "sina_id";
 	public static final String F_QQID = "qq_id";

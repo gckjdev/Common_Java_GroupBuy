@@ -107,6 +107,7 @@ public class ErrorCode extends CommonErrorCode {
     public static final int ERROR_USER_EMAIL_NOT_FOUND      = 20013;
     public static final int ERROR_SNS_ID_EXIST              = 20014;
     public static final int ERROR_UPDATE_USER_INFO_FAILED   = 20015;
+    public static final int ERROR_PASSWORD_NOT_VALID        = 20016;
 
 
 

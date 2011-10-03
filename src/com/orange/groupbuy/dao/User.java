@@ -95,4 +95,12 @@ public class User extends CommonData {
         this.getDbObject().put(DBConstants.F_PUSH_COUNT, count);
     }
 
+    public void setNickName(String nickName) {
+        this.put(DBConstants.F_NICKNAME, nickName);
+    }
+
+    public void setPassword(String newPassword) {
+        this.put(DBConstants.F_PASSWORD, newPassword);
+    }
+
 }
