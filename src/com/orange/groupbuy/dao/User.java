@@ -103,4 +103,43 @@ public class User extends CommonData {
         this.put(DBConstants.F_PASSWORD, newPassword);
     }
 
+    public String getNickName() {
+        return this.getString(DBConstants.F_NICKNAME);
+    }
+
+    public String getEmail() {
+        return this.getString(DBConstants.F_EMAIL);
+    }
+
+    public String getAvatar() {
+        return this.getString(DBConstants.F_AVATAR);
+    }
+
+    public String getQQAccessToken() {
+        return this.getString(DBConstants.F_QQ_ACCESS_TOKEN);
+    }
+
+    public String getQQAccessTokenSecret() {
+        return this.getString(DBConstants.F_QQ_ACCESS_TOKEN_SECRET);
+    }
+
+    public String getSinaAccessToken() {
+        return this.getString(DBConstants.F_SINA_ACCESS_TOKEN);
+    }
+
+    public String getSinaAccessTokenSecret() {
+        return this.getString(DBConstants.F_SINA_ACCESS_TOKEN_SECRET);
+    }
+
+    public String getPassword() {
+        return this.getString(DBConstants.F_PASSWORD);
+    }
+    
+    public String getSinaID() {
+        return this.getString(DBConstants.F_SINAID);
+    }
+
+    public String getQQID() {
+        return this.getString(DBConstants.F_QQID);
+    }
 }
