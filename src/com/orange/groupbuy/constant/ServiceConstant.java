@@ -84,8 +84,10 @@ public class ServiceConstant  {
 	public static final String PARA_NEW_PASSWORD = "npwd";
 	public static final String PARA_VERIFYCODE = "code";
 	
-	public static final String PARA_SINAID = "sid";
-	public static final String PARA_QQID = "qid";
+	public static final String PARA_SNSID = "sid";
+    public static final String PARA_SINA_ID = "siid";
+    public static final String PARA_QQ_ID = "qid";
+    
 	public static final String PARA_FACEBOOKID = "fid";
 	public static final String PARA_RENRENID = "rid";
 	public static final String PARA_TWITTERID = "tid";
@@ -157,7 +159,7 @@ public class ServiceConstant  {
 	public static final String PARA_SINA_DOMAIN = "sd";
 	public static final String PARA_QQ_NICKNAME = "qn";
 	public static final String PARA_QQ_DOMAIN = "qd";
-	public static final String PARA_DOMAIN = "do";
+	public static final String PARA_DOMAIN = "d";
 
 	public static final String PARA_CREATE_USERID = "cuid";
 
@@ -282,6 +284,7 @@ public class ServiceConstant  {
     public static final int REGISTER_TYPE_RENREN    = 4;
     
     public static final int PARA_PASSWORD_MIN_LENGTH  = 6;
+
     
     
 }

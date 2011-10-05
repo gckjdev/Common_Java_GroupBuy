@@ -32,12 +32,15 @@ public class UserManager extends CommonManager {
 
     public static final Logger log = Logger.getLogger(UserManager.class.getName());
 
-    public static DBObject findUserByDeviceId(MongoDBClient mongoClient, String deviceId) {
+    public static User findUserByDeviceId(MongoDBClient mongoClient, String deviceId) {
         if (mongoClient == null || deviceId == null || deviceId.length() <= 0)
             return null;
 
         DBObject obj = mongoClient.findOne(DBConstants.T_USER, DBConstants.F_DEVICEID, deviceId);
-        return obj;
+        if (obj == null)
+            return null;
+        else
+            return new User(obj);
     }
 
     public static DBObject findUserByEmail(MongoDBClient mongoClient, String email) {
@@ -427,10 +430,13 @@ public class UserManager extends CommonManager {
     }
 
     public static void registerUserDeviceToken(String userId, String deviceToken) {
-        RegisterService registerService = RegisterService.createService(PushNotificationConstants.APPLICATION_KEY,
-                PushNotificationConstants.APPLICATION_SECRET, PushNotificationConstants.APPLICATION_MASTER_SECRET,
-                userId, deviceToken);
-        registerService.handleServiceRequest();
+        
+        // TODO fix push notification
+        
+//        RegisterService registerService = RegisterService.createService(PushNotificationConstants.APPLICATION_KEY,
+//                PushNotificationConstants.APPLICATION_SECRET, PushNotificationConstants.APPLICATION_MASTER_SECRET,
+//                userId, deviceToken);
+//        registerService.handleServiceRequest();
     }
 
     public static User findUserForRecommend(final MongoDBClient mongoClient) {
@@ -609,35 +615,50 @@ public class UserManager extends CommonManager {
         
         user.put(DBConstants.F_CREATE_DATE, new Date());
         
-        if(avatar != null && avatar.length()>0)
-        user.put(DBConstants.F_AVATAR, avatar);
-        if(province != null && province.length()>0)
-        user.put(DBConstants.F_PROVINCE, province);
-        if(city != null && city.length()>0)
-        user.put(DBConstants.F_CITY, city);
-        if(location != null && location.length()>0)
-        user.put(DBConstants.F_LOCATION,location);
-        if(gender != null && gender.length()>0)
-        user.put(DBConstants.F_GENDER, gender);
-        if(birthday != null && birthday.length()>0)
-        user.put(DBConstants.F_BIRTHDAY, birthday);
+        if (avatar != null && avatar.length() > 0)
+            user.put(DBConstants.F_AVATAR, avatar);
+        
+        if (province != null && province.length() > 0)
+            user.put(DBConstants.F_PROVINCE, province);
+        
+        if( city != null && city.length() > 0)
+            user.put(DBConstants.F_CITY, city);
+        
+        if( location != null && location.length() > 0)
+            user.put(DBConstants.F_LOCATION,location);
+        
+        if( gender != null && gender.length() > 0)
+            user.put(DBConstants.F_GENDER, gender);
+        
+        if (birthday != null && birthday.length() > 0)
+            user.put(DBConstants.F_BIRTHDAY, birthday);
 
+        if (!StringUtil.isEmpty(user.getNickName())){
+            user.setNickName(nickName);
+        }
         
         switch(registerType){
-        case ServiceConstant.REGISTER_TYPE_SINA:
-            user.put(DBConstants.F_SINAID, snsId);
-            user.put(DBConstants.F_SINA_NICKNAME, nickName);
-            user.put(DBConstants.F_SINA_DOMAIN, domain);
-            user.put(DBConstants.F_SINA_ACCESS_TOKEN,accessToken);
-            user.put(DBConstants.F_SINA_ACCESS_TOKEN_SECRET,accessTokenSecret);
-            break;
-        case ServiceConstant.REGISTER_TYPE_QQ:
-            user.put(DBConstants.F_QQID, snsId);
-            user.put(DBConstants.F_QQ_NICKNAME, nickName);
-            user.put(DBConstants.F_QQ_DOMAIN, domain);
-            user.put(DBConstants.F_QQ_ACCESS_TOKEN,accessToken);
-            user.put(DBConstants.F_QQ_ACCESS_TOKEN_SECRET,accessTokenSecret);            
-            break;
+        
+            case ServiceConstant.REGISTER_TYPE_SINA:
+            {
+                user.put(DBConstants.F_SINAID, snsId);
+                user.put(DBConstants.F_SINA_NICKNAME, nickName);
+                user.put(DBConstants.F_SINA_DOMAIN, domain);
+                user.put(DBConstants.F_SINA_ACCESS_TOKEN,accessToken);
+                user.put(DBConstants.F_SINA_ACCESS_TOKEN_SECRET,accessTokenSecret);
+            }
+                break;
+                
+            case ServiceConstant.REGISTER_TYPE_QQ:
+            {
+                user.put(DBConstants.F_QQID, snsId);
+                user.put(DBConstants.F_QQ_NICKNAME, nickName);
+                user.put(DBConstants.F_QQ_DOMAIN, domain);
+                user.put(DBConstants.F_QQ_ACCESS_TOKEN,accessToken);
+                user.put(DBConstants.F_QQ_ACCESS_TOKEN_SECRET,accessTokenSecret);
+            }
+                break;
+
             default:
                 break;                
         }

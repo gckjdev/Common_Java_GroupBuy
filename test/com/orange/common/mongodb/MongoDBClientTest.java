@@ -12,6 +12,7 @@ import org.junit.Test;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.orange.groupbuy.constant.DBConstants;
+import com.orange.groupbuy.dao.User;
 import com.orange.groupbuy.manager.UserManager;
 
 //@Ignore
@@ -77,7 +78,7 @@ public class MongoDBClientTest {
 		if (deviceId == null)
 			Assert.fail();
 		
-		DBObject user = UserManager.findUserByDeviceId(mongoClient, deviceId);
+		User user = UserManager.findUserByDeviceId(mongoClient, deviceId);
 		Assert.assertNotNull(user);
 		System.out.println("testFindUserByDevice, user="+user.toString());
 		Assert.assertNull(UserManager.findUserByDeviceId(mongoClient, "not_found_device_id"));
