@@ -142,4 +142,8 @@ public class User extends CommonData {
     public String getQQID() {
         return this.getString(DBConstants.F_QQID);
     }
+
+    public void setDeviceId(String deviceId) {
+        this.put(DBConstants.F_DEVICEID, deviceId);
+    }
 }

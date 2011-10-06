@@ -43,12 +43,15 @@ public class UserManager extends CommonManager {
             return new User(obj);
     }
 
-    public static DBObject findUserByEmail(MongoDBClient mongoClient, String email) {
+    public static User findUserByEmail(MongoDBClient mongoClient, String email) {
         if (mongoClient == null || email == null || email.length() <= 0)
             return null;
 
-        return mongoClient.findOne(DBConstants.T_USER, DBConstants.F_EMAIL, email);
-
+        DBObject obj = mongoClient.findOne(DBConstants.T_USER, DBConstants.F_EMAIL, email);
+        if (obj == null)
+            return null;
+        else
+            return new User(obj);
     }
 
     public static DBObject findUserByVerifyCode(MongoDBClient mongoClient, String vcd) {
@@ -114,7 +117,7 @@ public class UserManager extends CommonManager {
     }
 
     public static BasicDBObject createUserByEmail(MongoDBClient mongoClient, String appId, String email,
-            String password, boolean isVerification) {
+            String password, String deviceToken, boolean isVerification) {
 
         BasicDBObject user = new BasicDBObject();
         user.put(DBConstants.F_APPID, appId);
@@ -127,7 +130,8 @@ public class UserManager extends CommonManager {
             user.put(DBConstants.F_STATUS, DBConstants.STATUS_TO_VERIFY);
         else
             user.put(DBConstants.F_STATUS, DBConstants.STATUS_NORMAL);
-
+        user.put(DBConstants.F_DEVICETOKEN, deviceToken);
+        
         boolean result = mongoClient.insert(DBConstants.T_USER, user);
         if (result)
             return user;
@@ -669,7 +673,7 @@ public class UserManager extends CommonManager {
 
     public static BasicDBObject createUserBySnsId(MongoDBClient mongoClient, String appId, String snsId,
             String nickName, String avatar, String accessToken, String accessTokenSecret, String province, String city,
-            String location, String gender, String birthday, String domain, int registerType)
+            String location, String gender, String birthday, String domain, String deviceToken, int registerType)
     {
         BasicDBObject user = new BasicDBObject();
         user.put(DBConstants.F_APPID, appId);
@@ -682,6 +686,8 @@ public class UserManager extends CommonManager {
         user.put(DBConstants.F_LOCATION,location);
         user.put(DBConstants.F_GENDER, gender);
         user.put(DBConstants.F_BIRTHDAY, birthday);
+        
+        user.put(DBConstants.F_DEVICETOKEN, deviceToken);
         
         switch(registerType){
         case ServiceConstant.REGISTER_TYPE_SINA:
