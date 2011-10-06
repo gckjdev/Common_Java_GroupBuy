@@ -121,6 +121,7 @@ public class ServiceConstant  {
 	public static final String PARA_BEFORE_TIMESTAMP = "bt";
 	public static final String PARA_MAX_COUNT = "mc";
 	public static final String PARA_RETURN_COUNT = "rc";
+	public static final String PARA_LIST = "lt";
 
 	public static final String PARA_TOTAL_VIEW = "tv";
 	public static final String PARA_TOTAL_FORWARD = "tf";
