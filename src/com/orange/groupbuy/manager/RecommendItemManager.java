@@ -136,6 +136,9 @@ public class RecommendItemManager {
                 Double maxPrice = (Double) item.get(DBConstants.F_MAX_PRICE);
                 Date expireDate = (Date) item.get(DBConstants.F_EXPIRE_DATE);
                 String appId = item.getString(DBConstants.F_APPID);
+                String latString = item.getString(DBConstants.F_LATITUDE);
+                String logString = item.getString(DBConstants.F_LONGITUDE);
+                String radiusString = item.getString(DBConstants.F_RADIUS);
 
                 if (isExpire(expireDate)) {
                     log.info("user = " + user.getUserId() + ", itemId = " + itemIdArray[i] + ",  expireDate = "
@@ -146,9 +149,24 @@ public class RecommendItemManager {
                 String keywords = generateKeyword(cate, subcate, keyword);
 
                 log.info("starting matching for userid =" + userId + " itemId" + itemIdArray[i]);
-
-                List<Product> productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient,
+                
+                List<Product> productList = null;
+                if(latString != null && latString.length() > 0
+                        &&logString != null && logString.length() > 0
+                        &&radiusString != null && radiusString.length() > 0){
+                    
+                    Double latitudeValue = Double.valueOf(latString);
+                    Double longitudeValue = Double.valueOf(logString);
+                    Double radiusValue = Double.valueOf(radiusString)/1000;
+                    
+                    productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient,
+                            city, null, false, keywords, maxPrice, latitudeValue, longitudeValue, radiusValue, 0, MAX_RECOMMEND_COUNT);
+                }
+                else{
+                    productList = ProductManager.searchProductBySolr(SolrClient.getInstance(), mongoClient,
                         city, null, false, keywords, maxPrice, 0, MAX_RECOMMEND_COUNT);
+                    log.info("<RecommendItemManager> location match switch is turned off or null,latitude "+latString+" longitude is "+logString+" radius is "+radiusString);
+                }
 
                 if (productList == null || productList.size() <= 0) {
                     log.info("No product match to recommend for user=" + userId + ", itemId = " + itemIdArray[i]);

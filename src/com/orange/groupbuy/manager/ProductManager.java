@@ -903,7 +903,8 @@ public class ProductManager extends CommonManager {
         
         // TODO
         // search location
-        if (lat != null && lng != null & radius != null) {
+        
+        if (lat != null && lng != null && radius != null) {
            query.addFilterQuery("{!geofilt}"); 
            query.set("sfield", "*_p"); 
            query.set("pt", lat + "," + lng); 
