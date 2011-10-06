@@ -61,8 +61,6 @@ public class ServiceConstant  {
     public static final String METHOD_COUNTSHOPPINGITEMPRODUCTS = "csip";
     public static final String METHOD_SEGMENTTEXT = "st";
     public static final String METHOD_COMPAREPRODUCT = "comp";
-
-    public static final String METHOD_REGISTEREMAIL = "re";
 	
 	// internal usage
 	public static final String METHOD_DELETESOLRINDEX = "deletesolr";
