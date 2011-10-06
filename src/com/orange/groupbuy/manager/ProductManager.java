@@ -909,8 +909,19 @@ public class ProductManager extends CommonManager {
         return categoryList;
     }
 
+    public static List<Product> searchProductBySolr(SolrClient solrClient, MongoDBClient mongoClient, String city,
+            List<Integer> categoryList, boolean todayOnly, String keyword, Double price, Double lat, Double lng,
+            Double radius, int startOffset, int maxCount) {
+        
+        SolrDocumentList resultList = getResultListBySolr(solrClient, mongoClient, city,
+                categoryList, todayOnly, keyword, price, lat, lng,
+                radius, startOffset, maxCount);
+        List<Product> list = new ArrayList<Product>();
+        list = getResultList(resultList, mongoClient);
+        return list;
+    }
 
-    public static SolrDocumentList searchProductBySolr(SolrClient solrClient, MongoDBClient mongoClient, String city,
+    public static SolrDocumentList getResultListBySolr(SolrClient solrClient, MongoDBClient mongoClient, String city,
             List<Integer> categoryList, boolean todayOnly, String keyword, Double price, Double lat, Double lng,
             Double radius, int startOffset, int maxCount) {
 
@@ -1039,7 +1050,7 @@ public class ProductManager extends CommonManager {
     public static List<Product> searchProductBySolr(SolrClient solrClient, MongoDBClient mongoClient, String city,
             List<Integer> categoryList, boolean todayOnly, String keyword, Double lat, Double lng, Double radius, int startOffset, int maxCount) {
         
-        SolrDocumentList resultList = searchProductBySolr(solrClient, mongoClient, city, categoryList, todayOnly, keyword, null,
+        SolrDocumentList resultList = getResultListBySolr(solrClient, mongoClient, city, categoryList, todayOnly, keyword, null,
                 lat, lng, radius, startOffset, maxCount);
         List<Product> list = getResultList(resultList, mongoClient);
         
