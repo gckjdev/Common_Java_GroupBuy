@@ -286,14 +286,14 @@ public class UserManager extends CommonManager {
             item.put(prefix.concat(DBConstants.F_MIN_REBATE), null);
         
         if(latitude != null && latitude.length()>0 && longitude != null && longitude.length()>0 && radius != null && radius.length()>0 ){
-            item.put(DBConstants.F_LATITUDE, latitude);
-            item.put(DBConstants.F_LONGITUDE, longitude);
-            item.put(DBConstants.F_RADIUS, radius);
+            item.put(prefix.concat(DBConstants.F_LATITUDE), latitude);
+            item.put(prefix.concat(DBConstants.F_LONGITUDE), longitude);
+            item.put(prefix.concat(DBConstants.F_RADIUS), radius);
         }
         else{
-            item.put(DBConstants.F_LATITUDE, null);
-            item.put(DBConstants.F_LONGITUDE, null);
-            item.put(DBConstants.F_RADIUS, null);
+            item.put(prefix.concat(DBConstants.F_LATITUDE), null);
+            item.put(prefix.concat(DBConstants.F_LONGITUDE), null);
+            item.put(prefix.concat(DBConstants.F_RADIUS), null);
         }
 
         return item;

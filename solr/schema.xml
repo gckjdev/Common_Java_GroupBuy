@@ -489,6 +489,8 @@
 	</fieldtype>
 	
 	
+
+	
  </types>
 
 
@@ -531,7 +533,10 @@
    <field name="s_id" type="text_general" indexed="true" stored="true" required="true" />
    <field name="price" type="float" indexed="true" stored="true" required="false" />
    <field name="rebate" type="float" indexed="true" stored="true" required="false" />
-   <field name="bought" type="long" indexed="true" stored="true" required="false" />
+   <field name="bought" type="float" indexed="true" stored="true" required="false" />
+   <field name="gps" type="location" index="true" stored="true" required="false" />
+
+   
    
    <field name="all" type="textMaxWord" indexed="true" stored="false" multiValued="true" />
    
@@ -564,7 +569,7 @@
    <dynamicField name="*_coordinate"  type="tdouble" indexed="true"  stored="false"/>
 
    <dynamicField name="*_dt" type="date"    indexed="true"  stored="true"/>
-   <dynamicField name="*_p"  type="location" indexed="true" stored="true"/>
+   <dynamicField name="*_p"  type="location" indexed="true" stored="true" required="false"/>
 
    <!-- some trie-coded dynamic fields for faster range queries -->
    <dynamicField name="*_ti" type="tint"    indexed="true"  stored="true"/>
@@ -608,6 +613,7 @@
 	<copyField source="desc" dest="all"/>
 	<copyField source="tip" dest="all"/>
 	<copyField source="shop" dest="all"/>
+	<copyField source="addr" dest="all"/>
 	<copyField source="tag" dest="all"/>
 	<copyField source="s_name" dest="all"/>
 	
