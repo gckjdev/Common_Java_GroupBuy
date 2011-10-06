@@ -1,7 +1,5 @@
 package com.orange.groupbuy.manager;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -18,6 +16,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.solr.common.util.NamedList;
 import org.bson.types.BasicBSONList;
 import org.bson.types.ObjectId;
 
@@ -32,6 +31,7 @@ import com.orange.groupbuy.dao.Gps;
 import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.ProductAddress;
 import com.orange.common.solr.SolrClient;
+import com.sun.xml.internal.bind.v2.runtime.NameList;
 
 public class ProductManager extends CommonManager {
 
@@ -637,6 +637,58 @@ public class ProductManager extends CommonManager {
 				actionName, actionValue);
 	}
 
+    public static DBCursor getProductCursor(MongoDBClient mongoClient, String city, List<Integer> categoryList,
+            boolean todayOnly, boolean gpsQuery, double latitude, double longitude, double maxDistance, int sortBy,
+            int startOffset, int maxCount) {
+
+        DBObject query = new BasicDBObject();
+        DBObject orderBy = new BasicDBObject();
+
+        // set query
+        addCityIntoQuery(query, city);
+        addCategoryIntoQuery(query, categoryList);
+        addExpirationIntoQuery(query);
+        if (gpsQuery) {
+            double degreeDistance = maxDistance * 1000 / 6371;
+            addGpsIntoQuery(query, longitude, latitude, degreeDistance);
+        }
+
+        if (todayOnly) {
+            addTodayIntoQuery(query);
+        }
+
+        // set order by
+        // if (!gpsQuery){
+        switch (sortBy) {
+        case DBConstants.SORT_BY_PRICE:
+            addFieldIntoOrder(orderBy, DBConstants.F_PRICE, true);
+            break;
+
+        case DBConstants.SORT_BY_REBATE: {
+            addNonZeroPriceIntoQuery(query);
+            addFieldIntoOrder(orderBy, DBConstants.F_REBATE, true);
+        }
+            break;
+
+        case DBConstants.SORT_BY_BOUGHT: {
+            addNonZeroPriceIntoQuery(query);
+            addFieldIntoOrder(orderBy, DBConstants.F_BOUGHT, false);
+        }
+            break;
+        }
+        addFieldIntoOrder(orderBy, DBConstants.F_START_DATE, false);
+        // }
+
+        log.info("<getProducts> query = " + query.toString() + " , orderBy = " + orderBy + " startOffset = "
+                + startOffset + ", maxCount = " + maxCount);
+
+        DBCursor cursor = mongoClient.find(DBConstants.T_PRODUCT, query, orderBy, startOffset, maxCount);
+        return cursor;
+        // TODO 
+//        cursor.count();
+//        return getProduct(cursor);
+    }
+    
     public static List<Product> getProducts(MongoDBClient mongoClient, String city, List<Integer> categoryList,
             boolean todayOnly, boolean gpsQuery, double latitude, double longitude, double maxDistance, int sortBy,
             int startOffset, int maxCount) {
@@ -717,7 +769,7 @@ public class ProductManager extends CommonManager {
         return list;
     }
 
-    private static List<Product> getProduct(DBCursor cursor) {
+    public static List<Product> getProduct(DBCursor cursor) {
         if (cursor == null) {
             return null;
         }
@@ -858,7 +910,7 @@ public class ProductManager extends CommonManager {
     }
 
 
-    public static List<Product> searchProductBySolr(SolrClient solrClient, MongoDBClient mongoClient, String city,
+    public static SolrDocumentList searchProductBySolr(SolrClient solrClient, MongoDBClient mongoClient, String city,
             List<Integer> categoryList, boolean todayOnly, String keyword, Double price, Double lat, Double lng,
             Double radius, int startOffset, int maxCount) {
 
@@ -901,13 +953,11 @@ public class ProductManager extends CommonManager {
             addRangeIntoFilterQuery(query, DBConstants.F_PRICE, "-100.0", priceString);
         }
         
-        // TODO
         // search location
-        if (lat != null && lng != null & radius != null) {
+        if (lat != null && lng != null && radius != null) {
            query.addFilterQuery("{!geofilt}"); 
-           query.set("sfield", "*_p"); 
+           query.set("sfield", "gps_1_p"); 
            query.set("pt", lat + "," + lng); 
-//           query.set("sort", "geodist() asc"); 
            query.set("d", radius+"");       
         }
 
@@ -919,11 +969,24 @@ public class ProductManager extends CommonManager {
         QueryResponse rsp;
         try {
             rsp = server.query(query);
-
             if (rsp == null)
                 return null;
-
+            
             SolrDocumentList resultList = rsp.getResults();
+            return resultList;
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+            log.error("<searchProductBySolr> catch exception=" + e.toString() + "," + e.getMessage());
+            return null;
+        }
+    }
+    
+    public static long getResultCnt(SolrDocumentList resultList) {
+            return resultList.getNumFound();
+    }
+    
+    public static List<Product> getResultList(SolrDocumentList resultList, MongoDBClient mongoClient)        
+    {
             if (resultList == null)
                 return null;
 
@@ -935,9 +998,6 @@ public class ProductManager extends CommonManager {
 
                 String productId = (String) resultDoc.getFieldValue(DBConstants.F_INDEX_ID);
                 Float productScore = (Float) resultDoc.getFieldValue("score");
-                // String productTitle = (String)
-                // resultDoc.getFieldValue(DBConstants.F_TITLE);
-                // log.info("<search> id="+productId+",score="+productScore+",title="+productTitle);
 
                 ObjectId objectId = new ObjectId(productId);
                 objectIdList.add(objectId);
@@ -974,18 +1034,15 @@ public class ProductManager extends CommonManager {
 
             dbCursor.close();
             return orderedProductList;
-
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-            log.error("<searchProductBySolr> catch exception=" + e.toString() + "," + e.getMessage());
-            return null;
-        }
     }
 
     public static List<Product> searchProductBySolr(SolrClient solrClient, MongoDBClient mongoClient, String city,
             List<Integer> categoryList, boolean todayOnly, String keyword, Double lat, Double lng, Double radius, int startOffset, int maxCount) {
-        List<Product> list = searchProductBySolr(solrClient, mongoClient, city, categoryList, todayOnly, keyword, null,
+        
+        SolrDocumentList resultList = searchProductBySolr(solrClient, mongoClient, city, categoryList, todayOnly, keyword, null,
                 lat, lng, radius, startOffset, maxCount);
+        List<Product> list = getResultList(resultList, mongoClient);
+        
         return list;
     }
     
@@ -1041,6 +1098,29 @@ public class ProductManager extends CommonManager {
 
         DBCursor cursor = mongoClient.find(DBConstants.T_PRODUCT, query, orderBy, startOffset, maxCount);
         return getProduct(cursor);
+    }
+    
+    public static DBCursor getTopScoreProductCursor(MongoDBClient mongoClient, String city, int category,
+            int startOffset, int maxCount, int startPrice, int endPrice) {
+        DBObject query = new BasicDBObject();
+        DBObject orderBy = new BasicDBObject();
+
+        // set query
+        addCityIntoQuery(query, city);
+        addExpirationIntoQuery(query);
+        if (category != -1) {
+            List<Integer> categoryList = new ArrayList<Integer>();
+            categoryList.add(category);
+            addCategoryIntoQuery(query, categoryList);
+        }
+        addPriceRangeIntoQuery(query, startPrice, endPrice);
+        addTopScoreIntoOrder(orderBy, false);
+
+        log.info("<getTopScoreProducts> query = " + query.toString() + " , orderBy = " + orderBy + " startOffset = "
+                + startOffset + ", maxCount = " + maxCount);
+
+        DBCursor cursor = mongoClient.find(DBConstants.T_PRODUCT, query, orderBy, startOffset, maxCount);
+        return cursor;
 
     }
 
@@ -1101,6 +1181,10 @@ public class ProductManager extends CommonManager {
             list.add(values[i]);
 
         addOrIntoFilterQuery(solrQuery, field, list);
+    }
+    
+    public static int getCursorCount(DBCursor cursor) {
+       return  cursor.count();
     }
 
 }
