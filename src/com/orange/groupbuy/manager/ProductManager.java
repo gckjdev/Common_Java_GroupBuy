@@ -986,7 +986,6 @@ public class ProductManager extends CommonManager {
             SolrDocumentList resultList = rsp.getResults();
             return resultList;
         } catch (SolrServerException e) {
-            e.printStackTrace();
             log.error("<searchProductBySolr> catch exception=" + e.toString() + "," + e.getMessage());
             return null;
         }
@@ -1017,7 +1016,8 @@ public class ProductManager extends CommonManager {
 
                 log.info("<searchProductBySolr> result doc=" + resultDoc.toString());
             }
-            log.info("<searchProductBySolr> search done, result size = " + resultList.size());
+            log.info("<searchProductBySolr> search done, result size = " + resultList.size() + 
+                    ", total size = " + resultList.getNumFound());
 
             if (objectIdList == null || objectIdList.size() == 0)
                 return null;
