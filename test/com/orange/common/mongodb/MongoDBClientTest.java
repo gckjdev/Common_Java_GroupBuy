@@ -6,7 +6,6 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.mongodb.BasicDBObject;
@@ -55,7 +54,7 @@ public class MongoDBClientTest {
     private DBObject createCategory(String name, int id) {
         DBObject docObject = new BasicDBObject();
         docObject.put("cate_n", name);
-        docObject.put("cate_id", String.valueOf(id));
+        docObject.put("cate_id",id);
         return docObject;
     }
 
