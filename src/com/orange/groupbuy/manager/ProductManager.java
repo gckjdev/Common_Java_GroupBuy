@@ -126,7 +126,7 @@ public class ProductManager extends CommonManager {
             // TODO rem for deploy in server
             int cnt = 1;
             List<List<Double>> list = product.getGPS();
-            if (list.size() > 0) {
+            if (list != null && list.size() > 0) {
                 for (int i = 0; i < list.size(); i++) {
                     Gps gps = Gps.fromObject(list.get(i));
                     if (gps != null) {
