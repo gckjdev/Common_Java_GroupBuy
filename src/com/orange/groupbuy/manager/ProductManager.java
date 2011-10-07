@@ -16,7 +16,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
-import org.apache.solr.common.util.NamedList;
 import org.bson.types.BasicBSONList;
 import org.bson.types.ObjectId;
 
@@ -31,7 +30,6 @@ import com.orange.groupbuy.dao.Gps;
 import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.ProductAddress;
 import com.orange.common.solr.SolrClient;
-import com.sun.xml.internal.bind.v2.runtime.NameList;
 
 public class ProductManager extends CommonManager {
 
