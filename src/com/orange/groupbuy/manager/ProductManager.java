@@ -16,7 +16,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
-import org.apache.solr.common.util.NamedList;
 import org.bson.types.BasicBSONList;
 import org.bson.types.ObjectId;
 
@@ -25,13 +24,12 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
+import com.orange.common.solr.SolrClient;
 import com.orange.common.utils.DateUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.dao.Gps;
 import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.ProductAddress;
-import com.orange.common.solr.SolrClient;
-import com.sun.xml.internal.bind.v2.runtime.NameList;
 
 public class ProductManager extends CommonManager {
 
@@ -126,7 +124,7 @@ public class ProductManager extends CommonManager {
             // TODO rem for deploy in server
             int cnt = 1;
             List<List<Double>> list = product.getGPS();
-            if (list.size() > 0) {
+            if (list != null && list.size() > 0) {
                 for (int i = 0; i < list.size(); i++) {
                     Gps gps = Gps.fromObject(list.get(i));
                     if (gps != null) {
@@ -986,14 +984,16 @@ public class ProductManager extends CommonManager {
             SolrDocumentList resultList = rsp.getResults();
             return resultList;
         } catch (SolrServerException e) {
-            e.printStackTrace();
             log.error("<searchProductBySolr> catch exception=" + e.toString() + "," + e.getMessage());
             return null;
         }
     }
     
     public static long getResultCnt(SolrDocumentList resultList) {
-            return resultList.getNumFound();
+        if (resultList == null) {
+            return 0l;
+        }
+        return resultList.getNumFound();
     }
     
     public static List<Product> getResultList(SolrDocumentList resultList, MongoDBClient mongoClient)        
@@ -1017,7 +1017,8 @@ public class ProductManager extends CommonManager {
 
                 log.info("<searchProductBySolr> result doc=" + resultDoc.toString());
             }
-            log.info("<searchProductBySolr> search done, result size = " + resultList.size());
+            log.info("<searchProductBySolr> search done, result size = " + resultList.size() + 
+                    ", total size = " + resultList.getNumFound());
 
             if (objectIdList == null || objectIdList.size() == 0)
                 return null;

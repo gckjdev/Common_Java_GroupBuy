@@ -146,4 +146,8 @@ public class User extends CommonData {
     public void setDeviceId(String deviceId) {
         this.put(DBConstants.F_DEVICEID, deviceId);
     }
+
+    public void setAvatar(String avatarURL) {
+        this.put(DBConstants.F_AVATAR, avatarURL);
+    }
 }

@@ -15,7 +15,7 @@ db.task.insert({"status":0, "site_id":"xing800", "url":"http://api.xing800.com/a
 db.task.insert({"status":0, "site_id":"wowo", "url":"http://www.55tuan.com/hao123v2.xml"})
 
 // 高朋 hao123
-db.task.insert({"status":0, "site_id":"gaopeng", "url":"http://www.tuan1212.com/gaopeng.php"})
+db.task.insert({"status":0, "site_id":"gaopeng", "url":"http://api.gaopeng000.com/public.php"})
 
 // 好特会 hao123
 db.task.insert({"status":0, "site_id":"haotehui", "url":"http://www.haotehui.com/data/xml?from=api&format=standard"})
@@ -59,7 +59,7 @@ db.task.insert({"status":0, "site_id":"tuanhao", "url":"http://www.tuanok.com/ap
 // 团宝 hao123
 db.task.insert({"status":0, "site_id":"tuanbao", "url":"http://p5.groupon.cn/xml/city/cityproduct/hao123/"})
 
-// 团好 tuan800
+// 嘀嗒tuan800
 db.task.insert({"status":0, "site_id":"dida", "url":"http://www.didatuan.com/api/tuan800.php"})
 
 // 开心 hao123
@@ -81,7 +81,7 @@ db.task.insert({"status":0, "site_id":"qunaer", "url":"http://tuan.qunar.com/api
 db.task.insert({"status":0, "site_id":"letao", "url":"http://www.letao.com/letaozu/3rd_pages/Tuan/TuanGouAPI.aspx"})
 
 // Z团 tuan800
-db.task.insert({"status":0, "site_id":"ztuan", "url":"http://tuan.zol.com/api/zolTuan.php"})
+//db.task.insert({"status":0, "site_id":"ztuan", "url":"http://tuan.zol.com/api/zolTuan.php"})
 
 // 粉团 hao123
 db.task.insert({"status":0, "site_id":"fentuan", "url":"http://www.fentuan.com/api/baidu.php"})
@@ -115,6 +115,15 @@ db.task.insert({"status":0, "site_id":"coo8", "url":"http://tuan.coo8.com/index.
 
 //36团
 db.task.insert({"status":0, "site_id":"36tuan", "url":"http://www.36tuan.com/api/api.php"})
+
+//好易订 tuan800
+db.task.insert({"status":0, "site_id":"haoyiding", "url":"http://365h.com/co/tuan800/api.php"})
+
+//好划算 tuan800
+db.task.insert({"status":0, "site_id":"haohuasuan", "url":"http://www.haohuasuan.com/api/tuan800.php"})
+
+//爽团  hao123
+db.task.insert({"status":0, "site_id":"shuangtuan", "url":"http://www.shuangtuan.com/api/v1/api"})
 
 // 搜索预置关键字表
 db.app.insert({"app_id":"GROUPBUY","push_dev_cert" : "certificate/groupbuy_push_development.p12", "push_dev_cert_pwd" : "123456", "push_pro_cert" : "certificate/groupbuy_push_production.p12", "push_pro_cert_pwd":"123456","app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8", "keys":[{"name":"蛋糕甜点", "query":"蛋糕甜点"},{"name":"游戏币", "query":"游戏币"},{"name":"抽奖秒杀", "query":"抽奖 秒杀"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券 现金券"}]})
