@@ -1230,4 +1230,13 @@ public class ProductManager extends CommonManager {
        return  cursor.count();
     }
 
+    public static DBObject findProductByExternalID(MongoDBClient mongoClient, String siteID, String externalID) {
+        BasicDBObject query = new BasicDBObject();
+        query.put(DBConstants.F_EXTERNAL_ID, externalID);
+        query.put(DBConstants.F_SITE_ID, siteID);
+        DBObject obj = mongoClient.findOne(DBConstants.T_PRODUCT, query);
+        log.info("<findProductByExternalID query=>" + query.toString());
+        return obj;
+    }
+
 }
