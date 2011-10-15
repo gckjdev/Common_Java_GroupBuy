@@ -24,12 +24,12 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
+import com.orange.common.solr.SolrClient;
 import com.orange.common.utils.DateUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.dao.Gps;
 import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.ProductAddress;
-import com.orange.common.solr.SolrClient;
 
 public class ProductManager extends CommonManager {
 
@@ -987,7 +987,10 @@ public class ProductManager extends CommonManager {
     }
     
     public static long getResultCnt(SolrDocumentList resultList) {
-            return resultList.getNumFound();
+        if (resultList == null) {
+            return 0l;
+        }
+        return resultList.getNumFound();
     }
     
     public static List<Product> getResultList(SolrDocumentList resultList, MongoDBClient mongoClient)        

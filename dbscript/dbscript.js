@@ -62,9 +62,6 @@ db.task.insert({"status":0, "site_id":"tuanbao", "url":"http://p5.groupon.cn/xml
 // 嘀嗒tuan800
 db.task.insert({"status":0, "site_id":"dida", "url":"http://www.didatuan.com/api/tuan800.php"})
 
-// 开心 hao123
-db.task.insert({"status":0, "site_id":"kaixin", "url":"http://tuan.kaixin001.com/api.php"})
-
 // 聚齐 tuan800
 db.task.insert({"status":0, "site_id":"juqi", "url":"http://biz.juqi.com:8088/api/17api.aspx"})
 
