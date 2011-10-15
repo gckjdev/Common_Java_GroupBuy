@@ -411,6 +411,8 @@ public class DBConstants {
     public static final String F_PUSH_APP_PRODUCT_CERTIFICATE = "push_pro_cert";
     public static final String F_PUSH_APP_PRODUCT_CERTIFICATE_PASSWORD = "push_pro_cert_pwd";
 
+    public static final String F_EXTRA_ID = "extra_id";
+
 
 
 

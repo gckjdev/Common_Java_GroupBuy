@@ -462,4 +462,12 @@ public class Product extends CommonData {
     public void updateModifyDate() {
         dbObject.put(DBConstants.F_MODIFY_DATE, new Date());
     }
+
+    public void setExtraId(String extraID) {
+        dbObject.put(DBConstants.F_EXTRA_ID, extraID);
+    }
+  
+    public String getExtraId() {
+        return this.getString(DBConstants.F_EXTRA_ID);
+    }
 }
