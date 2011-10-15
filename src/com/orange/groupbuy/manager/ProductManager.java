@@ -682,9 +682,6 @@ public class ProductManager extends CommonManager {
 
         DBCursor cursor = mongoClient.find(DBConstants.T_PRODUCT, query, orderBy, startOffset, maxCount);
         return cursor;
-        // TODO 
-//        cursor.count();
-//        return getProduct(cursor);
     }
     
     public static List<Product> getProducts(MongoDBClient mongoClient, String city, List<Integer> categoryList,
@@ -1025,7 +1022,8 @@ public class ProductManager extends CommonManager {
                 return null;
             List<Product> productList = getProduct(dbCursor);
             List<Product> orderedProductList = new ArrayList<Product>();
-            int i;
+            int delCnt = 0;
+           /* int i;
             int size = productList.size();
             for (ObjectId objectId : objectIdList) {
                 i = 0;
@@ -1039,10 +1037,43 @@ public class ProductManager extends CommonManager {
                     product.setScore(score);
                     orderedProductList.add(product);
                 }
+            }*/
+            for (int i=0; i<objectIdList.size(); i++) {
+                ObjectId id = objectIdList.get(i);
+                Float score = productScoreMap.get(id);
+                if (productList == null) {
+                    delCnt = objectIdList.size();
+                    break;
+                }
+                int j = 0;
+                for (; j<productList.size(); j++) {
+                    if (productList.get(j).getObjectId().equals(id)) {
+                        break;
+                    } else {
+                        j++;
+                    }
+                }
+                if (j<productList.size()) {
+                    Product product = productList.get(j);
+                    product.setScore(score);
+                    orderedProductList.add(product);
+                } else {
+                    delCnt++;
+                }
             }
-
             dbCursor.close();
+            setDeltCnt(delCnt); 
             return orderedProductList;
+    }
+
+    private static int delCnt;
+    
+    private static void setDeltCnt(int deleteCnt) {
+       delCnt = deleteCnt;      
+    }
+    
+    public static int getDeltCnt() {
+        return delCnt;
     }
 
     public static List<Product> searchProductBySolr(SolrClient solrClient, MongoDBClient mongoClient, String city,
