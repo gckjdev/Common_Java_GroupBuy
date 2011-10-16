@@ -463,11 +463,11 @@ public class Product extends CommonData {
         dbObject.put(DBConstants.F_MODIFY_DATE, new Date());
     }
 
-    public void setExtraId(String extraID) {
-        dbObject.put(DBConstants.F_EXTRA_ID, extraID);
+    public void setExternalId(String externalID) {
+        dbObject.put(DBConstants.F_EXTERNAL_ID, externalID);
     }
   
-    public String getExtraId() {
-        return this.getString(DBConstants.F_EXTRA_ID);
+    public String getExternalId() {
+        return this.getString(DBConstants.F_EXTERNAL_ID);
     }
 }
