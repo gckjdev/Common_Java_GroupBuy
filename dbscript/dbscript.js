@@ -152,7 +152,7 @@ db.product.ensureIndex({"city":1,"loc":1})
 //db.product.ensureIndex({"city":1,"bought":-1})
 
 // address的索引表 table address index;
-db.product.ensureIndex({"gps":1})
+db.address.ensureIndex({"gps":1})
 db.address.ensureIndex({"addr":1})
 
 //recommend的索引表 table recommend index;

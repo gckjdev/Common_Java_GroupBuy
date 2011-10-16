@@ -306,8 +306,8 @@ public class ProductManager extends CommonManager {
     private static boolean addGpsIntoQuery(DBObject query, double longitude, double latitude, double maxDistance) {
 
         List<Double> gpsList = new ArrayList<Double>();
-        gpsList.add(latitude);
         gpsList.add(longitude);
+        gpsList.add(latitude);
 
         // DBObject near = new BasicDBObject();
         // near.put("$near", gpsList);
@@ -320,8 +320,10 @@ public class ProductManager extends CommonManager {
         centerObj.add(gpsList);
         centerObj.add(maxDistance);
 
-        center.put("$center", centerObj);
+        center.put("$centerSphere", centerObj);
         within.put("$within", center);
+        center.put("$unqiueDocs", true);
+
         query.put(DBConstants.F_GPS, within);
 
         return true;
@@ -647,7 +649,7 @@ public class ProductManager extends CommonManager {
         addCategoryIntoQuery(query, categoryList);
         addExpirationIntoQuery(query);
         if (gpsQuery) {
-            double degreeDistance = maxDistance * 1000 / 6371;
+            double degreeDistance = maxDistance / 6371;
             addGpsIntoQuery(query, longitude, latitude, degreeDistance);
         }
 

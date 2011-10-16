@@ -31,9 +31,9 @@ public class Gps extends BasicDBObject{
 	}
 	
 	public List<Double> toDoubleList(){
-		List<Double> list = new LinkedList<Double>(); //new LinkedList<Double>();
-		list.add(Double.valueOf(latitude));
+		List<Double> list = new LinkedList<Double>(); 
 		list.add(Double.valueOf(longitude));
+        list.add(Double.valueOf(latitude));
 		return list;
 	}
 
