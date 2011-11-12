@@ -71,6 +71,9 @@ public class ServiceConstant  {
 	public static final String METHOD_UPDATE_SUBSCRIPTION = "us";
 	public static final String METHOD_BIND_USER_SERVICE = "bu";
 	
+	// for download
+    public static final String METHOD_FINDTOPSITES = "fts";
+	
 	// request parameters
 
 	public static final String PARA_USERID = "uid";
@@ -284,6 +287,13 @@ public class ServiceConstant  {
     public static final int REGISTER_TYPE_RENREN    = 4;
     
     public static final int PARA_PASSWORD_MIN_LENGTH  = 6;
+
+    // for download
+    public static final String PARA_FILE_TYPE = "ft";
+    public static final String PARA_TYPE = "tp";
+    public static final String PARA_DOWNLOAD_COUNT = "cnt";
+    public static final Object PARA_DATA_COUNT = "count";
+
 
     
     

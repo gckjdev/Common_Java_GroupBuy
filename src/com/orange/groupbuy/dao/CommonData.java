@@ -114,7 +114,11 @@ public class CommonData {
 	}
 	
 	public ObjectId getObjectId(){
-		return (ObjectId)dbObject.get("_id");
+	    Object obj = dbObject.get("_id");
+	    if (obj instanceof ObjectId)
+	        return (ObjectId)obj;
+	    else
+	        return null; 
 	}
 	
 	public JSONObject toJsonObject() {

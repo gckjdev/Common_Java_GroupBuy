@@ -17,7 +17,12 @@ public class DBConstants {
 	public static final String T_RECOMMEND = "recommend"; 
     public static final String T_CATEGORY = "category"; 
     public static final String T_SHOPPING_CATEGORY = "shopping_category"; 
-	
+
+    // for download applications
+    public static final String T_DOWNLOAD_SITE = "download_site";
+
+    // for download table
+    public static final String F_DOWNLOAD_COUNT = "count";
 
 	// fields
 	public static final String F_TASK_STATUS = "status";
@@ -412,6 +417,12 @@ public class DBConstants {
     public static final String F_PUSH_APP_PRODUCT_CERTIFICATE_PASSWORD = "push_pro_cert_pwd";
 
     public static final String F_EXTERNAL_ID = "external_id";
+
+    public static final String C_ALL_COUNTRY = "all";
+
+    public static final String F_TYPE = "type";
+    public static final String F_FILE_TYPE = "file_type";
+
 
 
 
