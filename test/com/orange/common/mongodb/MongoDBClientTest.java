@@ -6,6 +6,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.mongodb.BasicDBObject;
@@ -14,7 +15,7 @@ import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.dao.User;
 import com.orange.groupbuy.manager.UserManager;
 
-//@Ignore
+@Ignore
 public class MongoDBClientTest {
 
 	MongoDBClient mongoClient;
