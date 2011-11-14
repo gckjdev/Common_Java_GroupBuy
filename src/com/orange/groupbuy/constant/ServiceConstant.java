@@ -73,6 +73,7 @@ public class ServiceConstant  {
 	
 	// for download
     public static final String METHOD_FINDTOPSITES = "fts";
+    public static final String METHOD_REPORTDOWNLOAD = "rdl";
 	
 	// request parameters
 
@@ -290,6 +291,9 @@ public class ServiceConstant  {
 
     // for download
     public static final String PARA_FILE_TYPE = "ft";
+    public static final String PARA_FILE_NAME = "fn";
+    public static final String PARA_FILE_URL  = "fu";
+    public static final String PARA_FILE_SIZE = "fs";
     public static final String PARA_TYPE = "tp";
     public static final String PARA_DOWNLOAD_COUNT = "cnt";
     public static final Object PARA_DATA_COUNT = "count";

@@ -20,6 +20,8 @@ public class DBConstants {
 
     // for download applications
     public static final String T_DOWNLOAD_SITE = "download_site";
+    public static final String T_TOP_DOWNLOAD = "top_download";
+
 
     // for download table
     public static final String F_DOWNLOAD_COUNT = "count";
@@ -419,9 +421,19 @@ public class DBConstants {
     public static final String F_EXTERNAL_ID = "external_id";
 
     public static final String C_ALL_COUNTRY = "all";
+    public static final String C_COUNTRY_CHINA = "CN";
+    public static final String C_COUNTRY_USA = "US";
 
     public static final String F_TYPE = "type";
     public static final String F_FILE_TYPE = "file_type";
+
+    public static final String F_FILE_URL = "url";
+    public static final String F_FILE_SIZE = "size";
+    public static final String F_FILE_NAME = "name";
+
+    public static final int C_SITE_TYPE_SYSTEM = 1;
+    public static final int C_SITE_TYPE_USER = 2;
+
 
 
 

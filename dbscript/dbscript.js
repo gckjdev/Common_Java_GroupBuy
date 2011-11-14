@@ -132,6 +132,9 @@ db.app.insert({"app_id":"GROUPBUY","push_dev_cert" : "certificate/groupbuy_push_
 db.download_site.insert({"s_name":"DILAN DAU", "type":0, "file_type":"mp3", "s_url":"http://www.dilandau.eu/", "country_code":"US", "count":0})
 db.download_site.insert({"s_name":"mp3skull", "type":0, "file_type":"mp3", "s_url":"http://www.mp3skull.com", "country_code":"all", "count":0})
 
+db.download_site.insert({"s_name":"last.fm", "type":0, "file_type":"mp3", "s_url":"http://www.last.fm/", "country_code":"all", "count":0})
+
+
 db.download_site.insert({"s_name":"blastro", "type":0, "file_type":"video", "s_url":"http://www.blastro.com/", "country_code":"US", "count":0})
 db.download_site.insert({"s_name":"Chronic TV", "type":0, "file_type":"video", "s_url":"http://www.chronictv.org/", "country_code":"US", "count":0})
 db.download_site.insert({"s_name":"Video Bash", "type":0, "file_type":"video", "s_url":"http://www.videobash.com/", "country_code":"US", "count":0})
@@ -139,7 +142,7 @@ db.download_site.insert({"s_name":"Video Bash", "type":0, "file_type":"video", "
 
 db.download_site.insert({"s_name":"Many Books", "type":0, "file_type":"Book", "s_url":"http://www.manybooks.net/m", "country_code":"US", "count":0})
 db.download_site.insert({"s_name":"Free E-Books", "type":0, "file_type":"Book", "s_url":"http://www.free-ebooks.net/", "country_code":"US", "count":0})
-db.download_site.insert({"s_name":"Free Book Spot", "type":0, "file_type":"Book", "s_url":"http://www.freebookspot.es/", "country_code":"US", "count":0})
+// db.download_site.insert({"s_name":"Free Book Spot", "type":0, "file_type":"Book", "s_url":"http://www.freebookspot.es/", "country_code":"US", "count":0})
 
 // http://www.hongkiat.com/blog/20-best-websites-to-download-free-e-books/
 
@@ -148,8 +151,7 @@ db.download_site.insert({"s_name":"百度文库", "type":0, "file_type":"文档"
 db.download_site.insert({"s_name":"百度MP3", "type":0, "file_type":"mp3", "s_url":"http://mp3.baidu.com", "country_code":"US", "count":0})
 db.download_site.insert({"s_name":"新浪视频", "type":0, "file_type":"视频", "s_url":"http://video.sina.cn/", "country_code":"US", "count":0})
 db.download_site.insert({"s_name":"56视频", "type":0, "file_type":"视频", "s_url":"http://wap.56.com/", "country_code":"US", "count":0})
-
-
+db.download_site.insert({"s_name":"优酷", "type":0, "file_type":"视频", "s_url":"http://m.youku.com/", "country_code":"US", "count":0})
 
 //db.download_site.insert({"s_name":"Break", "type":0, "file_type":"video", "s_url":"http://www.break.com/", "country_code":"US", "count":0})
 //db.download_site.insert({"s_name":"Funny Or Die", "type":0, "file_type":"video", "s_url":"http://www.funnyordie.com/", "country_code":"US", "count":0})
