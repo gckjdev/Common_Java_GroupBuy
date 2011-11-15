@@ -129,34 +129,37 @@ db.app.insert({"app_id":"GROUPBUY","push_dev_cert" : "certificate/groupbuy_push_
 // db.app.insert({"app_id":"GROUPBUY", "app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8","push_key" : "_qpnbGaXSUGyPF167SNxMw", "push_master_secret" : "HsFsYNg4RbqbGOwTc0LcUQ", "push_secret" : "rdkeij-YSY6nCrUSEoEr9A", "keys":[{"name":"游戏币", "query":"游戏币"},{"name":"抽奖秒杀", "query":"抽奖 秒杀"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券 现金券"},{"name":"低价酒店", "query":"酒店 大床房 双人房 单人房 豪华房 商务酒店 公寓"}]})
 
 // 下载站点预置数据
-db.download_site.insert({"s_name":"DILAN DAU", "type":0, "file_type":"mp3", "s_url":"http://www.dilandau.eu/", "country_code":"US", "count":0})
-db.download_site.insert({"s_name":"mp3skull", "type":0, "file_type":"mp3", "s_url":"http://www.mp3skull.com", "country_code":"all", "count":0})
+db.download_site.insert({"s_name":"DILAN DAU", "type":1, "file_type":"mp3", "s_url":"http://www.dilandau.eu/", "country_code":"US", "count":0})
+db.download_site.insert({"s_name":"mp3skull", "type":1, "file_type":"mp3", "s_url":"http://www.mp3skull.com", "country_code":"all", "count":0})
 
-db.download_site.insert({"s_name":"last.fm", "type":0, "file_type":"mp3", "s_url":"http://www.last.fm/", "country_code":"all", "count":0})
+db.download_site.insert({"s_name":"last.fm", "type":1, "file_type":"mp3", "s_url":"http://www.last.fm/", "country_code":"all", "count":0})
 
 
-db.download_site.insert({"s_name":"blastro", "type":0, "file_type":"video", "s_url":"http://www.blastro.com/", "country_code":"US", "count":0})
-db.download_site.insert({"s_name":"Chronic TV", "type":0, "file_type":"video", "s_url":"http://www.chronictv.org/", "country_code":"US", "count":0})
-db.download_site.insert({"s_name":"Video Bash", "type":0, "file_type":"video", "s_url":"http://www.videobash.com/", "country_code":"US", "count":0})
-// db.download_site.insert({"s_name":"Bee MP3", "type":0, "file_type":"mp3", "s_url":"http://www.beemp3.com/", "country_code":"US", "count":0})
+db.download_site.insert({"s_name":"blastro", "type":1, "file_type":"video", "s_url":"http://www.blastro.com/", "country_code":"US", "count":0})
+db.download_site.insert({"s_name":"Chronic TV", "type":1, "file_type":"video", "s_url":"http://www.chronictv.org/", "country_code":"US", "count":0})
+db.download_site.insert({"s_name":"Video Bash", "type":1, "file_type":"video", "s_url":"http://www.videobash.com/", "country_code":"US", "count":0})
+// db.download_site.insert({"s_name":"Bee MP3", "type":1, "file_type":"mp3", "s_url":"http://www.beemp3.com/", "country_code":"US", "count":0})
 
-db.download_site.insert({"s_name":"Many Books", "type":0, "file_type":"Book", "s_url":"http://www.manybooks.net/m", "country_code":"US", "count":0})
-db.download_site.insert({"s_name":"Free E-Books", "type":0, "file_type":"Book", "s_url":"http://www.free-ebooks.net/", "country_code":"US", "count":0})
-// db.download_site.insert({"s_name":"Free Book Spot", "type":0, "file_type":"Book", "s_url":"http://www.freebookspot.es/", "country_code":"US", "count":0})
+db.download_site.insert({"s_name":"Many Books", "type":1, "file_type":"Book", "s_url":"http://www.manybooks.net/m", "country_code":"US", "count":0})
+db.download_site.insert({"s_name":"Free E-Books", "type":1, "file_type":"Book", "s_url":"http://www.free-ebooks.net/", "country_code":"US", "count":0})
+// db.download_site.insert({"s_name":"Free Book Spot", "type":1, "file_type":"Book", "s_url":"http://www.freebookspot.es/", "country_code":"US", "count":0})
 
 // http://www.hongkiat.com/blog/20-best-websites-to-download-free-e-books/
 
 // TODO change to CN
-db.download_site.insert({"s_name":"百度文库", "type":0, "file_type":"文档", "s_url":"http://wapwenku.baidu.com", "country_code":"US", "count":0})
-db.download_site.insert({"s_name":"百度MP3", "type":0, "file_type":"mp3", "s_url":"http://mp3.baidu.com", "country_code":"US", "count":0})
-db.download_site.insert({"s_name":"新浪视频", "type":0, "file_type":"视频", "s_url":"http://video.sina.cn/", "country_code":"US", "count":0})
-db.download_site.insert({"s_name":"56视频", "type":0, "file_type":"视频", "s_url":"http://wap.56.com/", "country_code":"US", "count":0})
-db.download_site.insert({"s_name":"优酷", "type":0, "file_type":"视频", "s_url":"http://m.youku.com/", "country_code":"US", "count":0})
+db.download_site.insert({"s_name":"百度文库", "type":1, "file_type":"文档", "s_url":"http://wapwenku.baidu.com", "country_code":"US", "count":0})
+db.download_site.insert({"s_name":"百度MP3", "type":1, "file_type":"mp3", "s_url":"http://mp3.baidu.com", "country_code":"US", "count":0})
+db.download_site.insert({"s_name":"新浪视频", "type":1, "file_type":"视频", "s_url":"http://video.sina.cn/", "country_code":"US", "count":0})
+db.download_site.insert({"s_name":"56视频", "type":1, "file_type":"视频", "s_url":"http://wap.56.com/", "country_code":"US", "count":0})
+db.download_site.insert({"s_name":"优酷", "type":1, "file_type":"视频", "s_url":"http://m.youku.com/", "country_code":"US", "count":0})
 
-//db.download_site.insert({"s_name":"Break", "type":0, "file_type":"video", "s_url":"http://www.break.com/", "country_code":"US", "count":0})
-//db.download_site.insert({"s_name":"Funny Or Die", "type":0, "file_type":"video", "s_url":"http://www.funnyordie.com/", "country_code":"US", "count":0})
-//db.download_site.insert({"s_name":"Flickr", "type":0, "file_type":"video", "s_url":"http://www.flickr.com/", "country_code":"US", "count":0})
-//db.download_site.insert({"s_name":"UFC", "type":0, "file_type":"video", "s_url":"http://www.ufc.com/", "country_code":"US", "count":0})
+db.download_site.insert({"s_name":"新浪爱问", "type":1, "file_type":"综合", "s_url":"http://ishare.iask.sina.com.cn/", "country_code":"US", "count":0})
+
+
+//db.download_site.insert({"s_name":"Break", "type":1, "file_type":"video", "s_url":"http://www.break.com/", "country_code":"US", "count":0})
+//db.download_site.insert({"s_name":"Funny Or Die", "type":1, "file_type":"video", "s_url":"http://www.funnyordie.com/", "country_code":"US", "count":0})
+//db.download_site.insert({"s_name":"Flickr", "type":1, "file_type":"video", "s_url":"http://www.flickr.com/", "country_code":"US", "count":0})
+//db.download_site.insert({"s_name":"UFC", "type":1, "file_type":"video", "s_url":"http://www.ufc.com/", "country_code":"US", "count":0})
 
 // 旧关键字：{"name":"旅游", "query":"旅游 国旅 日游 双人游 自由行 纯玩 之旅 港澳游 休闲游 豪华行程"} ,
 // {"name":"低价酒店", "query":"酒店 大床房 双人房 单人房 豪华房 商务酒店 公寓"}

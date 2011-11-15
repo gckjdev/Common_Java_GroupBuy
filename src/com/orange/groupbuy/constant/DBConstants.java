@@ -126,6 +126,7 @@ public class DBConstants {
 	public static final int SORT_BY_PRICE = 1;
 	public static final int SORT_BY_REBATE = 2;
 	public static final int SORT_BY_BOUGHT = 3;
+	public static final int SORT_BY_DOWNLOAD = 20;
 	
 	// site ID
 	public static final String C_SITE_MEITUAN = "meituan";
@@ -433,6 +434,8 @@ public class DBConstants {
 
     public static final int C_SITE_TYPE_SYSTEM = 1;
     public static final int C_SITE_TYPE_USER = 2;
+
+    public static final int UNDEFINE = -1;
 
 
 

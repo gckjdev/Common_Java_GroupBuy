@@ -11,11 +11,13 @@ import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
+import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.Site;
 
 
 public class SiteManager extends CommonManager {
-    public static List<Site> findAllSites(MongoDBClient mongoClient, String countryCode, int offset, int maxCount){
+    public static List<Site> findAllSites(MongoDBClient mongoClient, String countryCode,
+            int siteType, int sortBy, int offset, int maxCount){
         
         DBCursor cursor = null;
         
@@ -31,8 +33,19 @@ public class SiteManager extends CommonManager {
             query.put(DBConstants.F_COUNTRYCODE, in);
         }
         
+        if (siteType != DBConstants.UNDEFINE){
+            query.put(DBConstants.F_TYPE, siteType);
+        }
+        
         DBObject orderBy = new BasicDBObject();
-        orderBy.put(DBConstants.F_DOWNLOAD_COUNT, 1);
+        switch (sortBy){
+        case DBConstants.SORT_BY_DOWNLOAD:
+            orderBy.put(DBConstants.F_DOWNLOAD_COUNT, -1);
+            break;
+        case DBConstants.SORT_BY_START_DATE:
+            orderBy.put(DBConstants.F_CREATE_DATE, -1);
+            break;
+        }
                 
         cursor = mongoClient.find(DBConstants.T_DOWNLOAD_SITE, query, orderBy, offset, maxCount);
         if (cursor == null)
