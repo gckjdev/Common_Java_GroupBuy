@@ -73,6 +73,7 @@ public class ServiceConstant  {
 	
 	// for download
     public static final String METHOD_FINDTOPSITES = "fts";
+    public static final String METHOD_FINDTOPDOWNLOADS = "ftdl";
     public static final String METHOD_REPORTDOWNLOAD = "rdl";
 	
 	// request parameters
@@ -133,6 +134,7 @@ public class ServiceConstant  {
 	public static final String PARA_TOTAL_REPLY = "tr";
 	public static final String PARA_TOTAL_RELATED = "trl";	
 	public static final String PARA_CREATE_DATE = "cd";
+	public static final String PARA_MODIFY_DATE = "cd";
 	public static final String PARA_SEQ = "sq";
 
 	public static final String PARA_POSTID = "pi";

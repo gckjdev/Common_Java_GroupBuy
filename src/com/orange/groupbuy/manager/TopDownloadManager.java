@@ -1,15 +1,62 @@
 package com.orange.groupbuy.manager;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
+import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
+import com.orange.groupbuy.dao.Site;
 import com.orange.groupbuy.dao.TopDownload;
 
 public class TopDownloadManager extends CommonManager {
 
+    public static List<TopDownload> findAllTopDownloadItems(MongoDBClient mongoClient, String countryCode,
+            int offset, int maxCount){
+       
+       DBCursor cursor = null;
+       
+       BasicDBObject query = new BasicDBObject();        
+       if (!StringUtil.isEmpty(countryCode)){
+           
+           List<String> countryList = new ArrayList<String>();
+           countryList.add(countryCode);
+           countryList.add(DBConstants.C_ALL_COUNTRY);
+
+           DBObject in = new BasicDBObject();
+           in.put("$in", countryList);
+           query.put(DBConstants.F_COUNTRYCODE, in);
+       }
+       
+     
+       DBObject orderBy = new BasicDBObject();
+       orderBy.put(DBConstants.F_DOWNLOAD_COUNT, -1);
+               
+       cursor = mongoClient.find(DBConstants.T_TOP_DOWNLOAD, query, orderBy, offset, maxCount);
+       if (cursor == null){
+           return Collections.emptyList();
+       }
+
+       try{
+           List<TopDownload> list = new ArrayList<TopDownload>();
+           while (cursor.hasNext()) {
+               DBObject obj = cursor.next();
+               list.add(new TopDownload(obj));
+           }
+           cursor.close();     
+           return list;
+       }catch(Exception e){
+           cursor.close();     
+           log.error("<findAllTopDownloadItems> but catch exception = " + e.toString(), e);            
+           return Collections.emptyList();            
+       }           
+   }
+
+    
     public static TopDownload findTopDownloadByURL(MongoDBClient mongoClient, String url){
         DBObject obj = mongoClient.findOne(DBConstants.T_TOP_DOWNLOAD, DBConstants.F_FILE_URL, url);
         if (obj == null)

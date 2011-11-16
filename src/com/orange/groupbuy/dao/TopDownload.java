@@ -33,17 +33,58 @@ public class TopDownload extends CommonData {
         dbObject.put(DBConstants.F_DOWNLOAD_COUNT, 1);            
         this.dbObject = dbObject;
     }
+    
+    public String getFileType() {
+        return this.getString(DBConstants.F_FILE_TYPE);
+    }
+
+    public String getFileName() {
+        return this.getString(DBConstants.F_FILE_NAME);
+    }
+    
+    public String getUrl() {
+        return this.getString(DBConstants.F_FILE_URL);
+    }
+    
+    public String getSiteUrl() {
+        return this.getString(DBConstants.F_SITE_URL);
+    }
+    
+    public String getSiteName() {
+        return this.getString(DBConstants.F_SITE_NAME);
+    }
+    
+    public int getScore() {
+        return this.getInt(DBConstants.F_SCORE);
+    }
+    
+    public int getRank() {
+        return this.getInt(DBConstants.F_RANK);
+    }
+    
+    public Date getCreateDate() {
+        return this.getDate(DBConstants.F_CREATE_DATE);
+    }
+    
+    public Date getModifyDate() {
+        return this.getDate(DBConstants.F_MODIFY_DATE);
+    }
+
+    public String getCountryCode() {
+        return this.getString(DBConstants.F_COUNTRYCODE);
+    } 
+    
 
     public void incDownloadCount() {
         int count = this.getDownloadCount();
         setDownloadCount(count + 1);
     }
 
-    private void setDownloadCount(int i) {
+    public void setDownloadCount(int i) {
         this.put(DBConstants.F_DOWNLOAD_COUNT, i);
     }
 
-    private int getDownloadCount() {
+    public int getDownloadCount() {
         return this.getInt(DBConstants.F_DOWNLOAD_COUNT);
     }
 

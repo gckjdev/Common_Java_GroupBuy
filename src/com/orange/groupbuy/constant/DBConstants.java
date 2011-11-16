@@ -352,6 +352,7 @@ public class DBConstants {
 	public static final String F_PRIORITY = "pri";
 	public static final String F_MERCHANT_END_DATE = "me_date";
 	public static final String F_SCORE = "score";
+	public static final String F_RANK = "rank";
 	public static final String F_RECOMMEND_LIST = "re_list";
 	public static final String F_ITEM_SENT_STATUS = "status";
 	public static final String F_TOP_SCORE = "topscore";
