@@ -58,6 +58,10 @@ public class TopDownload extends CommonData {
         return this.getInt(DBConstants.F_SCORE);
     }
     
+    public void setScore(double score) {
+        this.put(DBConstants.F_SCORE, score);
+    }
+    
     public int getRank() {
         return this.getInt(DBConstants.F_RANK);
     }

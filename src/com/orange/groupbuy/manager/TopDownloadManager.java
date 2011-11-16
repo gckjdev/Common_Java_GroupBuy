@@ -8,6 +8,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.orange.common.mongodb.MongoDBClient;
+import com.orange.common.utils.RankUtil;
 import com.orange.common.utils.StringUtil;
 import com.orange.groupbuy.constant.DBConstants;
 import com.orange.groupbuy.dao.Site;
@@ -34,7 +35,7 @@ public class TopDownloadManager extends CommonManager {
        
      
        DBObject orderBy = new BasicDBObject();
-       orderBy.put(DBConstants.F_DOWNLOAD_COUNT, -1);
+       orderBy.put(DBConstants.F_SCORE, -1);
                
        cursor = mongoClient.find(DBConstants.T_TOP_DOWNLOAD, query, orderBy, offset, maxCount);
        if (cursor == null){
@@ -90,7 +91,7 @@ public class TopDownloadManager extends CommonManager {
         // mongoClient.findAndModifyInsert(DBConstants.T_TOP_DOWNLOAD, query, update);
         
         // re-calcuate score
-        // item.recalcuateScore();
+        recalcuateScore(item);
         
         // update modify date
         item.updateModifyDate();                            
@@ -101,5 +102,10 @@ public class TopDownloadManager extends CommonManager {
             mongoClient.save(DBConstants.T_TOP_DOWNLOAD, item.getDbObject());
         }
     }
-
+    
+    private static void recalcuateScore(TopDownload item) {
+        double score = RankUtil.calcTopScore_2(item.getDownloadCount(), item.getCreateDate());
+        item.setScore(score);
+    }
+    
 }
