@@ -125,6 +125,8 @@ db.task.insert({"status":0, "site_id":"shuangtuan", "url":"http://www.shuangtuan
 // 搜索预置关键字表
 db.app.insert({"app_id":"GROUPBUY","push_dev_cert" : "certificate/groupbuy_push_development.p12", "push_dev_cert_pwd" : "123456", "push_pro_cert" : "certificate/groupbuy_push_production.p12", "push_pro_cert_pwd":"123456","app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8", "keys":[{"name":"蛋糕甜点", "query":"蛋糕甜点"},{"name":"游戏币", "query":"游戏币"},{"name":"抽奖秒杀", "query":"抽奖 秒杀"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券 现金券"}]})
 
+db.app.update({"app_id":"GROUPBUY"}, {$set:{"keys8":[{"name":"凡客诚品", "query":"凡客"},{"name":"当当网", "query":"当当网"},{"name":"唯品会", "query":""},{"name":"麦包包", "query":""},{"name":"橡树国际", "query":""}, {"name":"梦芭莎", "query":""} ,{"name":"红孩子", "query":""}, {"name":"乐淘", "query":""},{"name":"1号店", "query":""}]}})
+
 // db.app.insert({"app_id":"GROUPBUY","version":"0.6","push_cert":"certificate/groupbuy_push_development.p12","push_cert_pwd":"123456","app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8","push_key" : "_qpnbGaXSUGyPF167SNxMw", "push_master_secret" : "HsFsYNg4RbqbGOwTc0LcUQ", "push_secret" : "rdkeij-YSY6nCrUSEoEr9A", "keys":[{"name":"蛋糕甜点", "query":"蛋糕甜点"},{"name":"游戏币", "query":"游戏币"},{"name":"抽奖秒杀", "query":"抽奖 秒杀"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券 现金券"}]})
 // db.app.insert({"app_id":"GROUPBUY", "app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8","push_key" : "_qpnbGaXSUGyPF167SNxMw", "push_master_secret" : "HsFsYNg4RbqbGOwTc0LcUQ", "push_secret" : "rdkeij-YSY6nCrUSEoEr9A", "keys":[{"name":"游戏币", "query":"游戏币"},{"name":"抽奖秒杀", "query":"抽奖 秒杀"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券 现金券"},{"name":"低价酒店", "query":"酒店 大床房 双人房 单人房 豪华房 商务酒店 公寓"}]})
 
@@ -148,12 +150,15 @@ db.download_site.insert({"s_name":"Free E-Books", "type":1, "file_type":"Book", 
 
 // TODO change to CN
 db.download_site.insert({"s_name":"百度文库", "type":1, "file_type":"文档", "s_url":"http://wapwenku.baidu.com", "country_code":"US", "count":0})
-db.download_site.insert({"s_name":"百度MP3", "type":1, "file_type":"mp3", "s_url":"http://mp3.baidu.com", "country_code":"US", "count":0})
+db.download_site.insert({"s_name":"百度MP3", "type":1, "file_type":"mp3", "s_url":"http://mp3.baidu.com/mobile.html", "country_code":"US", "count":0})
 db.download_site.insert({"s_name":"新浪视频", "type":1, "file_type":"视频", "s_url":"http://video.sina.cn/", "country_code":"US", "count":0})
 db.download_site.insert({"s_name":"56视频", "type":1, "file_type":"视频", "s_url":"http://wap.56.com/", "country_code":"US", "count":0})
 db.download_site.insert({"s_name":"优酷", "type":1, "file_type":"视频", "s_url":"http://m.youku.com/", "country_code":"US", "count":0})
 
-db.download_site.insert({"s_name":"新浪爱问", "type":1, "file_type":"综合", "s_url":"http://ishare.iask.sina.com.cn/", "country_code":"US", "count":0})
+db.download_site.insert({"s_name":"新浪爱问", "type":1, "file_type":"综合", "s_url":"http://ishare.iask.sina.com.cn/", "country_code":"CN", "count":0})
+db.download_site.insert({"s_name":"Google图片", "type":1, "file_type":"图片", "s_url":"http://www.google.com/m/search?site=images", "country_code":"CN", "count":0})
+db.download_site.insert({"s_name":"百度图片", "type":1, "file_type":"图片", "s_url":"http://wap.baidu.com/img", "country_code":"CN", "count":0})
+
 
 
 //db.download_site.insert({"s_name":"Break", "type":1, "file_type":"video", "s_url":"http://www.break.com/", "country_code":"US", "count":0})

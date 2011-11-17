@@ -438,6 +438,9 @@ public class DBConstants {
 
     public static final int UNDEFINE = -1;
 
+    public static final int KEYWORD_TYPE_DEFAULT = 0;
+    public static final int KEYWORD_TYPE_QUAN = 8;
+
 
 
 
