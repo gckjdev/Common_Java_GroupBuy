@@ -122,10 +122,49 @@ db.task.insert({"status":0, "site_id":"haohuasuan", "url":"http://www.haohuasuan
 //爽团  hao123
 db.task.insert({"status":0, "site_id":"shuangtuan", "url":"http://www.shuangtuan.com/api/v1/api"})
 
+//淘宝秒杀
+db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 运动鞋", "cate":101});
+db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 运动服", "cate":102});
+db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 手机", "cate":103});
+db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 相机", "cate":104});
+db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 女装", "cate":105});
+db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 女鞋", "cate":106});
+db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 女包", "cate":107});
+db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 内衣", "cate":108});
+db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 男装", "cate":109});
+db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 男鞋", "cate":110});
+db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 T恤", "cate":111});
+db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 零食", "cate":112});
+db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 特产", "cate":113});
+db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 保健品", "cate":114});
+
+// 淘宝测试
+db.category.insert({"cate_n" : "运动鞋", "cate_id" : 101})
+db.category.insert({"cate_n" : "运动服", "cate_id" : 102})
+db.category.insert({"cate_n" : "手机", "cate_id" : 103})
+db.category.insert({"cate_n" : "相机", "cate_id" : 104})
+db.category.insert({"cate_n" : "女装", "cate_id" : 105})
+db.category.insert({"cate_n" : "女鞋", "cate_id" : 106})
+db.category.insert({"cate_n" : "女包", "cate_id" : 107})
+db.category.insert({"cate_n" : "内衣", "cate_id" : 108})
+db.category.insert({"cate_n" : "男装", "cate_id" : 109})
+db.category.insert({"cate_n" : "男鞋", "cate_id" : 110})
+db.category.insert({"cate_n" : "T恤", "cate_id" : 111})
+db.category.insert({"cate_n" : "零食", "cate_id" : 112})
+db.category.insert({"cate_n" : "特产", "cate_id" : 113})
+db.category.insert({"cate_n" : "保健品", "cate_id" : 114})
+
+
+
 // 搜索预置关键字表
 db.app.insert({"app_id":"GROUPBUY","push_dev_cert" : "certificate/groupbuy_push_development.p12", "push_dev_cert_pwd" : "123456", "push_pro_cert" : "certificate/groupbuy_push_production.p12", "push_pro_cert_pwd":"123456","app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8", "keys":[{"name":"蛋糕甜点", "query":"蛋糕甜点"},{"name":"游戏币", "query":"游戏币"},{"name":"抽奖秒杀", "query":"抽奖 秒杀"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券 现金券"}]})
 
+// 现金券关键字
 db.app.update({"app_id":"GROUPBUY"}, {$set:{"keys8":[{"name":"凡客诚品", "query":"凡客"},{"name":"当当网", "query":"当当网"},{"name":"唯品会", "query":""},{"name":"麦包包", "query":""},{"name":"橡树国际", "query":""}, {"name":"梦芭莎", "query":""} ,{"name":"红孩子", "query":""}, {"name":"乐淘", "query":""},{"name":"1号店", "query":""}]}})
+
+// 淘宝秒杀关键字
+db.app.update({"app_id":"GROUPBUY"}, {$set:{"keys100":[{"name":"安卓智能机", "query":""},{"name":"香水", "query":""}, {"name":"羽绒服", "query":""} , {"name":"Nike", "query":""},{"name":"佳能", "query":""}]}})
+
 
 // db.app.insert({"app_id":"GROUPBUY","version":"0.6","push_cert":"certificate/groupbuy_push_development.p12","push_cert_pwd":"123456","app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8","push_key" : "_qpnbGaXSUGyPF167SNxMw", "push_master_secret" : "HsFsYNg4RbqbGOwTc0LcUQ", "push_secret" : "rdkeij-YSY6nCrUSEoEr9A", "keys":[{"name":"蛋糕甜点", "query":"蛋糕甜点"},{"name":"游戏币", "query":"游戏币"},{"name":"抽奖秒杀", "query":"抽奖 秒杀"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券 现金券"}]})
 // db.app.insert({"app_id":"GROUPBUY", "app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8","push_key" : "_qpnbGaXSUGyPF167SNxMw", "push_master_secret" : "HsFsYNg4RbqbGOwTc0LcUQ", "push_secret" : "rdkeij-YSY6nCrUSEoEr9A", "keys":[{"name":"游戏币", "query":"游戏币"},{"name":"抽奖秒杀", "query":"抽奖 秒杀"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券 现金券"},{"name":"低价酒店", "query":"酒店 大床房 双人房 单人房 豪华房 商务酒店 公寓"}]})
@@ -171,6 +210,8 @@ db.download_site.insert({"s_name":"百度图片", "type":1, "file_type":"图片"
 
 // 分类初始化数据
 db.category.insert({"cate_n" : "美食", "cate_id" : 1});db.category.insert({"cate_n" : "娱乐", "cate_id" : 2});db.category.insert({"cate_n" : "女人", "cate_id" : 3});db.category.insert({"cate_n" : "网购", "cate_id" : 4});db.category.insert({"cate_n" : "生活", "cate_id" : 6});db.category.insert({"cate_n" : "电影票", "cate_id" : 7});db.category.insert({"cate_n" : "代金券", "cate_id" : 8});db.category.insert({"cate_n" : "旅游", "cate_id" : 9});db.category.insert({"cate_n" : "酒店", "cate_id" : 10});db.category.insert({"cate_n" : "写真", "cate_id" : 11});db.category.insert({"cate_n" : "其他", "cate_id" : 0})
+
+
 
 // user的索引表 table product index;
 db.user.ensureIndex({"deviceId":1})

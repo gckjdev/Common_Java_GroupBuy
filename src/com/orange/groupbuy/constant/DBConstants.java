@@ -441,10 +441,21 @@ public class DBConstants {
     public static final int KEYWORD_TYPE_DEFAULT = 0;
     public static final int KEYWORD_TYPE_QUAN = 8;
 
+    public static final String C_SITE_TAOBAO_MIAOSHA = "taobao_miaosha";
+    public static final String C_SITE_TAOBAO_ZHEKOU = "taobao_zhekou";
 
+    public static final int C_CATEGORY_TAOBAO_KILL_SHOES = 100;
 
+    public static final String F_TAOBAO_QUERY = "query";
+    public static final String F_TAOBAO_CATEGORY = "cate";
 
+    public static final int C_CATEGORY_TAOBAO_MIAOSHA     = 100;
+    public static final int C_CATEGORY_TAOBAO_MIAOSHA_MIN = 101;
+    public static final int C_CATEGORY_TAOBAO_MIAOSHA_MAX = 149;
 
+    public static final int C_CATEGORY_TAOBAO_ZHEKOU     = 150;
+    public static final int C_CATEGORY_TAOBAO_ZHEKOU_MIN = 151;
+    public static final int C_CATEGORY_TAOBAO_ZHEKOU_MAX = 199;
 
     // category manager
     // public static final String F_CATEGORY_NAME = "cate_n";

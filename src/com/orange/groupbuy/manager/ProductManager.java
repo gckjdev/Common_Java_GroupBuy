@@ -983,7 +983,7 @@ public class ProductManager extends CommonManager {
             SolrDocumentList resultList = rsp.getResults();
             return resultList;
         } catch (SolrServerException e) {
-            log.error("<searchProductBySolr> catch exception=" + e.toString() + "," + e.getMessage());
+            log.error("<searchProductBySolr> catch exception=" + e.toString() + "," + e.getMessage(), e);
             return null;
         }
     }
@@ -1146,7 +1146,7 @@ public class ProductManager extends CommonManager {
     }
     
     public static DBCursor getTopScoreProductCursor(MongoDBClient mongoClient, String city, int category,
-            int startOffset, int maxCount, int startPrice, int endPrice) {
+            int startOffset, int maxCount, int startPrice, int endPrice, int minCategory, int maxCategory) {
         DBObject query = new BasicDBObject();
         DBObject orderBy = new BasicDBObject();
 
@@ -1157,6 +1157,9 @@ public class ProductManager extends CommonManager {
             List<Integer> categoryList = new ArrayList<Integer>();
             categoryList.add(category);
             addCategoryIntoQuery(query, categoryList);
+        }
+        else if (minCategory != -1 && maxCategory != -1){
+            addCategoryRangeIntoQuery(query, minCategory, maxCategory);
         }
         addPriceRangeIntoQuery(query, startPrice, endPrice);
         addTopScoreIntoOrder(orderBy, false);
@@ -1169,6 +1172,13 @@ public class ProductManager extends CommonManager {
 
     }
 
+    private static void addCategoryRangeIntoQuery(DBObject query, int minCategory, int maxCategory) {
+        DBObject priceCondition = new BasicDBObject();
+        priceCondition.put("$gte", minCategory);
+        priceCondition.put("$lte", maxCategory);
+        query.put(DBConstants.F_CATEGORY, priceCondition);
+    }
+    
     private static void addPriceRangeIntoQuery(DBObject query, int startPrice, int endPrice) {
         DBObject priceCondition = new BasicDBObject();
         priceCondition.put("$gte", startPrice);
