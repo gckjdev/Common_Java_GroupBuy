@@ -154,7 +154,43 @@ db.taobao_miaosha_category.insert({"cate_n" : "零食", "cate_id" : 112})
 db.taobao_miaosha_category.insert({"cate_n" : "特产", "cate_id" : 113})
 db.taobao_miaosha_category.insert({"cate_n" : "保健品", "cate_id" : 114})
 
+// 淘宝折扣关键字
+db.app.update({"app_id":"GROUPBUY"}, {$set:{"keys150":[{"name":"羽绒服", "query":""} , {"name":"佳能", "query":""}, {"name":"Nike", "query":""}, {"name":"adidas", "query":""}, {"name":"安卓智能机", "query":""}]}})
 
+//淘宝折扣抓取任务
+db.task.insert({"status":0, "site_id":"taobao_zhekou", "query":"限时折扣 运动鞋", "cate":151});
+db.task.insert({"status":0, "site_id":"taobao_zhekou", "query":"限时折扣 运动服", "cate":152});
+db.task.insert({"status":0, "site_id":"taobao_zhekou", "query":"限时折扣 手机", "cate":153});
+db.task.insert({"status":0, "site_id":"taobao_zhekou", "query":"限时折扣 相机", "cate":154});
+db.task.insert({"status":0, "site_id":"taobao_zhekou", "query":"限时折扣 女装", "cate":155});
+db.task.insert({"status":0, "site_id":"taobao_zhekou", "query":"限时折扣 女鞋", "cate":156});
+db.task.insert({"status":0, "site_id":"taobao_zhekou", "query":"限时折扣 女包", "cate":157});
+db.task.insert({"status":0, "site_id":"taobao_zhekou", "query":"限时折扣 内衣", "cate":158});
+db.task.insert({"status":0, "site_id":"taobao_zhekou", "query":"限时折扣 男装", "cate":159});
+db.task.insert({"status":0, "site_id":"taobao_zhekou", "query":"限时折扣 男鞋", "cate":160});
+db.task.insert({"status":0, "site_id":"taobao_zhekou", "query":"限时折扣 T恤", "cate":161});
+db.task.insert({"status":0, "site_id":"taobao_zhekou", "query":"限时折扣 零食", "cate":162});
+db.task.insert({"status":0, "site_id":"taobao_zhekou", "query":"限时折扣 特产", "cate":163});
+db.task.insert({"status":0, "site_id":"taobao_zhekou", "query":"限时折扣 保健品", "cate":164});
+
+// 淘宝折扣分类
+db.taobao_zhekou_category.insert({"cate_n" : "运动鞋", "cate_id" : 151})
+db.taobao_zhekou_category.insert({"cate_n" : "运动服", "cate_id" : 152})
+db.taobao_zhekou_category.insert({"cate_n" : "手机", "cate_id" : 153})
+db.taobao_zhekou_category.insert({"cate_n" : "相机", "cate_id" : 154})
+db.taobao_zhekou_category.insert({"cate_n" : "女装", "cate_id" : 155})
+db.taobao_zhekou_category.insert({"cate_n" : "女鞋", "cate_id" : 156})
+db.taobao_zhekou_category.insert({"cate_n" : "女包", "cate_id" : 157})
+db.taobao_zhekou_category.insert({"cate_n" : "内衣", "cate_id" : 158})
+db.taobao_zhekou_category.insert({"cate_n" : "男装", "cate_id" : 159})
+db.taobao_zhekou_category.insert({"cate_n" : "男鞋", "cate_id" : 160})
+db.taobao_zhekou_category.insert({"cate_n" : "T恤", "cate_id" : 161})
+db.taobao_zhekou_category.insert({"cate_n" : "零食", "cate_id" : 162})
+db.taobao_zhekou_category.insert({"cate_n" : "特产", "cate_id" : 163})
+db.taobao_zhekou_category.insert({"cate_n" : "保健品", "cate_id" : 164})
+
+// 淘宝秒杀关键字
+db.app.update({"app_id":"GROUPBUY"}, {$set:{"keys100":[{"name":"羽绒服", "query":""} , {"name":"佳能", "query":""}, {"name":"Nike", "query":""}, {"name":"adidas", "query":""}, {"name":"安卓智能机", "query":""}]}})
 
 // 搜索预置关键字表
 db.app.insert({"app_id":"GROUPBUY","push_dev_cert" : "certificate/groupbuy_push_development.p12", "push_dev_cert_pwd" : "123456", "push_pro_cert" : "certificate/groupbuy_push_production.p12", "push_pro_cert_pwd":"123456","app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8", "keys":[{"name":"蛋糕甜点", "query":"蛋糕甜点"},{"name":"游戏币", "query":"游戏币"},{"name":"抽奖秒杀", "query":"抽奖 秒杀"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券 现金券"}]})
@@ -162,8 +198,7 @@ db.app.insert({"app_id":"GROUPBUY","push_dev_cert" : "certificate/groupbuy_push_
 // 现金券关键字
 db.app.update({"app_id":"GROUPBUY"}, {$set:{"keys8":[{"name":"凡客诚品", "query":"凡客"},{"name":"当当网", "query":"当当网"},{"name":"唯品会", "query":""},{"name":"麦包包", "query":""},{"name":"橡树国际", "query":""}, {"name":"梦芭莎", "query":""} ,{"name":"红孩子", "query":""}, {"name":"乐淘", "query":""},{"name":"1号店", "query":""}]}})
 
-// 淘宝秒杀关键字
-db.app.update({"app_id":"GROUPBUY"}, {$set:{"keys100":[{"name":"羽绒服", "query":""} , {"name":"佳能", "query":""}, {"name":"Nike", "query":""}, {"name":"adidas", "query":""}, {"name":"安卓智能机", "query":""}]}})
+
 
 
 // db.app.insert({"app_id":"GROUPBUY","version":"0.6","push_cert":"certificate/groupbuy_push_development.p12","push_cert_pwd":"123456","app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8","push_key" : "_qpnbGaXSUGyPF167SNxMw", "push_master_secret" : "HsFsYNg4RbqbGOwTc0LcUQ", "push_secret" : "rdkeij-YSY6nCrUSEoEr9A", "keys":[{"name":"蛋糕甜点", "query":"蛋糕甜点"},{"name":"游戏币", "query":"游戏币"},{"name":"抽奖秒杀", "query":"抽奖 秒杀"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券 现金券"}]})
@@ -223,6 +258,7 @@ db.product.ensureIndex({"gps":"2d"})
 db.product.ensureIndex({"city":1,"cate":1,"e_date":1,"s_date":-1,"price":1})
 db.product.ensureIndex({"cate":1,"e_date":1,"s_date":-1,"price":1,"topscore":-1})
 db.product.ensureIndex({"city":1,"loc":1})
+db.product.ensureIndex({"external_id":1,"s_id":1})
 
 // keep the follwing three index for future usage
 //db.product.ensureIndex({"city":1,"rebate":-1})
