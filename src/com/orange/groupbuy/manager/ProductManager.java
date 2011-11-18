@@ -637,7 +637,8 @@ public class ProductManager extends CommonManager {
 				actionName, actionValue);
 	}
 
-    public static DBCursor getProductCursor(MongoDBClient mongoClient, String city, List<Integer> categoryList,
+    public static DBCursor getProductCursor(MongoDBClient mongoClient, String city, 
+            List<Integer> categoryList, int minCategory, int maxCategory,            
             boolean todayOnly, boolean gpsQuery, double latitude, double longitude, double maxDistance, int sortBy,
             int startOffset, int maxCount) {
 

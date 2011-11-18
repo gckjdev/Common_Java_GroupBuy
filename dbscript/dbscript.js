@@ -122,7 +122,7 @@ db.task.insert({"status":0, "site_id":"haohuasuan", "url":"http://www.haohuasuan
 //爽团  hao123
 db.task.insert({"status":0, "site_id":"shuangtuan", "url":"http://www.shuangtuan.com/api/v1/api"})
 
-//淘宝秒杀
+//淘宝秒杀抓取任务
 db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 运动鞋", "cate":101});
 db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 运动服", "cate":102});
 db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 手机", "cate":103});
@@ -138,7 +138,7 @@ db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 �
 db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 特产", "cate":113});
 db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 保健品", "cate":114});
 
-// 淘宝测试
+// 淘宝秒杀分类
 db.taobao_miaosha_category.insert({"cate_n" : "运动鞋", "cate_id" : 101})
 db.taobao_miaosha_category.insert({"cate_n" : "运动服", "cate_id" : 102})
 db.taobao_miaosha_category.insert({"cate_n" : "手机", "cate_id" : 103})
@@ -163,7 +163,7 @@ db.app.insert({"app_id":"GROUPBUY","push_dev_cert" : "certificate/groupbuy_push_
 db.app.update({"app_id":"GROUPBUY"}, {$set:{"keys8":[{"name":"凡客诚品", "query":"凡客"},{"name":"当当网", "query":"当当网"},{"name":"唯品会", "query":""},{"name":"麦包包", "query":""},{"name":"橡树国际", "query":""}, {"name":"梦芭莎", "query":""} ,{"name":"红孩子", "query":""}, {"name":"乐淘", "query":""},{"name":"1号店", "query":""}]}})
 
 // 淘宝秒杀关键字
-db.app.update({"app_id":"GROUPBUY"}, {$set:{"keys100":[{"name":"安卓智能机", "query":""},{"name":"香水", "query":""}, {"name":"羽绒服", "query":""} , {"name":"Nike", "query":""},{"name":"佳能", "query":""}]}})
+db.app.update({"app_id":"GROUPBUY"}, {$set:{"keys100":[{"name":"羽绒服", "query":""} , {"name":"佳能", "query":""}, {"name":"Nike", "query":""}, {"name":"adidas", "query":""}, {"name":"安卓智能机", "query":""}]}})
 
 
 // db.app.insert({"app_id":"GROUPBUY","version":"0.6","push_cert":"certificate/groupbuy_push_development.p12","push_cert_pwd":"123456","app_url":"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=456494464&mt=8","push_key" : "_qpnbGaXSUGyPF167SNxMw", "push_master_secret" : "HsFsYNg4RbqbGOwTc0LcUQ", "push_secret" : "rdkeij-YSY6nCrUSEoEr9A", "keys":[{"name":"蛋糕甜点", "query":"蛋糕甜点"},{"name":"游戏币", "query":"游戏币"},{"name":"抽奖秒杀", "query":"抽奖 秒杀"},{"name":"K歌", "query":"K歌 KTV 欢唱 劲歌"},{"name":"自助餐", "query":"自助餐 豪华自助餐 自助晚餐 寿司自助餐 火锅自助餐"}, {"name":"电影票", "query":"电影票 影城"} ,{"name":"双人套餐", "query":"双人套餐 浪漫双人套餐 餐厅"}, {"name":"寿司", "query":"寿司 日本料理 三文鱼刺身 鳗鱼寿司 寿司自助餐 刺身"},{"name":"代金券", "query":"代金券 现金券"}]})
