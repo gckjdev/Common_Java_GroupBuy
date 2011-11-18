@@ -647,7 +647,12 @@ public class ProductManager extends CommonManager {
 
         // set query
         addCityIntoQuery(query, city);
-        addCategoryIntoQuery(query, categoryList);
+        if (minCategory != -1 && maxCategory != -1){
+            addCategoryRangeIntoQuery(query, minCategory, maxCategory);
+        }
+        else{
+            addCategoryIntoQuery(query, categoryList);
+        }
         addExpirationIntoQuery(query);
         if (gpsQuery) {
             double degreeDistance = maxDistance / 6371;
