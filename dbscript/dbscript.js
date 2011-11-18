@@ -139,20 +139,20 @@ db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 �
 db.task.insert({"status":0, "site_id":"taobao_miaosha", "query":"限时秒杀 保健品", "cate":114});
 
 // 淘宝测试
-db.category.insert({"cate_n" : "运动鞋", "cate_id" : 101})
-db.category.insert({"cate_n" : "运动服", "cate_id" : 102})
-db.category.insert({"cate_n" : "手机", "cate_id" : 103})
-db.category.insert({"cate_n" : "相机", "cate_id" : 104})
-db.category.insert({"cate_n" : "女装", "cate_id" : 105})
-db.category.insert({"cate_n" : "女鞋", "cate_id" : 106})
-db.category.insert({"cate_n" : "女包", "cate_id" : 107})
-db.category.insert({"cate_n" : "内衣", "cate_id" : 108})
-db.category.insert({"cate_n" : "男装", "cate_id" : 109})
-db.category.insert({"cate_n" : "男鞋", "cate_id" : 110})
-db.category.insert({"cate_n" : "T恤", "cate_id" : 111})
-db.category.insert({"cate_n" : "零食", "cate_id" : 112})
-db.category.insert({"cate_n" : "特产", "cate_id" : 113})
-db.category.insert({"cate_n" : "保健品", "cate_id" : 114})
+db.taobao_miaosha_category.insert({"cate_n" : "运动鞋", "cate_id" : 101})
+db.taobao_miaosha_category.insert({"cate_n" : "运动服", "cate_id" : 102})
+db.taobao_miaosha_category.insert({"cate_n" : "手机", "cate_id" : 103})
+db.taobao_miaosha_category.insert({"cate_n" : "相机", "cate_id" : 104})
+db.taobao_miaosha_category.insert({"cate_n" : "女装", "cate_id" : 105})
+db.taobao_miaosha_category.insert({"cate_n" : "女鞋", "cate_id" : 106})
+db.taobao_miaosha_category.insert({"cate_n" : "女包", "cate_id" : 107})
+db.taobao_miaosha_category.insert({"cate_n" : "内衣", "cate_id" : 108})
+db.taobao_miaosha_category.insert({"cate_n" : "男装", "cate_id" : 109})
+db.taobao_miaosha_category.insert({"cate_n" : "男鞋", "cate_id" : 110})
+db.taobao_miaosha_category.insert({"cate_n" : "T恤", "cate_id" : 111})
+db.taobao_miaosha_category.insert({"cate_n" : "零食", "cate_id" : 112})
+db.taobao_miaosha_category.insert({"cate_n" : "特产", "cate_id" : 113})
+db.taobao_miaosha_category.insert({"cate_n" : "保健品", "cate_id" : 114})
 
 
 

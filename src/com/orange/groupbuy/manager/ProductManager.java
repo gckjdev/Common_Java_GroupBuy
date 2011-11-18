@@ -658,7 +658,6 @@ public class ProductManager extends CommonManager {
         }
 
         // set order by
-        // if (!gpsQuery){
         switch (sortBy) {
         case DBConstants.SORT_BY_PRICE:
             addFieldIntoOrder(orderBy, DBConstants.F_PRICE, true);
@@ -674,10 +673,15 @@ public class ProductManager extends CommonManager {
             addNonZeroPriceIntoQuery(query);
             addFieldIntoOrder(orderBy, DBConstants.F_BOUGHT, false);
         }
+        
+        case DBConstants.SORT_BY_END_DATE:
+            addFieldIntoOrder(orderBy, DBConstants.F_END_DATE, true);
             break;
         }
-        addFieldIntoOrder(orderBy, DBConstants.F_START_DATE, false);
-        // }
+        
+        if (sortBy != DBConstants.SORT_BY_END_DATE){
+            addFieldIntoOrder(orderBy, DBConstants.F_START_DATE, false);
+        }
 
         log.info("<getProducts> query = " + query.toString() + " , orderBy = " + orderBy + " startOffset = "
                 + startOffset + ", maxCount = " + maxCount);

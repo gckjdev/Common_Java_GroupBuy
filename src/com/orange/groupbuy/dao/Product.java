@@ -48,6 +48,7 @@ public class Product extends CommonData {
 		put(DBConstants.F_SITE_ID, siteId);
 		put(DBConstants.F_SITE_NAME, siteName);
 		put(DBConstants.F_SITE_URL, siteURL);
+		put(DBConstants.F_PRODUCT_TYPE, DBConstants.C_PRODUCT_TYPE_TUANGOU);
 		
 		double topScore = calcTopScore_2(bought, startDate);
 		put(DBConstants.F_TOP_SCORE, topScore);
@@ -469,5 +470,9 @@ public class Product extends CommonData {
   
     public String getExternalId() {
         return this.getString(DBConstants.F_EXTERNAL_ID);
+    }
+
+    public void setProductType(int type) {
+        dbObject.put(DBConstants.F_PRODUCT_TYPE, type);
     }
 }

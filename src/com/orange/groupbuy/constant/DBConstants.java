@@ -126,6 +126,7 @@ public class DBConstants {
 	public static final int SORT_BY_PRICE = 1;
 	public static final int SORT_BY_REBATE = 2;
 	public static final int SORT_BY_BOUGHT = 3;
+    public static final int SORT_BY_END_DATE = 4;
 	public static final int SORT_BY_DOWNLOAD = 20;
 	
 	// site ID
@@ -456,6 +457,14 @@ public class DBConstants {
     public static final int C_CATEGORY_TAOBAO_ZHEKOU     = 150;
     public static final int C_CATEGORY_TAOBAO_ZHEKOU_MIN = 151;
     public static final int C_CATEGORY_TAOBAO_ZHEKOU_MAX = 199;
+
+    public static final String T_TAOBAO_MIAOSHA_CATEGORY = "taobao_miaosha_category";
+    public static final String T_TAOBAO_ZHEKOU_CATEGORY = "taobao_zhekou_category";
+
+    public static final int C_PRODUCT_TYPE_TUANGOU = 1;
+    public static final int C_PRODUCT_TYPE_TAOBAO = 2;
+
+    public static final String F_PRODUCT_TYPE = "type";
 
     // category manager
     // public static final String F_CATEGORY_NAME = "cate_n";
