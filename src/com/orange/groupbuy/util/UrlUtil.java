@@ -1,6 +1,7 @@
 package com.orange.groupbuy.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.orange.common.utils.ListUtil;
@@ -44,7 +45,7 @@ public class UrlUtil {
 
 	static public List<Integer> parserUrlIntArray(String string) {
 		if (string == null || string.length() < 1)
-			return null;
+			return Collections.emptyList();
 		return ListUtil.stringsToIntList(string.split(URL_ARRAY_SPLIT));
 	}
 
