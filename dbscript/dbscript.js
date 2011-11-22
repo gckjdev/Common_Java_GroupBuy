@@ -255,8 +255,8 @@ db.user.ensureIndex({"verify_code":1})
 
 // product的索引表 table product index;
 db.product.ensureIndex({"gps":"2d"})
-db.product.ensureIndex({"city":1,"cate":1,"e_date":1,"s_date":-1,"price":1})
-db.product.ensureIndex({"cate":1,"e_date":1,"s_date":-1,"price":1,"topscore":-1})
+db.product.ensureIndex({"city":1,"cate":1,"e_date":1,"s_date":-1,"price":1,"type":1})
+db.product.ensureIndex({"cate":1,"e_date":1,"s_date":-1,"price":1,"topscore":-1,"type":1})
 db.product.ensureIndex({"city":1,"loc":1})
 db.product.ensureIndex({"external_id":1,"s_id":1})
 

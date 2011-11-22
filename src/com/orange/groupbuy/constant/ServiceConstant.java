@@ -299,6 +299,8 @@ public class ServiceConstant  {
     public static final String PARA_TYPE = "tp";
     public static final String PARA_DOWNLOAD_COUNT = "cnt";
     public static final Object PARA_DATA_COUNT = "count";
+    
+    public static final String PARA_PRODUCT_TYPE = "pt";
 
 
     

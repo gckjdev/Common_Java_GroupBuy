@@ -458,13 +458,21 @@ public class DBConstants {
     public static final int C_CATEGORY_TAOBAO_ZHEKOU_MIN = 151;
     public static final int C_CATEGORY_TAOBAO_ZHEKOU_MAX = 199;
 
+    public static final int C_CATEGORY_AD                = 200;
+    public static final int C_CATEGORY_AD_MIN            = 201;
+    public static final int C_CATEGORY_AD_MAX            = 249;
+
     public static final String T_TAOBAO_MIAOSHA_CATEGORY = "taobao_miaosha_category";
     public static final String T_TAOBAO_ZHEKOU_CATEGORY = "taobao_zhekou_category";
 
     public static final int C_PRODUCT_TYPE_TUANGOU = 1;
     public static final int C_PRODUCT_TYPE_TAOBAO = 2;
+    public static final int C_PRODUCT_TYPE_AD = 3;
 
     public static final String F_PRODUCT_TYPE = "type";
+
+    public static final double C_PRICE_NA = -999;
+
 
     // category manager
     // public static final String F_CATEGORY_NAME = "cate_n";

@@ -345,6 +345,11 @@ public class ProductManager extends CommonManager {
         return true;
     }
 
+    private static boolean addProductTypeIntoQuery(DBObject query, int productType) {
+        query.put(DBConstants.F_PRODUCT_TYPE, productType);
+        return true;
+    }
+
     private static void addFieldIntoOrder(DBObject orderBy, String fieldName, boolean sortAscending) {
         if (sortAscending) {
             orderBy.put(fieldName, 1);
@@ -639,8 +644,8 @@ public class ProductManager extends CommonManager {
 
     public static DBCursor getProductCursor(MongoDBClient mongoClient, String city, 
             List<Integer> categoryList, int minCategory, int maxCategory,            
-            boolean todayOnly, boolean gpsQuery, double latitude, double longitude, double maxDistance, int sortBy,
-            int startOffset, int maxCount) {
+            boolean todayOnly, boolean gpsQuery, double latitude, double longitude, double maxDistance,
+            int productType, int sortBy, int startOffset, int maxCount) {
 
         DBObject query = new BasicDBObject();
         DBObject orderBy = new BasicDBObject();
@@ -662,7 +667,11 @@ public class ProductManager extends CommonManager {
         if (todayOnly) {
             addTodayIntoQuery(query);
         }
-
+        
+        if (productType != DBConstants.UNDEFINE){
+            addProductTypeIntoQuery(query, productType);
+        }
+        
         // set order by
         switch (sortBy) {
         case DBConstants.SORT_BY_PRICE:
@@ -1156,21 +1165,29 @@ public class ProductManager extends CommonManager {
     }
     
     public static DBCursor getTopScoreProductCursor(MongoDBClient mongoClient, String city, int category,
-            int startOffset, int maxCount, int startPrice, int endPrice, int minCategory, int maxCategory) {
+            int startOffset, int maxCount, int startPrice, int endPrice, 
+            int minCategory, int maxCategory, int productType) {
+
         DBObject query = new BasicDBObject();
         DBObject orderBy = new BasicDBObject();
 
         // set query
+        if (productType != DBConstants.UNDEFINE){
+            addProductTypeIntoQuery(query, productType);
+        }
+
         addCityIntoQuery(query, city);
         addExpirationIntoQuery(query);
-        if (category != -1) {
+        
+        if (minCategory != DBConstants.UNDEFINE && maxCategory != DBConstants.UNDEFINE){
+            addCategoryRangeIntoQuery(query, minCategory, maxCategory);
+        }
+        else if (category != DBConstants.UNDEFINE) {
             List<Integer> categoryList = new ArrayList<Integer>();
             categoryList.add(category);
             addCategoryIntoQuery(query, categoryList);
         }
-        else if (minCategory != -1 && maxCategory != -1){
-            addCategoryRangeIntoQuery(query, minCategory, maxCategory);
-        }
+        
         addPriceRangeIntoQuery(query, startPrice, endPrice);
         addTopScoreIntoOrder(orderBy, false);
 

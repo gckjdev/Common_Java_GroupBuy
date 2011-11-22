@@ -101,4 +101,34 @@ public class CategoryManager extends CommonManager {
         cursor.close();
         return shoppingcategoryList;
     }
+
+    public static int getMinCategory(int category) {
+        int minCategory = DBConstants.UNDEFINE;
+        if (category == DBConstants.C_CATEGORY_TAOBAO_MIAOSHA){
+            minCategory = DBConstants.C_CATEGORY_TAOBAO_MIAOSHA_MIN;
+        }
+        else if (category == DBConstants.C_CATEGORY_TAOBAO_ZHEKOU){
+            minCategory = DBConstants.C_CATEGORY_TAOBAO_ZHEKOU_MIN;
+        }
+        else if (category == DBConstants.C_CATEGORY_AD){
+            minCategory = DBConstants.C_CATEGORY_AD_MIN;
+        }
+        
+        return minCategory;
+    }
+
+    public static int getMaxCategory(int category) {
+        int maxCategory = DBConstants.UNDEFINE;
+        if (category == DBConstants.C_CATEGORY_TAOBAO_MIAOSHA){
+            maxCategory = DBConstants.C_CATEGORY_TAOBAO_MIAOSHA_MAX;
+        }
+        else if (category == DBConstants.C_CATEGORY_TAOBAO_ZHEKOU){
+            maxCategory = DBConstants.C_CATEGORY_TAOBAO_ZHEKOU_MAX;
+        }
+        else if (category == DBConstants.C_CATEGORY_AD){
+            maxCategory = DBConstants.C_CATEGORY_AD_MAX;
+        }
+        
+        return maxCategory;
+    }
 }
