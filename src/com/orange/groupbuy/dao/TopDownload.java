@@ -2,8 +2,11 @@ package com.orange.groupbuy.dao;
 
 import java.util.Date;
 
+import org.apache.commons.lang.time.DateUtils;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.orange.common.utils.DateUtil;
 import com.orange.groupbuy.constant.DBConstants;
 
 public class TopDownload extends CommonData {
@@ -16,11 +19,15 @@ public class TopDownload extends CommonData {
         
         BasicDBObject dbObject = new BasicDBObject();
         
+        Date startDate = new Date();
+        Date expireDate = DateUtils.addDays(startDate, 1);
+        
         dbObject.put(DBConstants.F_APPID, appId);
         dbObject.put(DBConstants.F_DEVICEID, deviceId);
         dbObject.put(DBConstants.F_LANGUAGE, language);
         dbObject.put(DBConstants.F_COUNTRYCODE, countryCode);
-        dbObject.put(DBConstants.F_CREATE_DATE, new Date());
+        dbObject.put(DBConstants.F_CREATE_DATE, startDate);
+        dbObject.put(DBConstants.F_EXPIRE_DATE, expireDate);
         dbObject.put(DBConstants.F_CREATE_SOURCE_ID, appId);
         
         dbObject.put(DBConstants.F_FILE_TYPE, fileType);

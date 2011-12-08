@@ -302,6 +302,14 @@ public class ServiceConstant  {
     
     public static final String PARA_PRODUCT_TYPE = "pt";
 
+    public static final String PARA_AD_TYPE = "adt";
+    public static final String PARA_FROM = "fr";
+    
+    public static final String PARA_AD_ID = "adi";
+    public static final String PARA_AD_TEXT = "adt";
+    public static final String PARA_AD_IMAGE = "adim";
+    public static final String PARA_AD_LINK = "adl";
+
 
     
     

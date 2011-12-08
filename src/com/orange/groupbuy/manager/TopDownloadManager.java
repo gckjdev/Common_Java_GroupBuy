@@ -2,6 +2,7 @@ package com.orange.groupbuy.manager;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import com.mongodb.BasicDBObject;
@@ -16,6 +17,16 @@ import com.orange.groupbuy.dao.TopDownload;
 
 public class TopDownloadManager extends CommonManager {
 
+    // only query those product which are not expired
+    private static boolean addExpirationIntoQuery(DBObject query) {
+        Date date = new Date();
+        DBObject endDateCondition = new BasicDBObject();
+        endDateCondition.put("$gte", date);
+        query.put(DBConstants.F_EXPIRE_DATE, endDateCondition);
+
+        return true;
+    }
+    
     public static List<TopDownload> findAllTopDownloadItems(MongoDBClient mongoClient, String countryCode,
             int offset, int maxCount){
        
@@ -33,10 +44,12 @@ public class TopDownloadManager extends CommonManager {
            query.put(DBConstants.F_COUNTRYCODE, in);
        }
        
+       addExpirationIntoQuery(query);
      
        DBObject orderBy = new BasicDBObject();
        orderBy.put(DBConstants.F_SCORE, -1);
                
+       log.info("findAllTopDownloadItems, query = "+query.toString());
        cursor = mongoClient.find(DBConstants.T_TOP_DOWNLOAD, query, orderBy, offset, maxCount);
        if (cursor == null){
            return Collections.emptyList();
