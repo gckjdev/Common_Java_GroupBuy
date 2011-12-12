@@ -778,6 +778,32 @@ public class ProductManager extends CommonManager {
         return list;
     }
 
+    public static List<Product> getAllProductsWithType(MongoDBClient mongoClient, final int productType,
+            final boolean sortAscending, int startOffset, int maxCount) {
+        return getAllProductsWith(mongoClient, startOffset, maxCount, new QueryStatement() {
+            @Override
+            public void prepare(DBObject query, DBObject orderBy) {
+                // set query
+                addProductTypeIntoQuery(query, productType);
+                // set order by
+                addFieldIntoOrder(orderBy, DBConstants.F_PRODUCT_TYPE, sortAscending);
+            }
+        });
+    }
+
+    private static interface QueryStatement {
+        void prepare(DBObject query, DBObject orderBy);
+    }
+
+    private static List<Product> getAllProductsWith(MongoDBClient mongoClient, int startOffset, int maxCount,
+            QueryStatement statement) {
+        DBObject query = new BasicDBObject();
+        DBObject orderBy = new BasicDBObject();
+        statement.prepare(query, orderBy);
+        DBCursor cursor = mongoClient.find(DBConstants.T_PRODUCT, query, orderBy, startOffset, maxCount);
+        return getProduct(cursor);
+    }
+
     public static List<Product> getAllProductsWithRebate(MongoDBClient mongoClient, String city, boolean sortAscending,
             String startOffset, String maxCount) {
         List<Product> list = getAllProductsWithField(mongoClient, DBConstants.F_REBATE, city, sortAscending,
