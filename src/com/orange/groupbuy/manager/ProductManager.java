@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
@@ -332,10 +333,20 @@ public class ProductManager extends CommonManager {
     // only query those product which starts from today
     private static boolean addTodayIntoQuery(DBObject query) {
         Date date = DateUtil.getDateOfToday();
+        Date maxDate = DateUtils.addDays(date, 2);
         DBObject startDateCondition = new BasicDBObject();
         startDateCondition.put("$gte", date);
+        startDateCondition.put("$lte", maxDate);
         query.put(DBConstants.F_START_DATE, startDateCondition);
         return true;
+    }
+    
+    private static boolean addMaxStartDateIntoQuery(DBObject query){
+        Date maxDate = DateUtils.addDays(new Date(), 2);
+        DBObject startDateCondition = new BasicDBObject();
+        startDateCondition.put("$lte", maxDate);
+        query.put(DBConstants.F_START_DATE, startDateCondition);
+        return true;        
     }
 
     private static boolean addNonZeroPriceIntoQuery(DBObject query) {
@@ -456,6 +467,7 @@ public class ProductManager extends CommonManager {
 	    DBObject query = new BasicDBObject();
         query.put(DBConstants.F_CATEGORY, Integer.parseInt(category));
         addExpirationIntoQuery(query);
+        addMaxStartDateIntoQuery(query);
         addCityIntoQuery(query, city);
         return mongoClient.count(DBConstants.T_PRODUCT, query);
 	}	
@@ -496,6 +508,9 @@ public class ProductManager extends CommonManager {
 		addExpirationIntoQuery(query);
 		if (todayOnly) {
 			addTodayIntoQuery(query);
+		}
+		else{
+	        addMaxStartDateIntoQuery(query);		    
 		}
 
 		addKeywordIntoQuery(query, keywordList);
@@ -667,6 +682,9 @@ public class ProductManager extends CommonManager {
         if (todayOnly) {
             addTodayIntoQuery(query);
         }
+        else{
+            addMaxStartDateIntoQuery(query);
+        }
         
         if (productType != DBConstants.UNDEFINE){
             addProductTypeIntoQuery(query, productType);
@@ -724,6 +742,9 @@ public class ProductManager extends CommonManager {
         if (todayOnly) {
             addTodayIntoQuery(query);
         }
+        else{
+            addMaxStartDateIntoQuery(query);            
+        }
 
         // set order by
         // if (!gpsQuery){
@@ -763,6 +784,7 @@ public class ProductManager extends CommonManager {
         // set query
         addCityIntoQuery(query, city);
         addExpirationIntoQuery(query);
+        addMaxStartDateIntoQuery(query);
 
         // set order by
         addPriceIntoOrder(orderBy, true);
@@ -1175,6 +1197,8 @@ public class ProductManager extends CommonManager {
         // set query
         addCityIntoQuery(query, city);
         addExpirationIntoQuery(query);
+        addMaxStartDateIntoQuery(query);
+
         if (category != -1) {
             List<Integer> categoryList = new ArrayList<Integer>();
             categoryList.add(category);
@@ -1204,6 +1228,7 @@ public class ProductManager extends CommonManager {
 
         addCityIntoQuery(query, city);
         addExpirationIntoQuery(query);
+        addMaxStartDateIntoQuery(query);
         
         if (minCategory != DBConstants.UNDEFINE && maxCategory != DBConstants.UNDEFINE){
             addCategoryRangeIntoQuery(query, minCategory, maxCategory);
