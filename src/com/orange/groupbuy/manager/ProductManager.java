@@ -28,6 +28,7 @@ import com.orange.common.mongodb.MongoDBClient;
 import com.orange.common.solr.SolrClient;
 import com.orange.common.utils.DateUtil;
 import com.orange.groupbuy.constant.DBConstants;
+import com.orange.groupbuy.constant.ServiceConstant;
 import com.orange.groupbuy.dao.Gps;
 import com.orange.groupbuy.dao.Product;
 import com.orange.groupbuy.dao.ProductAddress;
@@ -360,6 +361,11 @@ public class ProductManager extends CommonManager {
         query.put(DBConstants.F_PRODUCT_TYPE, productType);
         return true;
     }
+    
+    private static boolean addSiteIdIntoQuery(DBObject query, String siteId) {
+        query.put(DBConstants.F_SITE_ID, siteId);
+        return true;
+    }
 
     private static void addFieldIntoOrder(DBObject orderBy, String fieldName, boolean sortAscending) {
         if (sortAscending) {
@@ -660,7 +666,8 @@ public class ProductManager extends CommonManager {
     public static DBCursor getProductCursor(MongoDBClient mongoClient, String city, 
             List<Integer> categoryList, int minCategory, int maxCategory,            
             boolean todayOnly, boolean gpsQuery, double latitude, double longitude, double maxDistance,
-            int productType, int sortBy, int startOffset, int maxCount) {
+            int productType, String siteId, 
+            int sortBy, int startOffset, int maxCount) {
 
         DBObject query = new BasicDBObject();
         DBObject orderBy = new BasicDBObject();
@@ -688,6 +695,10 @@ public class ProductManager extends CommonManager {
         
         if (productType != DBConstants.UNDEFINE){
             addProductTypeIntoQuery(query, productType);
+        }
+        
+        if (siteId != null && siteId.length() > 0){
+            addSiteIdIntoQuery(query, siteId);
         }
         
         // set order by

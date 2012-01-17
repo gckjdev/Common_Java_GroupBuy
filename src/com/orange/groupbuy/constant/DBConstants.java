@@ -18,6 +18,8 @@ public class DBConstants {
     public static final String T_CATEGORY = "category"; 
     public static final String T_SHOPPING_CATEGORY = "shopping_category"; 
     public static final String T_AD = "ad";
+    public static final String T_SPAM_NUMBER = "spam_number";
+
 
     // for download applications
     public static final String T_DOWNLOAD_SITE = "download_site";
@@ -478,6 +480,7 @@ public class DBConstants {
     public static final String F_AD_TEXT = "text";
     public static final String F_AD_IMAGE = "image";
     public static final String F_AD_LINK = "link";
+
 
     // category manager
     // public static final String F_CATEGORY_NAME = "cate_n";

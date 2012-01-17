@@ -309,6 +309,7 @@ public class ServiceConstant  {
     public static final String PARA_AD_TEXT = "adt";
     public static final String PARA_AD_IMAGE = "adim";
     public static final String PARA_AD_LINK = "adl";
+    public static final String METHOD_REPORT_SPAM_NUMBER = "rsn";
 
 
     
